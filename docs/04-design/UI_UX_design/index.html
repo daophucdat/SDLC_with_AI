@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Thiết kế UI/UX — Chat với tài liệu</title>
+  <link rel="stylesheet" href="assets/tokens.css">
+  <link rel="stylesheet" href="assets/components.css">
+</head>
+<body>
+<main class="doc-page">
+  <header class="page-head">
+    <div class="eyebrow">UI/UX design · đầu vào: Blueprint_SDD.md (IEEE 1016-2009) · Draft v1.0 · 19/10/2026</div>
+    <h1>Chat với tài liệu — thiết kế giao diện MVP</h1>
+    <p class="muted" style="max-width:760px">Bộ trang HTML này là thiết kế có tương tác, dùng được ngay để duyệt với đội BD, Engineering và QA. Mọi màn hình, component và trạng thái đều truy vết về persona, concern và yêu cầu trong <a href="../Blueprint_SDD.md">Blueprint</a>, <a href="../../02-requirements/PRD.md">PRD</a> và <a href="../../03-design/SAD.md">SAD</a>. Dữ liệu hiển thị là dữ liệu mẫu.</p>
+  </header>
+
+  <section aria-labelledby="h-screens">
+    <h2 id="h-screens">Màn hình</h2>
+    <div class="grid grid-2">
+      <a class="card screen-card" href="workspace.html">
+        <div class="eyebrow">F2 · F3 · F4 — UCD-04 → UCD-25</div>
+        <h3 style="margin:0">Màn hình làm việc</h3>
+        <p class="small muted" style="margin:0">Bố cục 3 vùng: kho tài liệu · hội thoại · trang nguồn. Mô phỏng tải file, xử lý, hỏi đáp có streaming, trích dẫn bấm được, "không tìm thấy", dừng, lỗi, gỡ tài liệu, phản hồi. Thanh <b>Duyệt thiết kế</b> ở cuối trang đổi qua 6 trạng thái và 3 vai trò.</p>
+        <span class="arrow">Mở prototype →</span>
+      </a>
+      <a class="card screen-card" href="login.html">
+        <div class="eyebrow">F1 — UCD-01, US-101, US-102</div>
+        <h3 style="margin:0">Đăng nhập và từ chối truy cập</h3>
+        <p class="small muted" style="margin:0">Đăng nhập một bước bằng tài khoản công ty; màn hình từ chối không lộ thông tin tài liệu (EC-18); trạng thái IdP lỗi.</p>
+        <span class="arrow">Mở màn hình →</span>
+      </a>
+      <a class="card screen-card" href="metrics.html">
+        <div class="eyebrow">F5 · F6 — US-401, US-402</div>
+        <h3 style="margin:0">Số liệu và nghiệm thu</h3>
+        <p class="small muted" style="margin:0">Chỉ số tuần so với OKR (KR1.2, KR3.1, KR3.2), bảng xu hướng, chạy bộ câu hỏi kiểm thử và so với điều kiện ra mắt LG-03 → LG-05.</p>
+        <span class="arrow">Mở màn hình →</span>
+      </a>
+      <a class="card screen-card" href="design-system.html">
+        <div class="eyebrow">§3.6.2 · §3.6.3</div>
+        <h3 style="margin:0">Design system</h3>
+        <p class="small muted" style="margin:0">Token màu (kèm tỉ lệ tương phản), chữ, khoảng cách; component với mọi trạng thái: DocumentItem, AnswerCard (7 trạng thái), QuestionComposer, banner, toast, dialog.</p>
+        <span class="arrow">Mở design system →</span>
+      </a>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-personas">
+    <h2 id="h-personas">Persona (Blueprint §2.1)</h2>
+    <table class="table">
+      <thead><tr><th scope="col">Persona</th><th scope="col">Mục tiêu</th><th scope="col">Nỗi đau</th><th scope="col">Mức kỹ thuật</th><th scope="col">Tần suất</th><th scope="col">Việc chính → màn hình</th></tr></thead>
+      <tbody>
+        <tr><td><b>P-1 Chuyên viên BD</b></td><td>Có câu trả lời kèm trang nguồn trước cuộc họp</td><td>Đọc lần lượt nhiều PDF; sợ bỏ sót</td><td>Trung bình</td><td>Nhiều lần / ngày</td><td>Tải PDF, hỏi, kiểm chứng, sao chép → <a href="workspace.html">Làm việc</a></td></tr>
+        <tr><td><b>P-2 Trưởng nhóm BD</b></td><td>Đội dùng thông tin đúng; nghiệm thu ≥ 80%</td><td>Không kiểm soát được việc đọc tài liệu</td><td>Trung bình–khá</td><td>Hằng tuần</td><td>Gỡ mọi tài liệu, số liệu, nghiệm thu → <a href="workspace.html">Làm việc</a>, <a href="metrics.html">Số liệu</a></td></tr>
+        <tr><td><b>P-3 Quản lý</b></td><td>Có số liệu để quyết định đầu tư</td><td>Không có số liệu tra cứu</td><td>Trung bình</td><td>Hằng tuần</td><td>Xem số liệu → <a href="metrics.html">Số liệu</a></td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section aria-labelledby="h-reqs">
+    <h2 id="h-reqs">Yêu cầu UX/UI được đáp ứng như thế nào (Blueprint §2.4, §2.5)</h2>
+    <table class="table">
+      <thead><tr><th scope="col">ID</th><th scope="col">Yêu cầu</th><th scope="col">Tiêu chí</th><th scope="col">Thiết kế đáp ứng</th></tr></thead>
+      <tbody>
+        <tr><td>UX-S01</td><td>Usability</td><td>Câu trả lời có nguồn đầu tiên ≤ 3 phút, không cần hướng dẫn</td><td>Kho rỗng → vùng kéo-thả lớn; sau khi có tài liệu → 3 câu hỏi mẫu; toast "đã sẵn sàng để hỏi"</td></tr>
+        <tr><td>UX-S02</td><td>Accessibility</td><td>WCAG 2.1 AA, dùng được bằng bàn phím</td><td>Skip link; landmark <code>header / aside / main</code>; mọi điều khiển là <code>&lt;button&gt;</code>; Esc đóng vùng nguồn / dialog / menu; dialog giữ focus bên trong; trạng thái câu trả lời đọc qua vùng <code>aria-live</code> riêng, không đọc từng ký tự khi stream</td></tr>
+        <tr><td>UX-S03</td><td>Performance</td><td>LCP ≤ 2,5 s; phản hồi ≤ 100 ms</td><td>Không dùng font tải từ ngoài, không dùng thư viện ngoài; câu hỏi hiện ngay khi gửi kèm chỉ báo "Đang tìm…"</td></tr>
+        <tr><td>UX-S04</td><td>Responsiveness</td><td>1024–2560 px, không cuộn ngang</td><td>≥ 1280: 3 cột; 1024–1279: kho thu thành cột biểu tượng, vùng nguồn nổi đè; &lt; 1024: thông báo</td></tr>
+        <tr><td>UX-S05</td><td>Visual consistency</td><td>100% token</td><td>Mọi giá trị nằm trong <code>tokens.css</code>; component dùng chung trong <code>components.css</code></td></tr>
+        <tr><td>UX-S06</td><td>Error recovery</td><td>Mỗi lỗi có một hành động khắc phục</td><td>Thử lại, Diễn đạt lại, Hỏi lại, Tải thêm tài liệu, Đăng nhập lại; câu hỏi đang gõ được giữ trong <code>sessionStorage</code></td></tr>
+        <tr><td>UX-S07</td><td>Feedback &amp; affordance</td><td>Chỉ báo ≤ 300 ms; "Không tìm thấy" trung tính</td><td>Spinner, % tiến độ, con trỏ streaming; nền xám trung tính cho NOT_FOUND</td></tr>
+        <tr><td>UX-S08</td><td>Information architecture</td><td>≤ 2 lần bấm; kiểm chứng = 1 lần bấm</td><td>Bấm <span class="cite">1</span> → mở đúng trang, tô sáng đoạn</td></tr>
+        <tr><td>UX-S09</td><td>Internationalization</td><td>Tiếng Việt, ngày dd/MM/yyyy</td><td>Toàn bộ nhãn tiếng Việt; <code>lang="vi"</code>; định dạng số và ngày theo <code>vi-VN</code></td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section aria-labelledby="h-trace">
+    <h2 id="h-trace">Truy vết: yêu cầu → component → nơi xem</h2>
+    <table class="table">
+      <thead><tr><th scope="col">Yêu cầu</th><th scope="col">Component (Blueprint §3.6.2)</th><th scope="col">Cách xem trong prototype</th></tr></thead>
+      <tbody>
+        <tr><td>US-201, US-202, EC-04, EC-07, EC-08</td><td>UploadDropzone, DocumentItem, StatusBadge</td><td>Làm việc → "Tải tài liệu" (thử file không phải PDF để thấy lỗi); chuyển "Mất kết nối" khi đang tải để thấy trạng thái tạm dừng</td></tr>
+        <tr><td>US-203, US-204, US-206, PD-02</td><td>LibraryPanel, ConfirmDialog</td><td>Lọc theo tên; menu ⋯ chỉ có "Gỡ" với tài liệu của bạn, hoặc với mọi tài liệu khi vai trò là Trưởng nhóm; tải lại một file trùng tên để thấy cảnh báo</td></tr>
+        <tr><td>US-205, BR-006, EC-10</td><td>DocumentItem (no-text)</td><td>"Scan_hop_dong_2019.pdf"; tải file có chữ "scan" trong tên</td></tr>
+        <tr><td>US-301 → US-303, US-306</td><td>QuestionComposer, AnswerCard, CitationChip, SourceList</td><td>Bấm một câu hỏi mẫu hoặc hỏi về "thanh toán" / "báo giá"</td></tr>
+        <tr><td>US-304, RUL-002</td><td>AnswerCard (not-found)</td><td>Hỏi "thời tiết hôm nay?"</td></tr>
+        <tr><td>EC-14, TQ-01</td><td>AnswerCard (stream rồi bị thay)</td><td>Hỏi về "bảo hành": câu trả lời hiện dần rồi bị thay bằng "không tìm thấy" vì không có trích dẫn hợp lệ</td></tr>
+        <tr><td>US-305, EC-15, EC-16</td><td>SourcePanel</td><td>Bấm <span class="cite">1</span>; sau đó gỡ tài liệu đó (vai trò Trưởng nhóm) để thấy trích dẫn bị gạch</td></tr>
+        <tr><td>US-307, US-309</td><td>FeedbackControl</td><td>👍 / 👎 (có lý do) / Sao chép kèm nguồn</td></tr>
+        <tr><td>US-310, EC-05, EC-13</td><td>AnswerCard (stopped / incomplete / failed)</td><td>Bấm "Dừng" khi đang trả lời; đánh dấu "Lỗi AI ở câu tiếp theo"; chuyển "Mất kết nối" khi đang stream</td></tr>
+        <tr><td>EC-01, EC-02, EC-03</td><td>EmptyState, ChatThread</td><td>Duyệt thiết kế → "Kho rỗng" / "Mọi tài liệu đang xử lý"</td></tr>
+        <tr><td>EC-06, REL-04, EC-17</td><td>GlobalBanner</td><td>Duyệt thiết kế → "Mất kết nối" / "AI gián đoạn" / "Phiên hết hạn"</td></tr>
+        <tr><td>US-101, US-102, EC-18</td><td>AccessDenied</td><td><a href="login.html?state=denied">Đăng nhập → Bị từ chối</a></td></tr>
+        <tr><td>US-401, US-402</td><td>MetricTile, WeeklyTable</td><td><a href="metrics.html">Số liệu</a> (menu chỉ hiện với Trưởng nhóm và Quản lý)</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section aria-labelledby="h-open">
+    <h2 id="h-open">Quyết định thiết kế cần xác nhận</h2>
+    <ul>
+      <li><b>TQ-01 / RAT-04:</b> stream câu trả lời rồi thay bằng "không tìm thấy" nếu trích dẫn không hợp lệ. Prototype minh hoạ bằng câu hỏi về "bảo hành".</li>
+      <li><b>PQ-001 / PQ-002:</b> kho chung cho cả đội; chỉ người tải lên và trưởng nhóm được gỡ tài liệu.</li>
+      <li><b>OQ-014:</b> giao diện chỉ có tiếng Việt trong MVP.</li>
+      <li><b>RAT-07:</b> không hỗ trợ màn hình dưới 1024 px.</li>
+    </ul>
+  </section>
+</main>
+</body>
+</html>

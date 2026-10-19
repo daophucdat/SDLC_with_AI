@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Đăng nhập — Chat với tài liệu</title>
+  <link rel="stylesheet" href="assets/tokens.css">
+  <link rel="stylesheet" href="assets/components.css">
+</head>
+<body class="has-review">
+<main class="login-shell">
+  <!-- F1 — US-101 -->
+  <section class="card login-card" id="state-login" aria-labelledby="login-title">
+    <div class="brand-mark" aria-hidden="true">C</div>
+    <h1 id="login-title">Chat với tài liệu</h1>
+    <p class="muted">Hỏi đáp trên toàn bộ tài liệu PDF của đội phát triển kinh doanh. Mỗi câu trả lời đều ghi rõ tài liệu và trang nguồn.</p>
+    <a class="btn btn-primary btn-lg" href="workspace.html" style="width:100%;margin-top:var(--space-4)">Đăng nhập bằng tài khoản công ty</a>
+    <p class="xs muted" style="margin-top:var(--space-4)">Chỉ thành viên đội BD đã được cấp quyền mới truy cập được. Bạn sẽ được chuyển tới trang đăng nhập của công ty.</p>
+  </section>
+
+  <!-- AccessDenied — US-102, EC-18 -->
+  <section class="card login-card" id="state-denied" aria-labelledby="denied-title" hidden>
+    <div class="empty-icon" aria-hidden="true">🔒</div>
+    <h1 id="denied-title">Bạn chưa được cấp quyền dùng công cụ này</h1>
+    <p class="muted">Tài khoản <b>nguyen.van.a@congty.vn</b> không thuộc nhóm được cấp quyền. Liên hệ trưởng nhóm BD để được thêm vào nhóm.</p>
+    <div class="row" style="justify-content:center;margin-top:var(--space-4)">
+      <a class="btn btn-secondary" href="login.html">Đăng nhập bằng tài khoản khác</a>
+    </div>
+  </section>
+
+  <!-- IdP error -->
+  <section class="card login-card" id="state-error" aria-labelledby="error-title" hidden>
+    <div class="empty-icon" aria-hidden="true">⚠️</div>
+    <h1 id="error-title">Chưa đăng nhập được</h1>
+    <p class="muted">Hệ thống tài khoản của công ty đang không phản hồi. Vui lòng thử lại sau ít phút.</p>
+    <a class="btn btn-primary" href="login.html">Thử lại</a>
+  </section>
+</main>
+
+<div class="review-bar" aria-label="Thanh duyệt thiết kế">
+  <span class="tag">DUYỆT THIẾT KẾ</span>
+  <label>Trạng thái
+    <select id="rv-state">
+      <option value="login">Đăng nhập (US-101)</option>
+      <option value="denied">Bị từ chối (EC-18)</option>
+      <option value="error">IdP lỗi</option>
+    </select>
+  </label>
+  <a href="index.html" class="push">← Tổng quan thiết kế</a>
+</div>
+<script>
+  (function () {
+    var states = ["login", "denied", "error"];
+    var sel = document.getElementById("rv-state");
+    function show(s) { states.forEach(function (x) { document.getElementById("state-" + x).hidden = x !== s; }); }
+    var initial = new URLSearchParams(location.search).get("state");
+    if (states.indexOf(initial) >= 0) { sel.value = initial; show(initial); }
+    sel.addEventListener("change", function () { show(sel.value); });
+  })();
+</script>
+</body>
+</html>

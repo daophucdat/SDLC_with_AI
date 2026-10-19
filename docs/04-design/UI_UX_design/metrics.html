@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Số liệu — Chat với tài liệu</title>
+  <link rel="stylesheet" href="assets/tokens.css">
+  <link rel="stylesheet" href="assets/components.css">
+</head>
+<body>
+<header class="app-header">
+  <a class="brand" href="index.html"><span class="brand-mark" aria-hidden="true">C</span>Chat với tài liệu</a>
+  <nav class="app-nav" aria-label="Điều hướng chính">
+    <a href="workspace.html">Hỏi đáp</a>
+    <a href="metrics.html" aria-current="page">Số liệu</a>
+  </nav>
+  <div class="user-menu">
+    <span class="muted">Trưởng nhóm BD</span><span class="avatar" aria-hidden="true">LB</span><span>Lê Quốc Bảo</span>
+    <a class="btn btn-ghost" href="login.html">Đăng xuất</a>
+  </div>
+</header>
+
+<main class="doc-page" id="main">
+  <header class="page-head">
+    <div class="eyebrow">F5 · F6 — US-401, US-402 · chỉ Trưởng nhóm BD và Quản lý</div>
+    <h1>Số liệu và nghiệm thu</h1>
+    <p class="muted">Đánh giá MVP sau 4 tuần sử dụng (PRD 5.2). <b>Dữ liệu dưới đây là dữ liệu mẫu</b> để duyệt thiết kế.</p>
+  </header>
+
+  <div class="tabs" role="tablist" aria-label="Chế độ xem">
+    <button class="tab" role="tab" id="tab-usage" aria-selected="true" aria-controls="panel-usage">Số liệu sử dụng</button>
+    <button class="tab" role="tab" id="tab-eval" aria-selected="false" aria-controls="panel-eval" tabindex="-1">Nghiệm thu chất lượng</button>
+  </div>
+
+  <!-- MetricTile, WeeklyTable — US-401 -->
+  <section id="panel-usage" role="tabpanel" aria-labelledby="tab-usage">
+    <div class="row" style="justify-content:space-between;margin-bottom:var(--space-4)">
+      <h2 style="margin:0">Tuần 41 (06/10 – 12/10/2026)</h2>
+      <div class="field" style="width:200px">
+        <label for="weeks">Khoảng thời gian</label>
+        <select class="select" id="weeks"><option>4 tuần gần nhất</option><option>8 tuần gần nhất</option><option>12 tuần gần nhất</option></select>
+      </div>
+    </div>
+    <div class="grid grid-4" style="margin-bottom:var(--space-6)">
+      <div class="tile on"><span class="tile-label">Người dùng hoạt động trong tuần</span><span class="tile-value">63%</span><span class="tile-target">✓ Mục tiêu ≥ 60% (KR3.1) · 19/30 người</span></div>
+      <div class="tile on"><span class="tile-label">Thời gian trả lời p95</span><span class="tile-value">18,4 s</span><span class="tile-target">✓ Mục tiêu ≤ 30 s (KR1.2)</span></div>
+      <div class="tile on"><span class="tile-label">Tỉ lệ "hữu ích"</span><span class="tile-value">74%</span><span class="tile-target">✓ Mục tiêu ≥ 70% (KR3.2) · 96 phản hồi</span></div>
+      <div class="tile"><span class="tile-label">Tỉ lệ "không tìm thấy"</span><span class="tile-value">9%</span><span class="tile-target muted">Theo dõi · tăng đột biến → thiếu tài liệu</span></div>
+      <div class="tile"><span class="tile-label">Câu hỏi trong tuần</span><span class="tile-value">412</span><span class="tile-target muted">↑ 18% so với tuần trước</span></div>
+      <div class="tile"><span class="tile-label">Tỉ lệ có kiểm chứng nguồn</span><span class="tile-value">41%</span><span class="tile-target muted">Câu trả lời có ≥ 1 lần bấm trích dẫn</span></div>
+      <div class="tile off"><span class="tile-label">Tỉ lệ lỗi</span><span class="tile-value">2,6%</span><span class="tile-target">✗ Vượt ngưỡng ≤ 2% — xem cảnh báo vận hành</span></div>
+      <div class="tile"><span class="tile-label">Tài liệu trong kho</span><span class="tile-value">214</span><span class="tile-target muted">7% không đọc được chữ (ASM-003)</span></div>
+    </div>
+    <table class="table">
+      <caption class="sr-only">Số liệu theo tuần</caption>
+      <thead><tr><th scope="col">Tuần</th><th class="num" scope="col">Người dùng hoạt động</th><th class="num" scope="col">Câu hỏi</th><th class="num" scope="col">"Không tìm thấy"</th><th class="num" scope="col">"Hữu ích"</th><th class="num" scope="col">p95 trả lời</th></tr></thead>
+      <tbody>
+        <tr><td>Tuần 38 (15/09 – 21/09)</td><td class="num">37%</td><td class="num">168</td><td class="num">14%</td><td class="num">66%</td><td class="num">21,9 s</td></tr>
+        <tr><td>Tuần 39 (22/09 – 28/09)</td><td class="num">50%</td><td class="num">271</td><td class="num">12%</td><td class="num">69%</td><td class="num">20,2 s</td></tr>
+        <tr><td>Tuần 40 (29/09 – 05/10)</td><td class="num">57%</td><td class="num">349</td><td class="num">10%</td><td class="num">71%</td><td class="num">19,0 s</td></tr>
+        <tr><td><b>Tuần 41 (06/10 – 12/10)</b></td><td class="num"><b>63%</b></td><td class="num"><b>412</b></td><td class="num"><b>9%</b></td><td class="num"><b>74%</b></td><td class="num"><b>18,4 s</b></td></tr>
+      </tbody>
+    </table>
+    <p class="xs muted" style="margin-top:var(--space-2)">M-001 (thời gian tìm thông tin) được đo bằng bấm giờ trước và sau MVP, không hiển thị ở đây. Sự kiện chỉ chứa siêu dữ liệu, không có nội dung câu hỏi (PRD 5.2).</p>
+  </section>
+
+  <!-- EvaluationService — US-402, F6 -->
+  <section id="panel-eval" role="tabpanel" aria-labelledby="tab-eval" hidden>
+    <div class="grid grid-2">
+      <div class="card">
+        <h2>Chạy bộ câu hỏi kiểm thử</h2>
+        <p class="small muted">File .xlsx có các cột <code>question</code>, <code>expected_answer</code>, <code>expects_not_found</code>; tối đa 200 dòng. Hệ thống chạy từng câu qua đúng quy trình hỏi đáp và xuất kết quả để chấm.</p>
+        <div class="field" style="margin-bottom:var(--space-3)">
+          <label for="testset">Bộ câu hỏi</label>
+          <input class="input" type="file" id="testset" accept=".xlsx">
+        </div>
+        <p class="xs" id="eval-error" style="color:var(--color-danger)" hidden>Dòng 12: thiếu cột <code>expected_answer</code>. Sửa file rồi tải lại.</p>
+        <div class="row">
+          <button class="btn btn-primary" id="run-eval">Chạy nghiệm thu</button>
+          <button class="btn btn-ghost" id="demo-error">Xem trạng thái lỗi mẫu</button>
+        </div>
+        <div id="eval-progress" hidden style="margin-top:var(--space-4)">
+          <div class="small">Đang chạy… <span id="eval-count">0</span>/45 câu</div>
+          <div class="progress" role="progressbar" aria-label="Tiến độ nghiệm thu" aria-valuemin="0" aria-valuemax="45" aria-valuenow="0" id="eval-bar"><span style="width:0%"></span></div>
+        </div>
+      </div>
+      <div class="card">
+        <h2>Lần chạy gần nhất · 10/10/2026</h2>
+        <table class="table">
+          <thead><tr><th scope="col">Chỉ số</th><th class="num" scope="col">Kết quả</th><th scope="col">Ngưỡng ra mắt</th></tr></thead>
+          <tbody>
+            <tr><td>Đúng và đủ (câu cần ≥ 2 tài liệu)</td><td class="num">82%</td><td><span class="badge badge-ready">Đạt ≥ 80% · LG-03</span></td></tr>
+            <tr><td>"Không tìm thấy" đúng</td><td class="num">9/10</td><td><span class="badge badge-ready">Đạt ≥ 9/10 · LG-04</span></td></tr>
+            <tr><td>Trích dẫn đúng trang (mẫu 30)</td><td class="num">87%</td><td><span class="badge badge-error">Chưa đạt ≥ 90% · LG-05</span></td></tr>
+            <tr><td>Câu hỏi nối tiếp đúng ngữ cảnh</td><td class="num">8/10</td><td><span class="badge badge-ready">Đạt ≥ 8/10 · US-311</span></td></tr>
+          </tbody>
+        </table>
+        <div class="row" style="margin-top:var(--space-4)">
+          <button class="btn btn-secondary" id="export">⬇ Tải kết quả (.xlsx)</button>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+<div class="toast-region" id="toasts" role="status" aria-live="polite"></div>
+<script>
+  (function () {
+    var tabs = [document.getElementById("tab-usage"), document.getElementById("tab-eval")];
+    function select(t) {
+      tabs.forEach(function (x) {
+        var on = x === t; x.setAttribute("aria-selected", on); x.tabIndex = on ? 0 : -1;
+        document.getElementById(x.getAttribute("aria-controls")).hidden = !on;
+      });
+      t.focus();
+    }
+    tabs.forEach(function (t, i) {
+      t.addEventListener("click", function () { select(t); });
+      t.addEventListener("keydown", function (e) {
+        if (e.key === "ArrowRight" || e.key === "ArrowLeft") { e.preventDefault(); select(tabs[(i + 1) % tabs.length]); }
+      });
+    });
+    function toast(msg) {
+      var t = document.createElement("div"); t.className = "toast success"; t.textContent = msg;
+      document.getElementById("toasts").append(t); setTimeout(function () { t.remove(); }, 5000);
+    }
+    document.getElementById("demo-error").addEventListener("click", function () { document.getElementById("eval-error").hidden = false; });
+    document.getElementById("run-eval").addEventListener("click", function () {
+      document.getElementById("eval-error").hidden = true;
+      var box = document.getElementById("eval-progress"), bar = document.getElementById("eval-bar"), n = 0;
+      box.hidden = false; this.disabled = true; var btn = this;
+      var timer = setInterval(function () {
+        n++; document.getElementById("eval-count").textContent = n;
+        bar.setAttribute("aria-valuenow", n); bar.firstElementChild.style.width = (n / 45 * 100) + "%";
+        if (n >= 45) { clearInterval(timer); btn.disabled = false; box.hidden = true; toast("Đã chạy xong 45 câu. Tải kết quả để chấm."); }
+      }, 60);
+    });
+    document.getElementById("export").addEventListener("click", function () { toast("Trong sản phẩm: tải file kết quả .xlsx (US-402)."); });
+  })();
+</script>
+</body>
+</html>

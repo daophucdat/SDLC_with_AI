@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Design system — Chat với tài liệu</title>
+  <link rel="stylesheet" href="assets/tokens.css">
+  <link rel="stylesheet" href="assets/components.css">
+</head>
+<body>
+<main class="doc-page">
+  <header class="page-head">
+    <div class="eyebrow">Blueprint_SDD §3.6.2 · §3.6.3 · §2.5</div>
+    <h1>Design system</h1>
+    <p class="muted">Token và component dùng chung cho mọi màn hình. Mọi giá trị nằm trong <code>assets/tokens.css</code>; component trong <code>assets/components.css</code>.</p>
+    <nav class="toc" aria-label="Mục lục">
+      <a class="chip" href="#color">Màu</a><a class="chip" href="#type">Chữ</a><a class="chip" href="#space">Khoảng cách</a>
+      <a class="chip" href="#buttons">Nút</a><a class="chip" href="#status">Trạng thái tài liệu</a><a class="chip" href="#answers">Thẻ câu trả lời</a>
+      <a class="chip" href="#composer">Ô câu hỏi</a><a class="chip" href="#feedback">Thông báo</a><a class="chip" href="index.html">← Tổng quan</a>
+    </nav>
+  </header>
+
+  <section id="color" aria-labelledby="h-color">
+    <h2 id="h-color">Màu</h2>
+    <p class="small muted">Tỉ lệ tương phản so với nền trắng; mọi màu chữ đạt ≥ 4,5:1 (WCAG 2.1 AA, 1.4.3).</p>
+    <div class="grid grid-4">
+      <div class="swatch"><div class="swatch-color" style="background:var(--color-primary)"></div><div class="swatch-body"><b>--color-primary</b><span>#1F5FBF · 6,1:1</span><span class="muted">Nút chính, liên kết, focus</span></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--color-primary-strong)"></div><div class="swatch-body"><b>--color-primary-strong</b><span>#174A96</span><span class="muted">Hover, chữ trên chip trích dẫn</span></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--color-primary-soft)"></div><div class="swatch-body"><b>--color-primary-soft</b><span>#EAF1FB</span><span class="muted">Chip trích dẫn, câu hỏi</span></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--color-text)"></div><div class="swatch-body"><b>--color-text</b><span>#111827 · 17,7:1</span><span class="muted">Chữ chính</span></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--color-text-muted)"></div><div class="swatch-body"><b>--color-text-muted</b><span>#5B6472 · 5,9:1</span><span class="muted">Chữ phụ</span></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--color-success)"></div><div class="swatch-body"><b>--color-success</b><span>#157F3B · 5,1:1</span><span class="muted">Sẵn sàng</span></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--color-warning)"></div><div class="swatch-body"><b>--color-warning</b><span>#A15C07 · 5,2:1</span><span class="muted">Không đọc được chữ</span></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--color-danger)"></div><div class="swatch-body"><b>--color-danger</b><span>#B42318 · 6,6:1</span><span class="muted">Lỗi, gỡ tài liệu</span></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--color-neutral-state)"></div><div class="swatch-body"><b>--color-neutral-state</b><span>#EEF0F3</span><span class="muted">Nền "Không tìm thấy" (trung tính)</span></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--color-highlight)"></div><div class="swatch-body"><b>--color-highlight</b><span>#FFF3BF</span><span class="muted">Tô sáng đoạn trích</span></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--color-border)"></div><div class="swatch-body"><b>--color-border</b><span>#D7DCE3</span><span class="muted">Viền phân vùng</span></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:var(--color-canvas)"></div><div class="swatch-body"><b>--color-canvas</b><span>#F6F7F9</span><span class="muted">Nền trang</span></div></div>
+    </div>
+  </section>
+
+  <section id="type" aria-labelledby="h-type">
+    <h2 id="h-type">Chữ</h2>
+    <div class="specimen">
+      <div style="font-size:var(--text-2xl);font-weight:var(--weight-semibold)">24 · Tiêu đề trang — Số liệu và nghiệm thu</div>
+      <div style="font-size:var(--text-xl);font-weight:var(--weight-semibold)">20 · Tiêu đề vùng — Kho tài liệu</div>
+      <div style="font-size:var(--text-lg);font-weight:var(--weight-semibold)">18 · Tiêu đề thẻ — Gỡ tài liệu?</div>
+      <div style="font-size:var(--text-base)">16 · Nội dung — Thanh toán 30% giá trị hợp đồng trong vòng 07 ngày kể từ ngày ký.</div>
+      <div style="font-size:var(--text-sm)">14 · Nhãn, nút — Đăng nhập bằng tài khoản công ty</div>
+      <div style="font-size:var(--text-xs)" class="muted">12 · Meta — 32 trang · Nguyễn Minh Anh · 12/09/2026</div>
+      <div class="specimen-label">Font hệ thống (Segoe UI / system-ui) — hiển thị đầy đủ dấu tiếng Việt: ăâđêôơư · ẢẤẦẨẪẬ · Nghị định, Phụ lục, Biên bản</div>
+    </div>
+  </section>
+
+  <section id="space" aria-labelledby="h-space">
+    <h2 id="h-space">Khoảng cách, bo góc, đổ bóng</h2>
+    <div class="grid grid-3">
+      <div class="specimen">
+        <div class="specimen-label">Spacing (bước 4 px)</div>
+        <div class="row" style="align-items:end">
+          <div style="width:var(--space-1);height:var(--space-1);background:var(--color-primary)"></div>
+          <div style="width:var(--space-2);height:var(--space-2);background:var(--color-primary)"></div>
+          <div style="width:var(--space-4);height:var(--space-4);background:var(--color-primary)"></div>
+          <div style="width:var(--space-6);height:var(--space-6);background:var(--color-primary)"></div>
+          <div style="width:var(--space-8);height:var(--space-8);background:var(--color-primary)"></div>
+          <div style="width:var(--space-12);height:var(--space-12);background:var(--color-primary)"></div>
+        </div>
+        <div class="xs muted">4 · 8 · 16 · 24 · 32 · 48</div>
+      </div>
+      <div class="specimen">
+        <div class="specimen-label">Radius</div>
+        <div class="row">
+          <div style="width:48px;height:48px;border:2px solid var(--color-primary);border-radius:var(--radius-sm)"></div>
+          <div style="width:48px;height:48px;border:2px solid var(--color-primary);border-radius:var(--radius-md)"></div>
+          <div style="width:48px;height:48px;border:2px solid var(--color-primary);border-radius:var(--radius-lg)"></div>
+          <div style="width:48px;height:48px;border:2px solid var(--color-primary);border-radius:var(--radius-full)"></div>
+        </div>
+        <div class="xs muted">4 · 8 · 12 · full</div>
+      </div>
+      <div class="specimen">
+        <div class="specimen-label">Shadow và focus</div>
+        <div class="row">
+          <div style="width:64px;height:48px;background:var(--color-surface);border-radius:var(--radius-md);box-shadow:var(--shadow-sm)"></div>
+          <div style="width:64px;height:48px;background:var(--color-surface);border-radius:var(--radius-md);box-shadow:var(--shadow-md)"></div>
+          <div style="width:64px;height:48px;background:var(--color-surface);border-radius:var(--radius-md);box-shadow:var(--shadow-lg)"></div>
+          <div style="width:64px;height:48px;background:var(--color-surface);border-radius:var(--radius-md);box-shadow:var(--focus-ring)"></div>
+        </div>
+        <div class="xs muted">sm · md · lg · focus-ring</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="buttons" aria-labelledby="h-buttons">
+    <h2 id="h-buttons">Nút và chip</h2>
+    <div class="specimen">
+      <div class="row">
+        <button class="btn btn-primary">Gửi</button>
+        <button class="btn btn-secondary">Diễn đạt lại</button>
+        <button class="btn btn-ghost">👍 Hữu ích</button>
+        <button class="btn btn-danger">Gỡ tài liệu</button>
+        <button class="btn btn-primary" disabled>Gửi (vô hiệu)</button>
+        <button class="btn btn-primary btn-lg">Đăng nhập bằng tài khoản công ty</button>
+      </div>
+      <div class="row">
+        <span>Trích dẫn:</span>
+        <button class="cite">1</button><button class="cite" aria-pressed="true">2</button><button class="cite removed" title="Tài liệu đã được gỡ">3</button>
+        <span class="xs muted">mặc định · đang mở · tài liệu đã gỡ (EC-15)</span>
+      </div>
+      <div class="row">
+        <button class="chip">Sai thông tin</button><button class="chip" aria-pressed="true">Thiếu ý</button><button class="chip">Sai nguồn</button>
+      </div>
+      <div class="specimen-label">Vùng bấm tối thiểu 32 × 32 px (UX-S10) · mọi nút có hover / focus / disabled (UX-S07)</div>
+    </div>
+  </section>
+
+  <section id="status" aria-labelledby="h-status">
+    <h2 id="h-status">DocumentItem — trạng thái tài liệu</h2>
+    <div class="grid grid-2">
+      <ul class="doc-list specimen" style="padding:var(--space-3)">
+        <li class="doc"><span class="doc-icon" aria-hidden="true">⬆️</span><div><div class="doc-name">Bao_gia_moi.pdf</div><div class="doc-meta"><span class="badge badge-processing">Đang tải lên 45%</span><span>Bạn · 19/10/2026</span></div><div class="progress"><span style="width:45%"></span></div></div><span></span></li>
+        <li class="doc"><span class="doc-icon" aria-hidden="true">📶</span><div><div class="doc-name">Bao_gia_moi.pdf</div><div class="doc-meta"><span class="badge badge-warning">Tạm dừng — mất kết nối</span></div></div><span></span></li>
+        <li class="doc"><span class="doc-icon" aria-hidden="true">⏳</span><div><div class="doc-name">Bien_ban_hop_15-09-2026.pdf</div><div class="doc-meta"><span class="badge badge-processing">Đang xử lý</span><span>Bạn · 19/10/2026</span></div><div class="doc-msg muted">Có thể hỏi khi tài liệu sẵn sàng.</div></div><span></span></li>
+      </ul>
+      <ul class="doc-list specimen" style="padding:var(--space-3)">
+        <li class="doc"><span class="doc-icon" aria-hidden="true">📄</span><div><div class="doc-name">Hop_dong_KhachHang_X_2025.pdf</div><div class="doc-meta"><span class="badge badge-ready">Sẵn sàng</span><span>32 trang</span><span>Nguyễn Minh Anh · 12/09/2026</span></div></div><button class="btn btn-ghost btn-icon" aria-label="Tuỳ chọn">⋯</button></li>
+        <li class="doc"><span class="doc-icon" aria-hidden="true">⚠️</span><div><div class="doc-name">Scan_hop_dong_2019.pdf</div><div class="doc-meta"><span class="badge badge-warning">Không đọc được chữ</span><span>18 trang</span></div><div class="doc-msg warning">File dạng ảnh scan, không được dùng để trả lời (BR-006).</div></div><button class="btn btn-ghost btn-icon" aria-label="Tuỳ chọn">⋯</button></li>
+        <li class="doc"><span class="doc-icon" aria-hidden="true">⛔</span><div><div class="doc-name">Ke_hoach_trien_khai_2027.pdf</div><div class="doc-meta"><span class="badge badge-error">Lỗi</span></div><div class="doc-msg error">File có mật khẩu. Hãy bỏ mật khẩu rồi tải lại.</div></div><button class="btn btn-ghost btn-icon" aria-label="Tuỳ chọn">⋯</button></li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="answers" aria-labelledby="h-answers">
+    <h2 id="h-answers">AnswerCard — 7 trạng thái (Blueprint §3.7)</h2>
+    <div class="grid grid-2">
+      <div><div class="specimen-label">SEARCHING</div><article class="answer"><div class="answer-status"><span class="spinner" aria-hidden="true"></span>Đang tìm trong 12 tài liệu…</div></article></div>
+      <div><div class="specimen-label">STREAMING</div><article class="answer"><div class="answer-text streaming">Thanh toán chia làm hai đợt: 30% trong vòng 07 ngày kể từ ngày ký <button class="cite">1</button>, và 70% còn</div></article></div>
+      <div><div class="specimen-label">COMPLETED</div><article class="answer"><div class="answer-text">Thanh toán 30% trong vòng 07 ngày kể từ ngày ký <button class="cite">1</button>, 70% sau nghiệm thu <button class="cite">2</button>.</div>
+        <div class="sources"><h4>Nguồn</h4><ol><li><button class="source-link"><span class="cite" aria-hidden="true">1</span>Hop_dong_KhachHang_X_2025.pdf — trang 4</button></li><li><button class="source-link"><span class="cite" aria-hidden="true">2</span>Hop_dong_KhachHang_X_2025.pdf — trang 5</button></li></ol></div>
+        <div class="answer-actions"><button class="btn btn-ghost">👍 Hữu ích</button><button class="btn btn-ghost">👎 Chưa tốt</button><button class="btn btn-ghost">⧉ Sao chép kèm nguồn</button></div></article></div>
+      <div><div class="specimen-label">NOT_FOUND — trung tính, không phải lỗi (UX-S07)</div><article class="answer not-found"><h3 style="font-size:var(--text-base)">🔎 Không tìm thấy thông tin này trong 12 tài liệu hiện có</h3><p class="small">Thử diễn đạt lại câu hỏi cụ thể hơn, hoặc tải thêm tài liệu liên quan.</p><div class="row"><button class="btn btn-secondary">Diễn đạt lại</button><button class="btn btn-ghost">Tải thêm tài liệu</button></div></article></div>
+      <div><div class="specimen-label">FAILED (EC-13)</div><article class="answer failed"><p style="margin:0 0 var(--space-3)">⚠️ Chưa trả lời được lúc này. Vui lòng thử lại.</p><button class="btn btn-primary">Thử lại</button></article></div>
+      <div><div class="specimen-label">STOPPED (US-310) · INCOMPLETE (EC-05)</div>
+        <article class="answer" style="margin-bottom:var(--space-3)"><div class="answer-text">Thanh toán 30% trong vòng 07 ngày</div><span class="answer-tag">⏹ Đã dừng — câu trả lời chưa đầy đủ</span></article>
+        <article class="answer incomplete"><div class="answer-text">Thanh toán 30% trong vòng 07 ngày kể từ</div><span class="answer-tag">📶 Câu trả lời chưa hoàn chỉnh do mất kết nối</span><div class="answer-actions"><button class="btn btn-secondary">Hỏi lại</button></div></article></div>
+    </div>
+  </section>
+
+  <section id="composer" aria-labelledby="h-composer">
+    <h2 id="h-composer">QuestionComposer</h2>
+    <div class="grid grid-2">
+      <div class="specimen"><div class="specimen-label">IDLE / TYPING</div>
+        <div class="composer"><div class="composer-box"><textarea rows="1" aria-label="Ví dụ ô câu hỏi">Điều khoản thanh toán của khách hàng X là gì?</textarea><button class="btn btn-primary">Gửi</button></div><div class="composer-meta"><span><kbd>Enter</kbd> gửi · <kbd>Shift</kbd>+<kbd>Enter</kbd> xuống dòng</span><span class="counter">46/2000</span></div></div></div>
+      <div class="specimen"><div class="specimen-label">STREAMING — nút Gửi thành nút Dừng</div>
+        <div class="composer"><div class="composer-box"><textarea rows="1" aria-label="Ví dụ ô câu hỏi khi đang trả lời"></textarea><button class="btn btn-secondary">⏹ Dừng</button></div><div class="composer-meta"><span>&nbsp;</span><span class="counter">0/2000</span></div></div></div>
+      <div class="specimen"><div class="specimen-label">NEAR_LIMIT / OVER_LIMIT</div>
+        <div class="composer"><div class="composer-box"><textarea rows="1" aria-label="Ví dụ vượt giới hạn">…</textarea><button class="btn btn-primary" disabled>Gửi</button></div><div class="composer-meta"><span>Rút gọn câu hỏi để gửi</span><span class="counter over">2.104/2000</span></div></div></div>
+      <div class="specimen"><div class="specimen-label">DISABLED (EC-01, EC-03)</div>
+        <div class="composer disabled"><div class="composer-box"><textarea rows="1" disabled aria-label="Ví dụ ô câu hỏi bị vô hiệu"></textarea><button class="btn btn-primary" disabled>Gửi</button></div><div class="composer-meta"><span>Đang xử lý 3 tài liệu — bạn có thể hỏi khi có ít nhất 1 tài liệu sẵn sàng.</span><span class="counter">0/2000</span></div></div></div>
+    </div>
+  </section>
+
+  <section id="feedback" aria-labelledby="h-feedback">
+    <h2 id="h-feedback">Banner, toast, hộp xác nhận, trạng thái rỗng</h2>
+    <div class="grid grid-2">
+      <div class="specimen">
+        <div class="banner banner-warning">⚠️ Mất kết nối, đang thử lại…</div>
+        <div class="banner banner-warning">⏸️ Hỏi đáp tạm gián đoạn. Bạn vẫn xem được tài liệu. <button class="btn btn-secondary">Thử lại</button></div>
+        <div class="banner banner-info">🔒 Phiên làm việc đã hết hạn. <button class="btn btn-primary">Đăng nhập lại</button></div>
+        <div class="toast success" style="animation:none">“Bao_gia_Q3_2026.pdf” đã sẵn sàng để hỏi.</div>
+        <div class="toast error" style="animation:none">“hinh_anh.png”: chỉ hỗ trợ file PDF.</div>
+      </div>
+      <div class="specimen">
+        <div class="dialog" style="box-shadow:var(--shadow-md);width:auto"><h2>Gỡ tài liệu?</h2><p>“Bao_gia_Q3_2026.pdf” sẽ không còn được dùng cho câu trả lời mới của cả đội. Thao tác này không hoàn tác được.</p><div class="dialog-actions"><button class="btn btn-secondary">Huỷ</button><button class="btn btn-danger">Gỡ tài liệu</button></div></div>
+        <div class="empty" style="border:1px dashed var(--color-border-strong);border-radius:var(--radius-lg)"><div class="empty-icon" aria-hidden="true">📥</div><h3>Tải tài liệu PDF đầu tiên để bắt đầu hỏi</h3><p>Chỉ hỗ trợ PDF dạng văn bản, tối đa 50 MB.</p><button class="btn btn-primary">Chọn file PDF</button></div>
+      </div>
+    </div>
+  </section>
+</main>
+</body>
+</html>

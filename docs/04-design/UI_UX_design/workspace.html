@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Màn hình làm việc — Chat với tài liệu</title>
+  <link rel="stylesheet" href="assets/tokens.css">
+  <link rel="stylesheet" href="assets/components.css">
+</head>
+<body class="has-review">
+<a class="skip-link" href="#composer-input">Chuyển tới ô câu hỏi</a>
+<div class="workspace">
+  <!-- AppHeader — UCD-01, US-101 -->
+  <header class="app-header">
+    <button class="btn btn-ghost btn-icon rail-toggle" id="rail-toggle" aria-label="Mở kho tài liệu" aria-expanded="false" aria-controls="library">☰</button>
+    <a class="brand" href="index.html"><span class="brand-mark" aria-hidden="true">C</span>Chat với tài liệu</a>
+    <nav class="app-nav" aria-label="Điều hướng chính">
+      <a href="workspace.html" aria-current="page">Hỏi đáp</a>
+      <a href="metrics.html" id="nav-metrics">Số liệu</a>
+    </nav>
+    <div class="user-menu">
+      <span class="muted" id="user-role">Thành viên BD</span>
+      <span class="avatar" aria-hidden="true">TH</span>
+      <span>Trần Thu Hà</span>
+      <a class="btn btn-ghost" href="login.html">Đăng xuất</a>
+    </div>
+  </header>
+
+  <!-- GlobalBanner — EC-06, REL-04, EC-17 -->
+  <div class="banner banner-warning" id="banner-offline" role="status" hidden>⚠️ Mất kết nối, đang thử lại… Tải lên và gửi câu hỏi tạm thời bị vô hiệu.</div>
+  <div class="banner banner-warning" id="banner-ai" role="status" hidden>⏸️ Hỏi đáp tạm gián đoạn. Bạn vẫn xem được tài liệu và trang nguồn. <button class="btn btn-secondary" id="ai-retry">Thử lại</button></div>
+  <div class="banner banner-info" id="banner-session" role="status" hidden>🔒 Phiên làm việc đã hết hạn sau 8 giờ không hoạt động. Câu hỏi bạn đang gõ đã được giữ lại. <a class="btn btn-primary" href="login.html">Đăng nhập lại</a></div>
+  <div class="banner banner-info narrow-notice" role="note">ℹ️ Vui lòng dùng màn hình rộng hơn (≥ 1024 px) để xem trang nguồn cạnh câu trả lời.</div>
+
+  <div class="ws-body" id="ws-body">
+    <!-- LibraryPanel — E2, US-201 → US-206 -->
+    <aside class="library" id="library" aria-label="Kho tài liệu">
+      <div class="library-head">
+        <div class="library-title">
+          <h2>Kho tài liệu <span class="muted small" id="doc-count"></span></h2>
+          <button type="button" class="btn btn-primary" id="upload-btn" aria-label="Tải tài liệu PDF">
+            <span aria-hidden="true">＋</span><span class="upload-label">Tải tài liệu</span>
+          </button>
+          <input type="file" id="file-input" accept=".pdf,application/pdf" multiple class="sr-only">
+        </div>
+        <div class="field">
+          <label for="doc-filter" class="sr-only">Lọc theo tên</label>
+          <input class="input" id="doc-filter" type="search" placeholder="🔍 Lọc theo tên (≥ 2 ký tự)">
+        </div>
+      </div>
+      <ul class="doc-list" id="doc-list" aria-live="polite"></ul>
+      <div class="library-foot">Kéo-thả file PDF vào đây · tối đa 50 MB / file · kho dùng chung cho cả đội BD</div>
+    </aside>
+
+    <!-- Chat — E3 -->
+    <main class="chat" id="main">
+      <div class="thread" id="thread">
+        <div class="thread-inner" id="thread-inner"></div>
+      </div>
+      <div class="composer-wrap">
+        <form class="composer" id="composer" autocomplete="off">
+          <label for="composer-input" class="sr-only">Câu hỏi về tài liệu</label>
+          <div class="composer-box">
+            <textarea id="composer-input" rows="1" placeholder="Hỏi về tài liệu của bạn…" aria-describedby="composer-hint composer-counter"></textarea>
+            <button type="submit" class="btn btn-primary" id="send-btn">Gửi</button>
+          </div>
+          <div class="composer-meta">
+            <span id="composer-hint"><kbd>Enter</kbd> gửi · <kbd>Shift</kbd>+<kbd>Enter</kbd> xuống dòng</span>
+            <span class="counter" id="composer-counter">0/2000</span>
+          </div>
+        </form>
+      </div>
+    </main>
+
+    <!-- SourcePanel — US-305 -->
+    <aside class="source-panel" id="source-panel" aria-label="Trang nguồn" hidden>
+      <div class="source-head">
+        <div class="grow">
+          <div class="source-file" id="source-file"></div>
+          <div class="xs muted" id="source-page"></div>
+        </div>
+        <button class="btn btn-ghost btn-icon" id="source-close" aria-label="Đóng trang nguồn (Esc)">✕</button>
+      </div>
+      <div class="source-body" id="source-body"></div>
+      <div class="source-foot">
+        <div class="row">
+          <button class="btn btn-secondary" id="page-prev" aria-label="Trang trước">‹</button>
+          <button class="btn btn-secondary" id="page-next" aria-label="Trang sau">›</button>
+        </div>
+        <button class="btn btn-ghost" id="open-full">Mở toàn bộ file</button>
+      </div>
+    </aside>
+  </div>
+</div>
+
+<!-- ConfirmDialog — US-204 -->
+<div class="dialog-backdrop" id="dialog" hidden>
+  <div class="dialog" role="alertdialog" aria-modal="true" aria-labelledby="dialog-title" aria-describedby="dialog-body">
+    <h2 id="dialog-title">Gỡ tài liệu?</h2>
+    <p id="dialog-body"></p>
+    <div class="dialog-actions">
+      <button class="btn btn-secondary" id="dialog-cancel">Huỷ</button>
+      <button class="btn btn-danger" id="dialog-confirm">Gỡ tài liệu</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast-region" id="toasts" role="status" aria-live="polite"></div>
+
+<!-- Review toolbar: chỉ để duyệt các trạng thái thiết kế, không phải một phần của sản phẩm -->
+<div class="review-bar" id="review-bar" aria-label="Thanh duyệt thiết kế">
+  <span class="tag">DUYỆT THIẾT KẾ</span>
+  <label>Trạng thái
+    <select id="rv-scenario">
+      <option value="normal">Bình thường</option>
+      <option value="empty">Kho rỗng (EC-01)</option>
+      <option value="processing">Mọi tài liệu đang xử lý (EC-03)</option>
+      <option value="offline">Mất kết nối (EC-06)</option>
+      <option value="ai-down">AI gián đoạn (REL-04)</option>
+      <option value="session">Phiên hết hạn (EC-17)</option>
+    </select>
+  </label>
+  <label>Vai trò
+    <select id="rv-role">
+      <option value="member">Thành viên BD</option>
+      <option value="lead">Trưởng nhóm BD</option>
+      <option value="manager">Quản lý</option>
+    </select>
+  </label>
+  <label><input type="checkbox" id="rv-fail"> Lỗi AI ở câu tiếp theo (EC-13)</label>
+  <span>Thử hỏi &quot;thời tiết hôm nay?&quot; → không tìm thấy</span>
+  <a href="index.html" class="push">← Tổng quan thiết kế</a>
+  <button class="review-toggle" id="rv-min" aria-expanded="true">Thu gọn</button>
+</div>
+
+<script src="assets/workspace.js"></script>
+</body>
+</html>
