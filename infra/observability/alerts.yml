@@ -1,0 +1,71 @@
+# EN-07 T-EN07.5 — the 9 alerts of SAD §4.3. Routed by Alertmanager to the operations chat channel.
+# Business hours (LG-17) = 08:00–18:00 Asia/Ho_Chi_Minh (UTC+7) Monday–Friday = 01:00–11:00 UTC.
+groups:
+  - name: chatdocs
+    rules:
+      - alert: ChatdocsUnreachable
+        # external probe (blackbox exporter, every minute); 3 consecutive failures ≈ 3 min
+        expr: |
+          probe_success{job="chatdocs-probe"} == 0
+          and on() (hour() >= 1 and hour() < 11) and on() (day_of_week() >= 1 and day_of_week() <= 5)
+        for: 3m
+        labels: { severity: P1 }
+        annotations:
+          summary: "Chat với tài liệu không truy cập được từ bên ngoài"
+          runbook: "docs/implement/reports/restore_runbook.md#su-co-truy-cap"
+
+      - alert: AnswerLatencyHigh
+        expr: histogram_quantile(0.95, sum by (le) (rate(qa_answer_latency_seconds_bucket[15m]))) > 30
+        for: 15m
+        labels: { severity: P2 }
+        annotations: { summary: "p95 thời gian trả lời > 30 s (NFR-01)" }
+
+      - alert: FirstTokenSlow
+        expr: histogram_quantile(0.95, sum by (le) (rate(qa_first_token_seconds_bucket[15m]))) > 5
+        for: 15m
+        labels: { severity: P3 }
+        annotations: { summary: "p95 phần đầu câu trả lời > 5 s (NFR-02)" }
+
+      - alert: AnswerErrorRateHigh
+        expr: |
+          sum(increase(qa_answers_total{status="FAILED"}[30m]))
+            / clamp_min(sum(increase(qa_answers_total[30m])), 1) > 0.02
+        for: 5m
+        labels: { severity: P2 }
+        annotations: { summary: "Tỉ lệ câu trả lời lỗi > 2% trong 30 phút" }
+
+      - alert: LlmCircuitOpen
+        expr: max(llm_circuit_state) == 2
+        for: 2m
+        labels: { severity: P2 }
+        annotations: { summary: "Circuit breaker LLM đang mở (REL-04: banner 'Hỏi đáp tạm gián đoạn')" }
+
+      - alert: InvalidCitationsRising
+        expr: |
+          sum(increase(qa_citation_invalid_total[1h]))
+            / clamp_min(sum(increase(qa_answers_total[1h])), 1) > 0.10
+        for: 10m
+        labels: { severity: P3 }
+        annotations: { summary: "> 10% câu trả lời bị ALG-3 loại trong 1 giờ (dấu hiệu R-004)" }
+
+      - alert: DocumentQueueBacklog
+        expr: |
+          max(job_queue_depth{type="process_document"}) > 20
+            or max(job_queue_oldest_seconds{type="process_document"}) > 600
+        for: 5m
+        labels: { severity: P3 }
+        annotations: { summary: "Hàng đợi xử lý tài liệu > 20 job hoặc job cũ nhất > 10 phút (NFR-03)" }
+
+      - alert: PurgeOverdue
+        expr: max(documents_purge_overdue) > 0
+        for: 5m
+        labels: { severity: P2 }
+        annotations: { summary: "Tài liệu đã gỡ > 20 giờ vẫn chưa xoá vĩnh viễn (SEC-06, hạn 24 giờ)" }
+
+      - alert: AiCostSpike
+        expr: |
+          sum(increase(llm_tokens_total[1d]))
+            > 1.5 * avg_over_time((sum(increase(llm_tokens_total[1d])))[7d:1d])
+        for: 30m
+        labels: { severity: P3 }
+        annotations: { summary: "Token LLM trong ngày > 150% trung bình 7 ngày (R-006)" }

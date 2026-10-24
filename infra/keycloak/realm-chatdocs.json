@@ -1,0 +1,60 @@
+{
+  "realm": "chatdocs",
+  "enabled": true,
+  "sslRequired": "none",
+  "groups": [
+    { "name": "grp-bd-member" },
+    { "name": "grp-bd-lead" },
+    { "name": "grp-bd-manager" },
+    { "name": "grp-ke-toan" }
+  ],
+  "clients": [
+    {
+      "clientId": "chatdocs",
+      "enabled": true,
+      "publicClient": false,
+      "secret": "chatdocs-dev-secret",
+      "standardFlowEnabled": true,
+      "directAccessGrantsEnabled": false,
+      "redirectUris": ["http://localhost:5173/auth/callback"],
+      "webOrigins": ["http://localhost:5173"],
+      "attributes": { "pkce.code.challenge.method": "S256" },
+      "protocolMappers": [
+        {
+          "name": "groups",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-group-membership-mapper",
+          "config": {
+            "claim.name": "groups",
+            "full.path": "false",
+            "id.token.claim": "true",
+            "access.token.claim": "false",
+            "userinfo.token.claim": "true"
+          }
+        }
+      ]
+    }
+  ],
+  "users": [
+    {
+      "username": "thu.ha", "email": "thu.ha@congty.vn", "emailVerified": true, "enabled": true,
+      "firstName": "Thu Hà", "lastName": "Trần", "groups": ["grp-bd-member"],
+      "credentials": [{ "type": "password", "value": "Test@1234", "temporary": false }]
+    },
+    {
+      "username": "quoc.bao", "email": "quoc.bao@congty.vn", "emailVerified": true, "enabled": true,
+      "firstName": "Quốc Bảo", "lastName": "Lê", "groups": ["grp-bd-lead", "grp-bd-member"],
+      "credentials": [{ "type": "password", "value": "Test@1234", "temporary": false }]
+    },
+    {
+      "username": "giam.doc", "email": "giam.doc@congty.vn", "emailVerified": true, "enabled": true,
+      "firstName": "Giám Đốc", "lastName": "Phạm", "groups": ["grp-bd-manager"],
+      "credentials": [{ "type": "password", "value": "Test@1234", "temporary": false }]
+    },
+    {
+      "username": "ke.toan", "email": "ke.toan@congty.vn", "emailVerified": true, "enabled": true,
+      "firstName": "Văn A", "lastName": "Nguyễn", "groups": ["grp-ke-toan"],
+      "credentials": [{ "type": "password", "value": "Test@1234", "temporary": false }]
+    }
+  ]
+}

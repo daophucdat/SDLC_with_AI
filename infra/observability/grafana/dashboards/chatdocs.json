@@ -1,0 +1,58 @@
+{
+  "title": "Chat với tài liệu — vận hành",
+  "uid": "chatdocs-ops",
+  "schemaVersion": 39,
+  "time": { "from": "now-24h", "to": "now" },
+  "refresh": "1m",
+  "panels": [
+    {
+      "type": "timeseries", "title": "Thời gian trả lời p50 / p95 (s) — NFR-01", "gridPos": { "x": 0, "y": 0, "w": 12, "h": 8 },
+      "targets": [
+        { "expr": "histogram_quantile(0.5, sum by (le) (rate(qa_answer_latency_seconds_bucket[5m])))", "legendFormat": "p50" },
+        { "expr": "histogram_quantile(0.95, sum by (le) (rate(qa_answer_latency_seconds_bucket[5m])))", "legendFormat": "p95" }
+      ]
+    },
+    {
+      "type": "timeseries", "title": "Phần đầu câu trả lời p95 (s) — NFR-02", "gridPos": { "x": 12, "y": 0, "w": 12, "h": 8 },
+      "targets": [{ "expr": "histogram_quantile(0.95, sum by (le) (rate(qa_first_token_seconds_bucket[5m])))", "legendFormat": "p95" }]
+    },
+    {
+      "type": "timeseries", "title": "Câu trả lời theo trạng thái", "gridPos": { "x": 0, "y": 8, "w": 12, "h": 8 },
+      "targets": [{ "expr": "sum by (status) (rate(qa_answers_total[5m]))", "legendFormat": "{{status}}" }]
+    },
+    {
+      "type": "timeseries", "title": "“Không tìm thấy” theo lý do / trích dẫn bị loại", "gridPos": { "x": 12, "y": 8, "w": 12, "h": 8 },
+      "targets": [
+        { "expr": "sum by (reason) (rate(qa_not_found_total[5m]))", "legendFormat": "{{reason}}" },
+        { "expr": "sum(rate(qa_citation_invalid_total[5m]))", "legendFormat": "ALG-3 loại" }
+      ]
+    },
+    {
+      "type": "stat", "title": "Circuit breaker LLM (0 đóng · 1 thử · 2 mở)", "gridPos": { "x": 0, "y": 16, "w": 6, "h": 6 },
+      "targets": [{ "expr": "max(llm_circuit_state)" }]
+    },
+    {
+      "type": "timeseries", "title": "Token LLM / giờ — R-006", "gridPos": { "x": 6, "y": 16, "w": 9, "h": 6 },
+      "targets": [{ "expr": "sum by (direction) (increase(llm_tokens_total[1h]))", "legendFormat": "{{direction}}" }]
+    },
+    {
+      "type": "timeseries", "title": "Hàng đợi job / job cũ nhất (s)", "gridPos": { "x": 15, "y": 16, "w": 9, "h": 6 },
+      "targets": [
+        { "expr": "job_queue_depth", "legendFormat": "{{type}}" },
+        { "expr": "job_queue_oldest_seconds", "legendFormat": "cũ nhất {{type}}" }
+      ]
+    },
+    {
+      "type": "timeseries", "title": "Xử lý tài liệu p95 (s) — NFR-03", "gridPos": { "x": 0, "y": 22, "w": 12, "h": 6 },
+      "targets": [{ "expr": "histogram_quantile(0.95, sum by (le, outcome) (rate(doc_processing_seconds_bucket[1h])))", "legendFormat": "{{outcome}}" }]
+    },
+    {
+      "type": "stat", "title": "Gỡ tài liệu quá hạn xoá (SEC-06)", "gridPos": { "x": 12, "y": 22, "w": 6, "h": 6 },
+      "targets": [{ "expr": "max(documents_purge_overdue)" }]
+    },
+    {
+      "type": "timeseries", "title": "HTTP 5xx / phút", "gridPos": { "x": 18, "y": 22, "w": 6, "h": 6 },
+      "targets": [{ "expr": "sum(rate(http_requests_total{status=~\"5..\"}[5m])) * 60" }]
+    }
+  ]
+}

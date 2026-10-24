@@ -1,0 +1,17 @@
+{
+  "name": "chatdocs-e2e",
+  "private": true,
+  "version": "0.1.0",
+  "description": "EN-12: end-to-end (Playwright), accessibility (axe) and load (k6) tests for Chat với tài liệu",
+  "scripts": {
+    "test": "playwright test",
+    "test:a11y": "playwright test specs/a11y.spec.ts",
+    "report": "playwright show-report",
+    "perf": "k6 run perf/ask.js"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "4.10.0",
+    "@playwright/test": "1.47.2",
+    "typescript": "5.5.4"
+  }
+}

@@ -1,0 +1,30 @@
+# EN-07 T-EN07.4: API / worker → OTLP → Collector → Tempo. Spans carry counts and durations only (TC-08);
+# the attributes processor is a second safety net that drops any content-like attribute.
+receivers:
+  otlp:
+    protocols: { http: { endpoint: 0.0.0.0:4318 } }
+
+processors:
+  batch: {}
+  attributes/strip-content:
+    actions:
+      - { key: text, action: delete }
+      - { key: content, action: delete }
+      - { key: question, action: delete }
+      - { key: answer, action: delete }
+      - { key: excerpt, action: delete }
+      - { key: prompt, action: delete }
+      - { key: http.url, action: delete } # may carry ?q=<file name filter>
+      - { key: url.query, action: delete }
+
+exporters:
+  otlp/tempo:
+    endpoint: tempo:4317
+    tls: { insecure: true }
+
+service:
+  pipelines:
+    traces:
+      receivers: [otlp]
+      processors: [attributes/strip-content, batch]
+      exporters: [otlp/tempo]

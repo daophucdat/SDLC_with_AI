@@ -1,0 +1,17 @@
+{
+  "ci": {
+    "collect": {
+      "url": ["${LHCI_BASE_URL}/login"],
+      "numberOfRuns": 3,
+      "settings": { "preset": "desktop" }
+    },
+    "assert": {
+      "assertions": {
+        "largest-contentful-paint": ["error", { "maxNumericValue": 3000, "aggregationMethod": "median" }],
+        "interactive": ["error", { "maxNumericValue": 3000, "aggregationMethod": "median" }],
+        "categories:accessibility": ["error", { "minScore": 0.9 }]
+      }
+    },
+    "upload": { "target": "filesystem", "outputDir": "lighthouse-report" }
+  }
+}

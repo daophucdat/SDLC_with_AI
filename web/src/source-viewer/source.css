@@ -1,0 +1,7 @@
+/* PDF page + text layer for the source panel (US-305). Colours come from tokens.css. */
+.pdf-stage { position: relative; margin: 0 auto; background: var(--color-surface); box-shadow: var(--shadow-md); }
+.pdf-stage canvas { display: block; }
+.textLayer { position: absolute; inset: 0; overflow: hidden; line-height: 1; text-size-adjust: none; forced-color-adjust: none; transform-origin: 0 0; }
+.textLayer span, .textLayer br { color: transparent; position: absolute; white-space: pre; cursor: text; transform-origin: 0% 0%; }
+.textLayer .highlight { background: var(--color-highlight); mix-blend-mode: multiply; border-radius: 2px; box-shadow: 0 0 0 2px var(--color-highlight); }
+.source-status { padding: var(--space-6); text-align: center; color: var(--color-text-muted); font-size: var(--text-sm); }

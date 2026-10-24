@@ -1,0 +1,13 @@
+# Routes alerts to the operations chat channel. Alertmanager does not expand env vars: the deploy pipeline renders
+# the real webhook URL from the secrets manager into this file (placeholder below).
+route:
+  receiver: ops-chat
+  group_by: [alertname]
+  repeat_interval: 4h
+  routes:
+    - { matchers: ['severity="P1"'], receiver: ops-chat, repeat_interval: 30m }
+receivers:
+  - name: ops-chat
+    webhook_configs:
+      - url: "http://ops-chat-webhook.invalid/replace-at-deploy"
+        send_resolved: true

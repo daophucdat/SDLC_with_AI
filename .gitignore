@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+# Node
+node_modules/
+web/dist/
+web/coverage/
+# Local configuration and secrets
+.env
+.env.*
+!.env.example
+# OS / editors
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Evaluation outputs and generated sample PDFs (built by eval/datasets/*/build_docs.py)
+eval/results/
+eval/datasets/*/docs/
+# E2E
+e2e/node_modules/
+e2e/test-results/
+e2e/playwright-report/

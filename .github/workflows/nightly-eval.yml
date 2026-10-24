@@ -1,0 +1,43 @@
+# T-EN10.4: nightly evaluation on staging (real LLM) + report compared with the previous run.
+name: Nightly evaluation
+
+on:
+  schedule:
+    - cron: "0 19 * * 0-4" # 02:00 Asia/Ho_Chi_Minh, Monday → Friday nights
+  workflow_dispatch:
+    inputs:
+      dataset: { description: "eval/datasets/<name>", default: "sample" }
+
+concurrency: { group: nightly-eval, cancel-in-progress: false }
+
+jobs:
+  evaluate:
+    runs-on: ubuntu-latest
+    environment: staging
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: pip install httpx pyyaml pymupdf
+      - run: python eval/datasets/${{ inputs.dataset || 'sample' }}/build_docs.py
+      - name: Restore previous results (comparison baseline)
+        uses: actions/cache/restore@v4
+        with:
+          path: eval/results
+          key: eval-results-${{ github.run_id }}
+          restore-keys: eval-results-
+      - name: Run
+        env:
+          CHATDOCS_SESSION: ${{ secrets.EVAL_SESSION_COOKIE }}
+          CHATDOCS_CSRF: ${{ secrets.EVAL_CSRF_COOKIE }}
+        run: python eval/run_eval.py --base-url "${{ vars.STAGING_URL }}" --dataset "${{ inputs.dataset || 'sample' }}"
+      - if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: eval/results
+          key: eval-results-${{ github.run_id }}
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with: { name: eval-report, path: eval/results }
+      - if: always()
+        run: cat eval/results/*.md | tail -40 >> "$GITHUB_STEP_SUMMARY"

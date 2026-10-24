@@ -1,0 +1,99 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  backend:
+    runs-on: ubuntu-latest
+    defaults: { run: { working-directory: backend } }
+    services:
+      postgres:
+        image: pgvector/pgvector:pg16
+        env: { POSTGRES_USER: chatdocs, POSTGRES_PASSWORD: chatdocs, POSTGRES_DB: chatdocs_test }
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U chatdocs" --health-interval 3s --health-timeout 3s --health-retries 20
+    env:
+      TEST_DATABASE_URL: postgresql+asyncpg://chatdocs:chatdocs@localhost:5432/chatdocs_test
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12", cache: pip, cache-dependency-path: backend/pyproject.toml }
+      - run: pip install -e ".[dev,otel]"
+      - name: Lint
+        run: ruff check . && black --check .
+      - name: Import rules DR-1 → DR-5
+        run: lint-imports
+      - name: Tests (unit + API + integration on PostgreSQL/pgvector)
+        run: pytest -q
+      - name: Evaluation harness tests
+        working-directory: .
+        run: python -m pytest -q eval
+      - name: Dependency audit (T-EN09.5 — fails on known vulnerabilities)
+        run: pip-audit --skip-editable
+
+  frontend:
+    runs-on: ubuntu-latest
+    defaults: { run: { working-directory: web } }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: "20", cache: npm, cache-dependency-path: web/package-lock.json }
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run typecheck
+      - run: npm test
+      - run: npm run build
+      - name: Dependency audit (T-EN09.5 — high / critical block the merge)
+        run: npm audit --omit=dev --audit-level=high
+
+  image-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: docker build -t chatdocs-backend:ci backend
+      - name: Trivy (T-EN09.5)
+        uses: aquasecurity/trivy-action@0.24.0
+        with:
+          image-ref: chatdocs-backend:ci
+          severity: CRITICAL,HIGH
+          ignore-unfixed: true
+          exit-code: "1"
+
+  e2e:
+    # T-EN12.1: whole stack (Keycloak test realm, MinIO, pgvector, TEI, fake LLM) + Playwright
+    runs-on: ubuntu-latest
+    needs: [backend, frontend]
+    if: github.event_name == 'push' || contains(github.event.pull_request.labels.*.name, 'e2e')
+    env: { LLM_PROVIDER: fake, E2E_LLM: fake, E2E_EVALUATION: "1" }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: pip install pymupdf && python eval/datasets/sample/build_docs.py
+      - run: docker compose -f infra/docker-compose.yml up -d --build
+      - name: Wait for the API
+        run: for i in $(seq 1 120); do curl -fs http://localhost:8000/readyz && break; sleep 5; done
+      - uses: actions/setup-node@v4
+        with: { node-version: "20" }
+      - working-directory: e2e
+        run: npm install && npx playwright install --with-deps chromium chrome msedge
+      - working-directory: e2e
+        run: npx playwright test
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with: { name: playwright-report, path: e2e/playwright-report }
+      - if: always()
+        run: docker compose -f infra/docker-compose.yml logs api worker > compose.log && docker compose -f infra/docker-compose.yml down -v
+
+  secrets-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      - uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
