@@ -522,9 +522,9 @@ def make_settings(**overrides) -> Settings:
     return Settings(**base)
 
 
-def make_container(**setting_overrides) -> tuple[Container, SimpleNamespace]:
+def make_container(clock=None, **setting_overrides) -> tuple[Container, SimpleNamespace]:
     settings = make_settings(**setting_overrides)
-    clock = FixedClock()
+    clock = clock or FixedClock()
     users = MemUsers()
     f = SimpleNamespace(
         clock=clock,

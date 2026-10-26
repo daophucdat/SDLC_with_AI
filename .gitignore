@@ -33,3 +33,10 @@ web/coverage/
 sbom/
 backend/mutants/
 backend/.mutmut-cache
+e2e/fixtures/data/
+reports/traces/
+
+# Day 7: personal Claude Code notes (sandbox URLs, test data) — never shared
+CLAUDE.local.md
+# commit-gate evidence (local, one file per staged tree)
+reports/gate-*.json

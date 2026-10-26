@@ -3,7 +3,7 @@ import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
 import { ask, ensureReady, lastAnswer, login } from "./helpers";
 
-const axe = (page: import("@playwright/test").Page) => new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa", "wcag21aa"]);
+const axe = (page: import("@playwright/test").Page) => new AxeBuilder({ page } as unknown as ConstructorParameters<typeof AxeBuilder>[0]) // axe ships newer playwright-core types.withTags(["wcag2a", "wcag2aa", "wcag21aa"]);
 
 test("/denied", async ({ page }) => {
   await login(page, "outsider");
