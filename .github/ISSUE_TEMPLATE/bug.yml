@@ -1,0 +1,22 @@
+name: Lỗi
+description: Báo lỗi (ghi cả lỗi lọt qua review vào docs/quality/escaped_defects.md)
+labels: [bug]
+body:
+  - type: input
+    id: story
+    attributes: { label: Story / yêu cầu liên quan, placeholder: "US-304, AC-304.4" }
+    validations: { required: true }
+  - type: textarea
+    id: steps
+    attributes: { label: Cách tái hiện, description: "Môi trường, tài khoản (vai trò), các bước, kết quả mong đợi theo AC" }
+    validations: { required: true }
+  - type: dropdown
+    id: severity
+    attributes: { label: Mức độ, options: [Critical, High, Medium, Low] }
+    validations: { required: true }
+  - type: dropdown
+    id: escaped
+    attributes:
+      label: Lỗi đã lọt qua lớp nào của tháp chất lượng?
+      options: ["Chưa merge (không lọt)", "L0 cổng tự động", "L1 agent review", "L2 review người", "L3 inspection", "L4 verification / validation"]
+    validations: { required: true }

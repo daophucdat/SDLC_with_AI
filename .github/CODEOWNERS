@@ -1,0 +1,9 @@
+# L2 review (Day 5): every PR needs one approver who did not write the code.
+# Branch protection on main: "Require review from Code Owners" + "Require status checks" (all CI jobs).
+# Replace the handles with the team's GitHub accounts / teams.
+*                         @daophucdat
+/backend/chatdocs/adapters/oidc/   @daophucdat
+/backend/chatdocs/adapters/http/auth.py  @daophucdat
+/backend/chatdocs/domain/access/   @daophucdat
+/infra/                   @daophucdat
+/.github/                 @daophucdat

@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "permissions": {
+    "allow": [
+      "Bash(make check)",
+      "Bash(make test)",
+      "Bash(make lint)",
+      "Bash(git status)",
+      "Bash(git diff:*)",
+      "Bash(git log:*)",
+      "Bash(python scripts/check_traceability.py:*)"
+    ],
+    "deny": [
+      "Edit(/docs/02-requirements/**)",
+      "Write(/docs/02-requirements/**)",
+      "Edit(/docs/03-design/**)",
+      "Write(/docs/03-design/**)",
+      "Edit(/docs/04-design/**)",
+      "Write(/docs/04-design/**)",
+      "Edit(/docs/05-review/**)",
+      "Write(/docs/05-review/**)",
+      "Edit(/docx/**)",
+      "Write(/docx/**)",
+      "Edit(/docs/implement/dev_tasks.md)",
+      "Write(/docs/implement/dev_tasks.md)",
+      "Edit(/docs/implement/userStory.md)",
+      "Write(/docs/implement/userStory.md)",
+      "Read(/backend/.env)",
+      "Read(/**/.env)",
+      "Bash(git push --force:*)",
+      "Bash(git push -f:*)"
+    ]
+  }
+}
