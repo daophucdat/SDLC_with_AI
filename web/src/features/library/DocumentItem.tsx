@@ -116,6 +116,34 @@ function formatDate(iso: string): string {
   return Number.isNaN(d.getTime()) ? "" : d.toLocaleDateString("vi-VN");
 }
 
+function metaOf(doc: DocumentDto, meId: string): string[] {
+  const who = doc.uploadedBy.id === meId ? vi.library.you : doc.uploadedBy.displayName;
+  const pages = doc.pageCount ? [fmt(vi.library.pages, { n: doc.pageCount })] : [];
+  return [...pages, `${who} · ${formatDate(doc.uploadedAt)}`];
+}
+
+function messageOf(doc: DocumentDto): RowProps["message"] {
+  switch (doc.status) {
+    case "PROCESSING":
+      return { text: vi.library.processingHint, tone: "muted" };
+    case "NO_TEXT":
+      return { text: vi.library.noTextHint, tone: "warning" };
+    case "ERROR":
+      return { text: vi.processingErrors[doc.errorCode ?? "INTERNAL"] ?? vi.processingErrors.INTERNAL, tone: "error" };
+    default:
+      return undefined;
+  }
+}
+
+function actionsOf(doc: DocumentDto, onRetry: (d: DocumentDto) => void, onRemove?: (d: DocumentDto) => void) {
+  const actions: ItemAction[] = [];
+  if (doc.status === "ERROR") actions.push({ label: vi.library.retry, onSelect: () => onRetry(doc) });
+  // AC-204.1: only the uploader or a lead sees "Gỡ khỏi kho" (the server checks again)
+  if (doc.canRemove && onRemove && doc.status !== "UPLOADING")
+    actions.push({ label: vi.removeDoc.action, onSelect: () => onRemove(doc), danger: true });
+  return actions;
+}
+
 export function DocumentItem({
   doc,
   meId,
@@ -127,22 +155,16 @@ export function DocumentItem({
   onRetry: (d: DocumentDto) => void;
   onRemove?: (d: DocumentDto) => void;
 }) {
-  const status = doc.status as ViewStatus;
-  const meta = [
-    ...(doc.pageCount ? [fmt(vi.library.pages, { n: doc.pageCount })] : []),
-    `${doc.uploadedBy.id === meId ? vi.library.you : doc.uploadedBy.displayName} · ${formatDate(doc.uploadedAt)}`,
-  ];
-  let message: RowProps["message"];
-  if (doc.status === "PROCESSING") message = { text: vi.library.processingHint, tone: "muted" };
-  if (doc.status === "NO_TEXT") message = { text: vi.library.noTextHint, tone: "warning" };
-  if (doc.status === "ERROR")
-    message = { text: vi.processingErrors[doc.errorCode ?? "INTERNAL"] ?? vi.processingErrors.INTERNAL, tone: "error" };
-  const actions: ItemAction[] =
-    doc.status === "ERROR" ? [{ label: vi.library.retry, onSelect: () => onRetry(doc) }] : [];
-  // AC-204.1: only the uploader or a lead sees "Gỡ khỏi kho" (the server checks again)
-  if (doc.canRemove && onRemove && doc.status !== "UPLOADING")
-    actions.push({ label: vi.removeDoc.action, onSelect: () => onRemove(doc), danger: true });
-  return <Row id={doc.id} name={doc.fileName} status={status} meta={meta} message={message} actions={actions} />;
+  return (
+    <Row
+      id={doc.id}
+      name={doc.fileName}
+      status={doc.status as ViewStatus}
+      meta={metaOf(doc, meId)}
+      message={messageOf(doc)}
+      actions={actionsOf(doc, onRetry, onRemove)}
+    />
+  );
 }
 
 export function UploadingItem({

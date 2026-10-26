@@ -46,25 +46,41 @@ class OpenAICompatibleGenerator:
         }
         try:
             async with self._http.stream("POST", "/v1/chat/completions", json=body) as resp:
-                if resp.status_code in (429, 500, 502, 503, 504):
-                    raise RetryableProviderError(f"status_{resp.status_code}")
-                if resp.status_code >= 400:
-                    raise GenerationUnavailable(f"status_{resp.status_code}")
+                _raise_for_status(resp.status_code)
                 stats.model_id = self._model
                 async for line in resp.aiter_lines():
                     if cancel.is_set():
                         break
-                    if not line.startswith("data:"):
-                        continue
-                    data = line[5:].strip()
-                    if data == "[DONE]":
+                    event = _parse_line(line)
+                    if event is _DONE:
                         break
-                    event = json.loads(data)
-                    if usage := event.get("usage"):
-                        stats.input_tokens = usage.get("prompt_tokens", 0)
-                        stats.output_tokens = usage.get("completion_tokens", 0)
-                    for choice in event.get("choices") or []:
-                        if piece := (choice.get("delta") or {}).get("content"):
+                    if event is not None:
+                        for piece in _consume(event, stats):
                             yield piece
         except httpx.TransportError as e:
             raise RetryableProviderError("connection") from e
+
+
+_DONE = object()
+
+
+def _raise_for_status(status: int) -> None:
+    if status in (429, 500, 502, 503, 504):
+        raise RetryableProviderError(f"status_{status}")
+    if status >= 400:
+        raise GenerationUnavailable(f"status_{status}")
+
+
+def _parse_line(line: str):
+    """One SSE line → event dict, _DONE, or None (comments, blank lines)."""
+    if not line.startswith("data:"):
+        return None
+    data = line[5:].strip()
+    return _DONE if data == "[DONE]" else json.loads(data)
+
+
+def _consume(event: dict, stats: GenerationStats) -> list[str]:
+    if usage := event.get("usage"):
+        stats.input_tokens = usage.get("prompt_tokens", 0)
+        stats.output_tokens = usage.get("completion_tokens", 0)
+    return [p for c in event.get("choices") or [] if (p := (c.get("delta") or {}).get("content"))]

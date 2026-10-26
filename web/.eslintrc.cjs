@@ -6,6 +6,7 @@ module.exports = {
   plugins: ["@typescript-eslint", "react-hooks"],
   extends: ["eslint:recommended", "plugin:@typescript-eslint/recommended", "plugin:react-hooks/recommended"],
   rules: {
+    complexity: ["error", 10], // Day 5 L0 gate: cyclomatic complexity ≤ 10
     // UX-S05: colours come from ui/tokens.css only
     "no-restricted-syntax": [
       "error",

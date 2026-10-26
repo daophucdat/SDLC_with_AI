@@ -1,7 +1,7 @@
 // QuestionComposer (T301.3, T310.3, T103.3): auto-growing textarea, Enter to send (not while an IME is composing),
 // n/2000 counter, disabled with a reason, draft kept in sessionStorage — also across a session expiry (EC-17).
 import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from "react";
-import type { FormEvent, KeyboardEvent } from "react";
+import type { FormEvent, KeyboardEvent, RefObject } from "react";
 import { vi } from "../i18n/vi";
 import { Button } from "../ui";
 
@@ -39,6 +39,44 @@ export interface QuestionComposerProps {
   onStop: () => void;
 }
 
+/** Enter sends; Shift+Enter is a new line; Enter that confirms an IME (Vietnamese Telex / VNI) composition is ignored. */
+function isSendKey(e: KeyboardEvent<HTMLTextAreaElement>): boolean {
+  return e.key === "Enter" && !e.shiftKey && !e.nativeEvent.isComposing && e.keyCode !== 229;
+}
+
+function useAutoGrow(area: RefObject<HTMLTextAreaElement>, text: string): void {
+  useEffect(() => {
+    const el = area.current;
+    if (!el) return;
+    el.style.height = "auto";
+    el.style.height = `${Math.min(el.scrollHeight, 160)}px`;
+  }, [area, text]);
+}
+
+function Counter({ count }: { count: number }) {
+  const level = count > MAX_CHARS ? " over" : count > WARN_CHARS ? " near" : "";
+  return (
+    <span className={`counter${level}`} id="composer-counter" aria-live={level ? "polite" : undefined}>
+      {count}/{MAX_CHARS}
+    </span>
+  );
+}
+
+function SendOrStop({ streaming, canSend, onStop }: { streaming: boolean; canSend: boolean; onStop: () => void }) {
+  if (streaming) {
+    return (
+      <Button variant="secondary" aria-label={vi.chat.stopLabel} onClick={onStop}>
+        {vi.chat.stop}
+      </Button>
+    );
+  }
+  return (
+    <Button type="submit" variant="primary" disabled={!canSend}>
+      {vi.chat.send}
+    </Button>
+  );
+}
+
 export const QuestionComposer = forwardRef<ComposerHandle, QuestionComposerProps>(function QuestionComposer(
   { disabledReason, streaming, followUpAvailable, onSubmit, onStop },
   ref,
@@ -56,13 +94,7 @@ export const QuestionComposer = forwardRef<ComposerHandle, QuestionComposerProps
   }));
 
   useEffect(() => writeDraft(text), [text]);
-
-  useEffect(() => {
-    const el = area.current;
-    if (!el) return;
-    el.style.height = "auto";
-    el.style.height = `${Math.min(el.scrollHeight, 160)}px`;
-  }, [text]);
+  useAutoGrow(area, text);
 
   const count = text.length;
   const over = count > MAX_CHARS;
@@ -76,7 +108,7 @@ export const QuestionComposer = forwardRef<ComposerHandle, QuestionComposerProps
   };
 
   const onKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
-    if (e.key !== "Enter" || e.shiftKey || e.nativeEvent.isComposing || e.keyCode === 229) return;
+    if (!isSendKey(e)) return;
     e.preventDefault();
     submit();
   };
@@ -107,15 +139,7 @@ export const QuestionComposer = forwardRef<ComposerHandle, QuestionComposerProps
             onChange={(e) => setText(e.target.value)}
             onKeyDown={onKeyDown}
           />
-          {streaming ? (
-            <Button variant="secondary" aria-label={vi.chat.stopLabel} onClick={onStop}>
-              {vi.chat.stop}
-            </Button>
-          ) : (
-            <Button type="submit" variant="primary" disabled={!canSend}>
-              {vi.chat.send}
-            </Button>
-          )}
+          <SendOrStop streaming={streaming} canSend={canSend} onStop={onStop} />
         </div>
         <div className="composer-meta">
           <span id="composer-hint">{reason ?? vi.chat.hint}</span>
@@ -125,13 +149,7 @@ export const QuestionComposer = forwardRef<ComposerHandle, QuestionComposerProps
               {vi.chat.followUp}
             </label>
           )}
-          <span
-            className={`counter${over ? " over" : count > WARN_CHARS ? " near" : ""}`}
-            id="composer-counter"
-            aria-live={count > WARN_CHARS ? "polite" : undefined}
-          >
-            {count}/{MAX_CHARS}
-          </span>
+          <Counter count={count} />
         </div>
       </form>
     </div>

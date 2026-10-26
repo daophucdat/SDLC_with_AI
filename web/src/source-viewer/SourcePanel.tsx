@@ -1,6 +1,7 @@
 // SourcePanel (T305.2 → T305.4): the cited page next to the answer, excerpt highlighted, Esc to close,
 // previous / next page, #src=<docId>:<page> in the URL, "removed" state on 404 (EC-16).
 import { useEffect, useRef, useState } from "react";
+import type { RefObject } from "react";
 import { documentFileUrl } from "../api-client/documents";
 import { fmt, vi } from "../i18n/vi";
 import { useChatStore } from "../state/chatStore";
@@ -12,27 +13,24 @@ import "./source.css";
 
 type Status = "loading" | "ready" | "removed" | "error";
 
-export default function SourcePanel({ source }: { source: SourceRef }) {
-  const openSource = useChatStore((s) => s.openSource);
+function replaceHash(hash: string): void {
+  try {
+    history.replaceState(null, "", hash || window.location.pathname + window.location.search);
+  } catch {
+    /* history not available (sandboxed frame): the panel still works */
+  }
+}
+
+/** Opens the PDF of a document (by Range, see pdf.ts) and frees it when the document changes or the panel closes. */
+function usePdf(documentId: string, setStatus: (s: Status) => void): PdfDoc | null {
   const markRemoved = useChatStore((s) => s.markRemoved);
   const [doc, setDoc] = useState<PdfDoc | null>(null);
-  const [status, setStatus] = useState<Status>("loading");
-  const [page, setPage] = useState(source.page);
-  const [highlighted, setHighlighted] = useState(true);
-  const canvas = useRef<HTMLCanvasElement>(null);
-  const textLayer = useRef<HTMLDivElement>(null);
-  const body = useRef<HTMLDivElement>(null);
-  const closeBtn = useRef<HTMLButtonElement>(null);
-
-  // a new citation in the same document only changes the page; another document reloads (AC-305.2)
-  useEffect(() => setPage(source.page), [source.page, source.index, source.turnKey]);
-
   useEffect(() => {
     let cancelled = false;
     let opened: PdfDoc | null = null;
     setStatus("loading");
     setDoc(null);
-    openPdf(documentFileUrl(source.documentId))
+    openPdf(documentFileUrl(documentId))
       .then((d) => {
         if (cancelled) return d.destroy();
         opened = d;
@@ -40,18 +38,44 @@ export default function SourcePanel({ source }: { source: SourceRef }) {
       })
       .catch((e) => {
         if (cancelled) return;
-        if (e instanceof PdfHttpError && e.status === 404) {
-          setStatus("removed");
-          markRemoved([source.documentId]);
-        } else setStatus("error");
+        const removed = e instanceof PdfHttpError && e.status === 404;
+        if (removed) markRemoved([documentId]); // EC-15: its citations are crossed out
+        setStatus(removed ? "removed" : "error");
       });
     return () => {
       cancelled = true;
       opened?.destroy(); // T305.2: free the PDFDocumentProxy when the panel closes or switches file
     };
-  }, [source.documentId, markRemoved]);
+  }, [documentId, markRemoved, setStatus]);
+  return doc;
+}
 
+/** T305.3: marks the text-layer items that contain the excerpt; returns whether anything was found. */
+function highlightExcerpt(items: HTMLElement[], excerpt: string): boolean {
+  const hits = findExcerpt(
+    items.map((el) => el.textContent ?? ""),
+    excerpt,
+  );
+  hits.forEach((i) => items[i].classList.add("highlight"));
+  if (hits.length) items[hits[0]].scrollIntoView?.({ block: "center" });
+  return hits.length > 0;
+}
+
+interface Stage {
+  canvas: RefObject<HTMLCanvasElement>;
+  textLayer: RefObject<HTMLDivElement>;
+  body: RefObject<HTMLDivElement>;
+}
+
+function usePageRender(
+  doc: PdfDoc | null,
+  page: number,
+  source: SourceRef,
+  stage: Stage,
+  onRendered: (status: Status, highlighted: boolean) => void,
+): void {
   useEffect(() => {
+    const { canvas, textLayer, body } = stage;
     if (!doc || !canvas.current || !textLayer.current) return;
     let cancelled = false;
     const width = Math.max(280, (body.current?.clientWidth ?? 440) - 40);
@@ -59,56 +83,94 @@ export default function SourcePanel({ source }: { source: SourceRef }) {
       .renderPage(page, canvas.current, textLayer.current, width)
       .then((items) => {
         if (cancelled) return;
-        setStatus("ready");
-        const hits =
-          page === source.page
-            ? findExcerpt(
-                items.map((el) => el.textContent ?? ""),
-                source.excerpt,
-              )
-            : [];
-        hits.forEach((i) => items[i].classList.add("highlight"));
-        setHighlighted(page !== source.page || hits.length > 0);
-        if (hits.length) items[hits[0]].scrollIntoView?.({ block: "center" });
+        const cited = page === source.page;
+        onRendered("ready", !cited || highlightExcerpt(items, source.excerpt));
         doc.prefetch(page - 1);
         doc.prefetch(page + 1);
       })
-      .catch(() => !cancelled && setStatus("error"));
+      .catch(() => !cancelled && onRendered("error", true));
     return () => {
       cancelled = true;
     };
-  }, [doc, page, source.page, source.excerpt]);
+  }, [doc, page, source.page, source.excerpt, stage, onRendered]);
+}
 
-  useEffect(() => {
-    try {
-      history.replaceState(null, "", `#src=${source.documentId}:${page}`);
-    } catch {
-      /* ignore */
-    }
-  }, [source.documentId, page]);
+function StatusMessage({ status, highlighted }: { status: Status; highlighted: boolean }) {
+  if (status === "removed") return <div className="source-status">{vi.source.removed}</div>;
+  if (status === "error") return <div className="source-status">{vi.source.error}</div>;
+  if (status === "loading") {
+    return (
+      <div className="source-status">
+        <Spinner label={vi.source.loading} />
+      </div>
+    );
+  }
+  return highlighted ? null : <p className="xs muted">{vi.source.notHighlighted}</p>;
+}
 
-  useEffect(() => {
-    closeBtn.current?.focus();
-  }, [source.documentId]);
+function SourceFooter(p: {
+  page: number;
+  total: number;
+  ready: boolean;
+  removed: boolean;
+  documentId: string;
+  onPage: (page: number) => void;
+}) {
+  return (
+    <div className="source-foot">
+      <div className="row">
+        <Button aria-label={vi.source.prev} disabled={!p.ready || p.page <= 1} onClick={() => p.onPage(p.page - 1)}>
+          ‹
+        </Button>
+        <Button
+          aria-label={vi.source.next}
+          disabled={!p.ready || p.page >= p.total}
+          onClick={() => p.onPage(p.page + 1)}
+        >
+          ›
+        </Button>
+      </div>
+      {!p.removed && (
+        <a className="btn btn-ghost" href={documentFileUrl(p.documentId)} target="_blank" rel="noopener">
+          {vi.source.openFull}
+        </a>
+      )}
+    </div>
+  );
+}
+
+export default function SourcePanel({ source }: { source: SourceRef }) {
+  const openSource = useChatStore((s) => s.openSource);
+  const [status, setStatus] = useState<Status>("loading");
+  const [page, setPage] = useState(source.page);
+  const [highlighted, setHighlighted] = useState(true);
+  const [stage] = useState<Stage>(() => ({
+    canvas: { current: null },
+    textLayer: { current: null },
+    body: { current: null },
+  }));
+  const closeBtn = useRef<HTMLButtonElement>(null);
+  const doc = usePdf(source.documentId, setStatus);
+  const [onRendered] = useState(() => (s: Status, h: boolean) => {
+    setStatus(s);
+    setHighlighted(h);
+  });
+
+  // a new citation in the same document only changes the page; another document reloads (AC-305.2)
+  useEffect(() => setPage(source.page), [source.page, source.index, source.turnKey]);
+  usePageRender(doc, page, source, stage, onRendered);
+  useEffect(() => replaceHash(`#src=${source.documentId}:${page}`), [source.documentId, page]);
+  useEffect(() => closeBtn.current?.focus(), [source.documentId]);
 
   const close = () => {
     openSource(null);
-    try {
-      history.replaceState(null, "", window.location.pathname + window.location.search);
-    } catch {
-      /* ignore */
-    }
+    replaceHash("");
   };
 
   const total = doc?.numPages ?? 0;
+  const failed = status === "removed" || status === "error";
   return (
-    <aside
-      className="source-panel"
-      aria-label={vi.source.label}
-      onKeyDown={(e) => {
-        if (e.key === "Escape") close();
-      }}
-    >
+    <aside className="source-panel" aria-label={vi.source.label} onKeyDown={(e) => e.key === "Escape" && close()}>
       <div className="source-head">
         <div className="grow">
           <div className="source-file" title={source.fileName}>
@@ -120,35 +182,21 @@ export default function SourcePanel({ source }: { source: SourceRef }) {
           ✕
         </Button>
       </div>
-      <div className="source-body" ref={body}>
-        {status === "removed" && <div className="source-status">{vi.source.removed}</div>}
-        {status === "error" && <div className="source-status">{vi.source.error}</div>}
-        {status === "loading" && (
-          <div className="source-status">
-            <Spinner label={vi.source.loading} />
-          </div>
-        )}
-        {status === "ready" && !highlighted && <p className="xs muted">{vi.source.notHighlighted}</p>}
-        <div className="pdf-stage" hidden={status === "removed" || status === "error"}>
-          <canvas ref={canvas} aria-label={fmt(vi.source.page, { page, total: total || "?" })} role="img" />
-          <div className="textLayer" ref={textLayer} />
+      <div className="source-body" ref={stage.body}>
+        <StatusMessage status={status} highlighted={highlighted} />
+        <div className="pdf-stage" hidden={failed}>
+          <canvas ref={stage.canvas} aria-label={fmt(vi.source.page, { page, total: total || "?" })} role="img" />
+          <div className="textLayer" ref={stage.textLayer} />
         </div>
       </div>
-      <div className="source-foot">
-        <div className="row">
-          <Button aria-label={vi.source.prev} disabled={page <= 1 || !doc} onClick={() => setPage((p) => p - 1)}>
-            ‹
-          </Button>
-          <Button aria-label={vi.source.next} disabled={!doc || page >= total} onClick={() => setPage((p) => p + 1)}>
-            ›
-          </Button>
-        </div>
-        {status !== "removed" && (
-          <a className="btn btn-ghost" href={documentFileUrl(source.documentId)} target="_blank" rel="noopener">
-            {vi.source.openFull}
-          </a>
-        )}
-      </div>
+      <SourceFooter
+        page={page}
+        total={total}
+        ready={!!doc}
+        removed={status === "removed"}
+        documentId={source.documentId}
+        onPage={setPage}
+      />
     </aside>
   );
 }

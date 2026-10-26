@@ -129,14 +129,13 @@ function UsageTab() {
   );
 }
 
-export function EvaluationTab({ pollMs = 3000 }: { pollMs?: number }) {
-  const [file, setFile] = useState<File | null>(null);
-  const [error, setError] = useState<string | null>(null);
-  const [run, setRun] = useState<EvaluationStatusDto | null>(null);
-  const [busy, setBusy] = useState(false);
+const FINISHED = new Set(["done", "timeout", "failed"]);
+const isFinished = (run: EvaluationStatusDto | null) => !!run && FINISHED.has(run.status);
 
+/** Polls the run until it has finished (AC-402.1: progress is visible). */
+function useRunPolling(run: EvaluationStatusDto | null, setRun: (r: EvaluationStatusDto) => void, pollMs: number) {
   useEffect(() => {
-    if (!run || run.status === "done" || run.status === "timeout" || run.status === "failed") return;
+    if (!run || isFinished(run)) return;
     const t = setInterval(async () => {
       try {
         setRun(await getEvaluation(run.runId));
@@ -145,7 +144,47 @@ export function EvaluationTab({ pollMs = 3000 }: { pollMs?: number }) {
       }
     }, pollMs);
     return () => clearInterval(t);
-  }, [run, pollMs]);
+  }, [run, setRun, pollMs]);
+}
+
+function startErrorText(e: unknown): string {
+  if (!(e instanceof ApiError && e.code === "TESTSET_INVALID")) return vi.errors.INTERNAL;
+  return fmt(vi.evaluation.invalid, { row: String(e.problem.row ?? "?"), column: String(e.problem.column ?? "?") });
+}
+
+function RunProgress({ run }: { run: EvaluationStatusDto }) {
+  return (
+    <div style={{ marginTop: "var(--space-4)" }}>
+      <div className="small" role="status">
+        {fmt(vi.evaluation.running, { done: run.done, total: run.total })}
+      </div>
+      <ProgressBar value={run.total ? (run.done / run.total) * 100 : 0} label={vi.evaluation.progress} />
+    </div>
+  );
+}
+
+function RunResult({ run }: { run: EvaluationStatusDto | null }) {
+  if (!run || !isFinished(run)) return <EmptyState icon="🧪" title={vi.evaluation.title} />;
+  const message = run.status === "timeout" ? vi.evaluation.timeout : vi.evaluation.done;
+  return (
+    <>
+      <p role="status">
+        <Badge tone={run.status === "done" ? "ready" : "warning"}>{run.status}</Badge>{" "}
+        {fmt(message, { done: run.done, total: run.total })}
+      </p>
+      <a className="btn btn-secondary" href={evaluationExportUrl(run.runId)}>
+        {vi.evaluation.export}
+      </a>
+    </>
+  );
+}
+
+export function EvaluationTab({ pollMs = 3000 }: { pollMs?: number }) {
+  const [file, setFile] = useState<File | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [run, setRun] = useState<EvaluationStatusDto | null>(null);
+  const [busy, setBusy] = useState(false);
+  useRunPolling(run, setRun, pollMs);
 
   const start = async () => {
     if (!file) return setError(vi.evaluation.pickFile);
@@ -155,17 +194,13 @@ export function EvaluationTab({ pollMs = 3000 }: { pollMs?: number }) {
       const r = await startEvaluation(file);
       setRun({ runId: r.runId, status: "queued", done: 0, total: r.total });
     } catch (e) {
-      if (e instanceof ApiError && e.code === "TESTSET_INVALID")
-        setError(
-          fmt(vi.evaluation.invalid, { row: String(e.problem.row ?? "?"), column: String(e.problem.column ?? "?") }),
-        );
-      else setError(vi.errors.INTERNAL);
+      setError(startErrorText(e));
     } finally {
       setBusy(false);
     }
   };
 
-  const finished = run && ["done", "timeout", "failed"].includes(run.status);
+  const running = !!run && !isFinished(run);
   return (
     <div className="grid grid-2">
       <div className="card">
@@ -188,39 +223,17 @@ export function EvaluationTab({ pollMs = 3000 }: { pollMs?: number }) {
           </p>
         )}
         <div className="row">
-          <Button variant="primary" onClick={start} disabled={busy || (!!run && !finished)}>
+          <Button variant="primary" onClick={start} disabled={busy || running}>
             {vi.evaluation.run}
           </Button>
           <a className="btn btn-ghost" href={evaluationTemplateUrl}>
             {vi.evaluation.template}
           </a>
         </div>
-        {run && !finished && (
-          <div style={{ marginTop: "var(--space-4)" }}>
-            <div className="small" role="status">
-              {fmt(vi.evaluation.running, { done: run.done, total: run.total })}
-            </div>
-            <ProgressBar value={run.total ? (run.done / run.total) * 100 : 0} label={vi.evaluation.progress} />
-          </div>
-        )}
+        {running && <RunProgress run={run} />}
       </div>
       <div className="card">
-        {finished ? (
-          <>
-            <p role="status">
-              <Badge tone={run!.status === "done" ? "ready" : "warning"}>{run!.status}</Badge>{" "}
-              {fmt(run!.status === "timeout" ? vi.evaluation.timeout : vi.evaluation.done, {
-                done: run!.done,
-                total: run!.total,
-              })}
-            </p>
-            <a className="btn btn-secondary" href={evaluationExportUrl(run!.runId)}>
-              {vi.evaluation.export}
-            </a>
-          </>
-        ) : (
-          <EmptyState icon="🧪" title={vi.evaluation.title} />
-        )}
+        <RunResult run={run} />
       </div>
     </div>
   );

@@ -4,7 +4,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useRef } from "react";
 import { listDocuments } from "../../api-client/documents";
-import type { DocumentDto } from "../../api-client/types";
+import type { DocumentDto, DocumentListDto } from "../../api-client/types";
 
 export const POLL_MS = 3000;
 export const FILTER_MIN = 2;
@@ -16,6 +16,19 @@ export interface DocumentWatchers {
   onReady?: (doc: DocumentDto) => void;
   onNoText?: (doc: DocumentDto) => void;
   onGone?: (documentIds: string[]) => void;
+}
+
+/** Compares two snapshots of the unfiltered list and calls the watchers for what changed. */
+export function notifyChanges(prev: Map<string, string>, list: DocumentListDto, w: DocumentWatchers): void {
+  for (const d of list.items) {
+    if (prev.get(d.id) !== "PROCESSING") continue;
+    if (d.status === "READY") w.onReady?.(d);
+    if (d.status === "NO_TEXT") w.onNoText?.(d);
+  }
+  if (list.nextCursor) return; // a partial page cannot tell a removed document from one on the next page
+  const now = new Set(list.items.map((d) => d.id));
+  const gone = [...prev.keys()].filter((id) => !now.has(id));
+  if (gone.length) w.onGone?.(gone);
 }
 
 export function useDocuments(q: string, watchers: DocumentWatchers = {}) {
@@ -33,20 +46,10 @@ export function useDocuments(q: string, watchers: DocumentWatchers = {}) {
   const unfiltered = documentsKey(q)[1] === "";
 
   useEffect(() => {
-    const items = query.data?.items;
-    if (!items || !unfiltered || query.isPlaceholderData) return;
-    const prev = previous.current;
-    if (prev) {
-      for (const d of items) {
-        const before = prev.get(d.id);
-        if (before === "PROCESSING" && d.status === "READY") watchersRef.current.onReady?.(d);
-        if (before === "PROCESSING" && d.status === "NO_TEXT") watchersRef.current.onNoText?.(d);
-      }
-      const now = new Set(items.map((d) => d.id));
-      const gone = [...prev.keys()].filter((id) => !now.has(id));
-      if (gone.length && !query.data?.nextCursor) watchersRef.current.onGone?.(gone);
-    }
-    previous.current = new Map(items.map((d) => [d.id, d.status]));
+    const list = query.data;
+    if (!list || !unfiltered || query.isPlaceholderData) return;
+    if (previous.current) notifyChanges(previous.current, list, watchersRef.current);
+    previous.current = new Map(list.items.map((d) => [d.id, d.status]));
   }, [query.data, query.isPlaceholderData, unfiltered]);
 
   return query;

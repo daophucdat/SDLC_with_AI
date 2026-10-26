@@ -83,6 +83,41 @@ export function createUploadQueue(onEvent: (e: UploadEvent) => void, deps: Parti
       patch(it.key, { state: "UPLOAD_FAILED", errorCode: code });
     };
 
+    const onNetworkLoss = (key: string, cur: UploadItem) => {
+      if (cur.attempts >= RETRY_DELAYS_MS.length) return fail(cur, "NETWORK");
+      patch(key, { state: "PAUSED", attempts: cur.attempts + 1 });
+      d.schedule(() => {
+        if (get().items.find((x) => x.key === key)?.state !== "PAUSED") return;
+        patch(key, { state: "QUEUED" });
+        pump();
+      }, RETRY_DELAYS_MS[cur.attempts]);
+    };
+
+    const onDuplicate = (key: string, err: ApiError) =>
+      patch(key, {
+        state: "DUPLICATE",
+        duplicateOf: {
+          existingId: String(err.problem.existingId ?? ""),
+          uploadedAt: String(err.problem.uploadedAt ?? ""),
+        },
+      });
+
+    const onRejected = (it: UploadItem, code: string, err: unknown) => {
+      const retryAfter = err instanceof ApiError ? Number(err.problem.retryAfter) || undefined : undefined;
+      if (code === "FILE_NOT_PDF" || code === "FILE_TOO_LARGE")
+        track("document_upload_failed", { reason: REASON[code] });
+      remove(it.key);
+      onEvent({ type: "rejected", fileName: it.file.name, code, retryAfter });
+    };
+
+    const onFailure = (key: string, it: UploadItem, err: unknown) => {
+      const code = err instanceof ApiError ? err.code : "NETWORK";
+      if (code === "ABORTED") return;
+      if (code === "NETWORK") return onNetworkLoss(key, get().items.find((x) => x.key === key) ?? it);
+      if (code === "DUPLICATE_DOCUMENT") return onDuplicate(key, err as ApiError);
+      onRejected(it, code, err);
+    };
+
     const start = (key: string) => {
       const it = get().items.find((x) => x.key === key);
       if (!it) return;
@@ -94,39 +129,7 @@ export function createUploadQueue(onEvent: (e: UploadEvent) => void, deps: Parti
           remove(key);
           onEvent({ type: "accepted", doc });
         })
-        .catch((err: unknown) => {
-          const code = err instanceof ApiError ? err.code : "NETWORK";
-          const cur = get().items.find((x) => x.key === key) ?? it;
-          if (code === "ABORTED") return;
-          if (code === "NETWORK") {
-            if (cur.attempts >= RETRY_DELAYS_MS.length) {
-              fail(cur, "NETWORK");
-            } else {
-              patch(key, { state: "PAUSED", attempts: cur.attempts + 1 });
-              d.schedule(() => {
-                const now = get().items.find((x) => x.key === key);
-                if (now?.state === "PAUSED") {
-                  patch(key, { state: "QUEUED" });
-                  pump();
-                }
-              }, RETRY_DELAYS_MS[cur.attempts]);
-            }
-          } else if (code === "DUPLICATE_DOCUMENT" && err instanceof ApiError) {
-            patch(key, {
-              state: "DUPLICATE",
-              duplicateOf: {
-                existingId: String(err.problem.existingId ?? ""),
-                uploadedAt: String(err.problem.uploadedAt ?? ""),
-              },
-            });
-          } else {
-            const retryAfter = err instanceof ApiError ? Number(err.problem.retryAfter) || undefined : undefined;
-            if (code === "FILE_NOT_PDF" || code === "FILE_TOO_LARGE")
-              track("document_upload_failed", { reason: REASON[code] });
-            remove(key);
-            onEvent({ type: "rejected", fileName: it.file.name, code, retryAfter });
-          }
-        })
+        .catch((err: unknown) => onFailure(key, it, err))
         .finally(() => {
           handles.delete(key);
           pump();

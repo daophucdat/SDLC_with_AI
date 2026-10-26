@@ -7,30 +7,34 @@ export interface SseEvent {
   data: unknown;
 }
 
+function splitField(line: string): [string, string] {
+  const i = line.indexOf(":");
+  return i < 0 ? [line, ""] : [line.slice(0, i), line.slice(i + 1).replace(/^ /, "")];
+}
+
+/** One event block → event, or null for comment-only / malformed blocks (the stream continues). */
+function parseBlock(block: string): SseEvent | null {
+  let event = "message";
+  const data: string[] = [];
+  for (const line of block.split("\n")) {
+    if (!line || line.startsWith(":")) continue;
+    const [field, value] = splitField(line);
+    if (field === "event") event = value;
+    else if (field === "data") data.push(value);
+  }
+  if (!data.length) return null;
+  try {
+    return { event, data: JSON.parse(data.join("\n")) };
+  } catch {
+    return null;
+  }
+}
+
 /** Parses complete events out of `buffer`; returns them and the unfinished tail. */
 export function parseSse(buffer: string): { events: SseEvent[]; rest: string } {
-  const normalised = buffer.replace(/\r\n/g, "\n");
-  const blocks = normalised.split("\n\n");
+  const blocks = buffer.replace(/\r\n/g, "\n").split("\n\n");
   const rest = blocks.pop() ?? "";
-  const events: SseEvent[] = [];
-  for (const block of blocks) {
-    let event = "message";
-    const data: string[] = [];
-    for (const line of block.split("\n")) {
-      if (!line || line.startsWith(":")) continue;
-      const i = line.indexOf(":");
-      const field = i < 0 ? line : line.slice(0, i);
-      const value = i < 0 ? "" : line.slice(i + 1).replace(/^ /, "");
-      if (field === "event") event = value;
-      else if (field === "data") data.push(value);
-    }
-    if (!data.length) continue;
-    try {
-      events.push({ event, data: JSON.parse(data.join("\n")) });
-    } catch {
-      /* a malformed event is skipped, the stream continues */
-    }
-  }
+  const events = blocks.map(parseBlock).filter((e): e is SseEvent => e !== null);
   return { events, rest };
 }
 

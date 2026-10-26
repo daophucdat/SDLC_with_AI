@@ -33,37 +33,35 @@ export type AnswerAction =
 
 export const FINAL: ReadonlySet<AnswerState> = new Set(["COMPLETED", "NOT_FOUND", "STOPPED", "FAILED", "INCOMPLETE"]);
 
+type Handler<T extends AnswerAction["type"]> = (turn: ChatTurn, action: Extract<AnswerAction, { type: T }>) => ChatTurn;
+
+const HANDLERS: { [T in AnswerAction["type"]]: Handler<T> } = {
+  meta: (turn, a) => ({
+    ...turn,
+    questionId: a.questionId,
+    answerId: a.answerId,
+    readyDocCount: a.readyDocCount,
+    processingDocCount: a.processingDocCount,
+  }),
+  // after "Dừng" the UI stops showing new text immediately (AC-310.1), even before `done STOPPED` arrives
+  delta: (turn, a) => (turn.stopRequested ? turn : { ...turn, state: "STREAMING", text: turn.text + a.text }),
+  // the final text is renumbered on the server (DQ-01): replace what was streamed
+  citations: (turn, a) => ({ ...turn, text: a.text, citations: a.items }),
+  done: (turn, a) =>
+    a.status === "NOT_FOUND"
+      ? { ...turn, state: "NOT_FOUND", reason: a.reason ?? null, replaced: turn.text.length > 0, text: "" }
+      : { ...turn, state: a.status },
+  error: (turn, a) => ({ ...turn, state: "FAILED", errorCode: a.code }),
+  stopRequested: (turn) => ({ ...turn, stopRequested: true }),
+  closed: (turn) => {
+    if (turn.stopRequested) return { ...turn, state: "STOPPED" };
+    return turn.text ? { ...turn, state: "INCOMPLETE" } : { ...turn, state: "FAILED", errorCode: "NETWORK" };
+  },
+};
+
 export function answerReducer(turn: ChatTurn, action: AnswerAction): ChatTurn {
   if (FINAL.has(turn.state)) return turn; // a final state never changes
-  switch (action.type) {
-    case "meta":
-      return {
-        ...turn,
-        questionId: action.questionId,
-        answerId: action.answerId,
-        readyDocCount: action.readyDocCount,
-        processingDocCount: action.processingDocCount,
-      };
-    case "delta":
-      // after "Dừng" the UI stops showing new text immediately (AC-310.1), even before `done STOPPED` arrives
-      if (turn.stopRequested) return turn;
-      return { ...turn, state: "STREAMING", text: turn.text + action.text };
-    case "citations":
-      // The final text is renumbered on the server (DQ-01): replace what was streamed.
-      return { ...turn, text: action.text, citations: action.items };
-    case "done":
-      if (action.status === "NOT_FOUND") {
-        return { ...turn, state: "NOT_FOUND", reason: action.reason ?? null, replaced: turn.text.length > 0, text: "" };
-      }
-      return { ...turn, state: action.status };
-    case "error":
-      return { ...turn, state: "FAILED", errorCode: action.code };
-    case "stopRequested":
-      return { ...turn, stopRequested: true };
-    case "closed":
-      if (turn.stopRequested) return { ...turn, state: "STOPPED" };
-      return { ...turn, state: turn.text ? "INCOMPLETE" : "FAILED", errorCode: turn.text ? undefined : "NETWORK" };
-  }
+  return (HANDLERS[action.type] as Handler<typeof action.type>)(turn, action as never);
 }
 
 /** Indices actually cited in the text, in order (the source list shows these). */

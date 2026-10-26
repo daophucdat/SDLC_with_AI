@@ -193,62 +193,58 @@ function FeedbackControl({ turn }: { turn: ChatTurn }) {
   );
 }
 
-export function AnswerCard({
-  turn,
-  readyDocCount,
-  streamRender,
-  onRephrase,
-  onUploadMore,
-  onAskAgain,
-}: AnswerCardProps) {
-  const n = turn.readyDocCount ?? readyDocCount;
-  const searching = turn.state === "SEARCHING" || (turn.state === "STREAMING" && !streamRender); // TQ-01 flag
-  if (searching) {
-    return (
-      <article className="answer" aria-label={vi.chat.answer} aria-busy="true">
-        <div className="answer-status">
-          <Spinner />
-          {fmt(vi.chat.searching, { n })}
-        </div>
-      </article>
-    );
-  }
-  if (turn.state === "NOT_FOUND") {
-    return (
-      <article className="answer not-found" aria-label={vi.chat.answer}>
-        <h3 style={{ fontSize: "var(--text-base)" }}>{fmt(vi.chat.notFoundTitle, { n })}</h3>
-        <p className="small">{turn.replaced ? vi.chat.notFoundReplaced : vi.chat.notFoundBody}</p>
-        <div className="row">
-          <Button onClick={() => onRephrase(turn.question)}>{vi.chat.rephrase}</Button>
-          <Button variant="ghost" onClick={onUploadMore}>
-            {vi.chat.uploadMore}
-          </Button>
-        </div>
-      </article>
-    );
-  }
-  if (turn.state === "FAILED") {
-    const code = turn.errorCode ?? "";
-    const specific = ["AI_BUSY", "RATE_LIMITED", "NO_READY_DOCUMENTS"].includes(code);
-    return (
-      <article className="answer failed" aria-label={vi.chat.answer}>
-        <p style={{ margin: "0 0 var(--space-3)" }}>
-          {specific ? fmt(vi.errors[code], { retryAfter: 30 }) : vi.chat.failed}
-        </p>
-        <Button variant="primary" onClick={() => onAskAgain(turn)}>
-          {vi.chat.retry}
-        </Button>
-      </article>
-    );
-  }
+function SearchingCard({ n }: { n: number }) {
   return (
-    <article className={`answer${turn.state === "INCOMPLETE" ? " incomplete" : ""}`} aria-label={vi.chat.answer}>
+    <article className="answer" aria-label={vi.chat.answer} aria-busy="true">
+      <div className="answer-status">
+        <Spinner />
+        {fmt(vi.chat.searching, { n })}
+      </div>
+    </article>
+  );
+}
+
+function NotFoundCard({ turn, n, onRephrase, onUploadMore }: { turn: ChatTurn; n: number } & CardActions) {
+  return (
+    <article className="answer not-found" aria-label={vi.chat.answer}>
+      <h3 style={{ fontSize: "var(--text-base)" }}>{fmt(vi.chat.notFoundTitle, { n })}</h3>
+      <p className="small">{turn.replaced ? vi.chat.notFoundReplaced : vi.chat.notFoundBody}</p>
+      <div className="row">
+        <Button onClick={() => onRephrase(turn.question)}>{vi.chat.rephrase}</Button>
+        <Button variant="ghost" onClick={onUploadMore}>
+          {vi.chat.uploadMore}
+        </Button>
+      </div>
+    </article>
+  );
+}
+
+const SPECIFIC_ERRORS = new Set(["AI_BUSY", "RATE_LIMITED", "NO_READY_DOCUMENTS"]);
+
+function FailedCard({ turn, onAskAgain }: { turn: ChatTurn } & Pick<CardActions, "onAskAgain">) {
+  const code = turn.errorCode ?? "";
+  return (
+    <article className="answer failed" aria-label={vi.chat.answer}>
+      <p style={{ margin: "0 0 var(--space-3)" }}>
+        {SPECIFIC_ERRORS.has(code) ? fmt(vi.errors[code], { retryAfter: 30 }) : vi.chat.failed}
+      </p>
+      <Button variant="primary" onClick={() => onAskAgain(turn)}>
+        {vi.chat.retry}
+      </Button>
+    </article>
+  );
+}
+
+function TextCard({ turn, onAskAgain }: { turn: ChatTurn } & Pick<CardActions, "onAskAgain">) {
+  const incomplete = turn.state === "INCOMPLETE";
+  return (
+    <article className={`answer${incomplete ? " incomplete" : ""}`} aria-label={vi.chat.answer}>
       {!!turn.processingDocCount && (
         <p className="xs muted">{fmt(vi.chat.processingNote, { n: turn.processingDocCount })}</p>
       )}
       <RichText turn={turn} streaming={turn.state === "STREAMING"} />
       {turn.state === "STOPPED" && <span className="answer-tag">{vi.chat.stopped}</span>}
-      {turn.state === "INCOMPLETE" && (
+      {incomplete && (
         <>
           <span className="answer-tag">{vi.chat.incomplete}</span>
           <div className="answer-actions">
@@ -264,4 +260,15 @@ export function AnswerCard({
       )}
     </article>
   );
+}
+
+type CardActions = Pick<AnswerCardProps, "onRephrase" | "onUploadMore" | "onAskAgain">;
+
+export function AnswerCard({ turn, readyDocCount, streamRender, ...actions }: AnswerCardProps) {
+  const n = turn.readyDocCount ?? readyDocCount;
+  const searching = turn.state === "SEARCHING" || (turn.state === "STREAMING" && !streamRender); // TQ-01 flag
+  if (searching) return <SearchingCard n={n} />;
+  if (turn.state === "NOT_FOUND") return <NotFoundCard turn={turn} n={n} {...actions} />;
+  if (turn.state === "FAILED") return <FailedCard turn={turn} onAskAgain={actions.onAskAgain} />;
+  return <TextCard turn={turn} onAskAgain={actions.onAskAgain} />;
 }

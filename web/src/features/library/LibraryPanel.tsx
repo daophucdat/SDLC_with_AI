@@ -3,7 +3,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type { QueryKey } from "@tanstack/react-query";
 import { useEffect, useRef, useState } from "react";
-import type { DragEvent } from "react";
+import type { DragEvent, ReactNode, RefObject } from "react";
 import { useStore } from "zustand";
 import { removeDocument, retryDocument } from "../../api-client/documents";
 import { ApiError } from "../../api-client/http";
@@ -14,7 +14,7 @@ import { useUiStore } from "../../state/uiStore";
 import { Button, ConfirmDialog, EmptyState, Input, Spinner, useToast } from "../../ui";
 import { DocumentItem, UploadingItem } from "./DocumentItem";
 import { createUploadQueue } from "./uploadQueue";
-import type { UploadEvent, UploadQueueStore } from "./uploadQueue";
+import type { UploadEvent, UploadItem, UploadQueueStore } from "./uploadQueue";
 import { FILTER_MIN, useDocuments } from "./useDocuments";
 
 export const FILTER_DEBOUNCE_MS = 250;
@@ -44,39 +44,22 @@ function useDebounced<T>(value: T, ms: number): T {
   return v;
 }
 
-export function LibraryPanel({ meId, expanded = false }: { meId: string; expanded?: boolean }) {
+/** Retry and remove (T204.4: optimistic — the row disappears at once, comes back if the server refuses). */
+function useDocumentMutations() {
   const toast = useToast();
   const qc = useQueryClient();
-  const [filterInput, setFilterInput] = useState("");
-  const filter = useDebounced(filterInput, FILTER_DEBOUNCE_MS); // T203.2
-  const [dragOver, setDragOver] = useState(false);
-  const [toRemove, setToRemove] = useState<DocumentDto | null>(null);
-  const fileInput = useRef<HTMLInputElement>(null);
   const markRemoved = useChatStore((s) => s.markRemoved);
-
-  const docs = useDocuments(filter);
-
-  const queue = useUploadQueue((e) => {
-    if (e.type === "accepted") qc.invalidateQueries({ queryKey: ["documents"] });
-    else toast(`${e.fileName}: ${errorText(e.code, e.retryAfter)}`, "error");
-  });
-  const uploads = useStore(queue, (s) => s.items);
-  const { add, retry, dismiss, confirmDuplicate } = queue.getState();
-  const duplicate = uploads.find((u) => u.state === "DUPLICATE");
-
-  const registerUpload = useUiStore((s) => s.registerUpload);
-  useEffect(() => registerUpload(() => fileInput.current?.click(), add), [registerUpload, add]);
+  const refresh = () => qc.invalidateQueries({ queryKey: ["documents"] });
+  const showError = (err: unknown) => toast(errorText(err instanceof ApiError ? err.code : "INTERNAL"), "error");
 
   const retryDoc = useMutation({
     mutationFn: (d: DocumentDto) => retryDocument(d.id),
     onError: (err) => {
-      if (!(err instanceof ApiError && err.code === "INVALID_STATE"))
-        toast(errorText(err instanceof ApiError ? err.code : "INTERNAL"), "error");
+      if (!(err instanceof ApiError && err.code === "INVALID_STATE")) showError(err);
     },
-    onSettled: () => qc.invalidateQueries({ queryKey: ["documents"] }),
+    onSettled: refresh,
   });
 
-  // T204.4: optimistic — the row disappears at once, comes back if the server refuses
   const remove = useMutation({
     mutationFn: (d: DocumentDto) => removeDocument(d.id),
     onMutate: async (d) => {
@@ -95,16 +78,178 @@ export function LibraryPanel({ meId, expanded = false }: { meId: string; expande
       ctx?.snapshot.forEach(([key, data]: [QueryKey, DocumentListDto | undefined]) =>
         qc.setQueryData<DocumentListDto | undefined>(key, data),
       );
-      toast(errorText(err instanceof ApiError ? err.code : "INTERNAL"), "error");
+      showError(err);
     },
-    onSettled: () => qc.invalidateQueries({ queryKey: ["documents"] }),
+    onSettled: refresh,
   });
+  return { retryDoc, remove };
+}
 
+function LibraryEmpty({ filtering, onClear }: { filtering: boolean; onClear: () => void }) {
+  return (
+    <li>
+      {filtering ? (
+        <EmptyState icon="🔍" title={vi.library.noMatch}>
+          <Button variant="secondary" onClick={onClear}>
+            {vi.removeDoc.clearFilter}
+          </Button>
+        </EmptyState>
+      ) : (
+        <EmptyState icon="📂" title={vi.library.emptyTitle}>
+          {vi.library.emptyBody}
+        </EmptyState>
+      )}
+    </li>
+  );
+}
+
+function DuplicateDialog({
+  item,
+  onConfirm,
+  onCancel,
+}: {
+  item: UploadItem | undefined;
+  onConfirm: (key: string) => void;
+  onCancel: (key: string) => void;
+}) {
+  const uploadedAt = item?.duplicateOf?.uploadedAt;
+  return (
+    <ConfirmDialog
+      open={!!item}
+      title={vi.library.duplicateTitle}
+      body={fmt(vi.errors.DUPLICATE_DOCUMENT, {
+        date: uploadedAt ? new Date(uploadedAt).toLocaleDateString("vi-VN") : "",
+      })}
+      confirmLabel={vi.library.uploadAnyway}
+      danger={false}
+      onConfirm={() => item && onConfirm(item.key)}
+      onCancel={() => item && onCancel(item.key)}
+    />
+  );
+}
+
+/** The upload queue of this panel, also offered to the chat's empty state via useUiStore (EC-01). */
+function useLibraryUploads(fileInput: RefObject<HTMLInputElement>) {
+  const toast = useToast();
+  const qc = useQueryClient();
+  const queue = useUploadQueue((e) => {
+    if (e.type === "accepted") qc.invalidateQueries({ queryKey: ["documents"] });
+    else toast(`${e.fileName}: ${errorText(e.code, e.retryAfter)}`, "error");
+  });
+  const uploads = useStore(queue, (s) => s.items);
+  const actions = queue.getState();
+  const registerUpload = useUiStore((s) => s.registerUpload);
+  useEffect(
+    () => registerUpload(() => fileInput.current?.click(), actions.add),
+    [registerUpload, actions.add, fileInput],
+  );
+  return { uploads, ...actions };
+}
+
+/** The document list doubles as the drop zone (US-201). */
+function DropList({
+  busy,
+  onFiles,
+  children,
+}: {
+  busy: boolean;
+  onFiles: (files: File[]) => void;
+  children: ReactNode;
+}) {
+  const [dragOver, setDragOver] = useState(false);
   const onDrop = (e: DragEvent) => {
     e.preventDefault();
     setDragOver(false);
-    if (e.dataTransfer.files.length) add(Array.from(e.dataTransfer.files));
+    if (e.dataTransfer.files.length) onFiles(Array.from(e.dataTransfer.files));
   };
+  return (
+    <ul
+      className={`doc-list${dragOver ? " drag-over" : ""}`}
+      aria-live="polite"
+      aria-busy={busy}
+      data-testid="dropzone"
+      onDragOver={(e) => {
+        e.preventDefault();
+        setDragOver(true);
+      }}
+      onDragLeave={() => setDragOver(false)}
+      onDrop={onDrop}
+    >
+      {children}
+      {busy && (
+        <li className="empty">
+          <Spinner label="Đang tải danh sách" />
+        </li>
+      )}
+    </ul>
+  );
+}
+
+function LibraryHeader(p: {
+  count: number | null;
+  fileInput: RefObject<HTMLInputElement>;
+  filter: string;
+  onFilter: (v: string) => void;
+  onFiles: (files: File[]) => void;
+}) {
+  return (
+    <div className="library-head">
+      <div className="library-title">
+        <h2>
+          {vi.library.title} {p.count !== null && <span className="muted small">({p.count})</span>}
+        </h2>
+        <Button
+          variant="primary"
+          aria-label="Tải tài liệu PDF"
+          title={vi.library.upload}
+          onClick={() => p.fileInput.current?.click()}
+        >
+          <span aria-hidden="true">＋</span>
+          <span className="upload-label">{vi.library.upload}</span>
+        </Button>
+        <input
+          ref={p.fileInput}
+          type="file"
+          accept=".pdf,application/pdf"
+          multiple
+          className="sr-only"
+          data-testid="file-input"
+          tabIndex={-1}
+          aria-hidden="true"
+          onChange={(e) => {
+            if (e.target.files?.length) p.onFiles(Array.from(e.target.files));
+            e.target.value = "";
+          }}
+        />
+      </div>
+      <div className="field">
+        <label htmlFor="doc-filter" className="sr-only">
+          Lọc theo tên
+        </label>
+        <Input
+          id="doc-filter"
+          type="search"
+          title={vi.library.filter}
+          placeholder={`🔍 ${vi.library.filter}`}
+          value={p.filter}
+          onChange={(e) => p.onFilter(e.target.value)}
+        />
+      </div>
+    </div>
+  );
+}
+
+export function LibraryPanel({ meId, expanded = false }: { meId: string; expanded?: boolean }) {
+  const [filterInput, setFilterInput] = useState("");
+  const filter = useDebounced(filterInput, FILTER_DEBOUNCE_MS); // T203.2
+  const [toRemove, setToRemove] = useState<DocumentDto | null>(null);
+  const fileInput = useRef<HTMLInputElement>(null);
+  const docs = useDocuments(filter);
+
+  const { uploads, add, retry, dismiss, confirmDuplicate } = useLibraryUploads(fileInput);
+  const duplicate = uploads.find((u) => u.state === "DUPLICATE");
+
+  const { retryDoc, remove } = useDocumentMutations();
 
   const items = docs.data?.items ?? [];
   const visibleUploads = uploads.filter((u) => u.state !== "DUPLICATE");
@@ -113,61 +258,14 @@ export function LibraryPanel({ meId, expanded = false }: { meId: string; expande
 
   return (
     <aside className={`library${expanded ? " expanded" : ""}`} id="library" aria-label={vi.library.title}>
-      <div className="library-head">
-        <div className="library-title">
-          <h2>
-            {vi.library.title} {docs.data && !filtering && <span className="muted small">({items.length})</span>}
-          </h2>
-          <Button
-            variant="primary"
-            aria-label="Tải tài liệu PDF"
-            title={vi.library.upload}
-            onClick={() => fileInput.current?.click()}
-          >
-            <span aria-hidden="true">＋</span>
-            <span className="upload-label">{vi.library.upload}</span>
-          </Button>
-          <input
-            ref={fileInput}
-            type="file"
-            accept=".pdf,application/pdf"
-            multiple
-            className="sr-only"
-            data-testid="file-input"
-            tabIndex={-1}
-            aria-hidden="true"
-            onChange={(e) => {
-              if (e.target.files?.length) add(Array.from(e.target.files));
-              e.target.value = "";
-            }}
-          />
-        </div>
-        <div className="field">
-          <label htmlFor="doc-filter" className="sr-only">
-            Lọc theo tên
-          </label>
-          <Input
-            id="doc-filter"
-            type="search"
-            title={vi.library.filter}
-            placeholder={`🔍 ${vi.library.filter}`}
-            value={filterInput}
-            onChange={(e) => setFilterInput(e.target.value)}
-          />
-        </div>
-      </div>
-      <ul
-        className={`doc-list${dragOver ? " drag-over" : ""}`}
-        aria-live="polite"
-        aria-busy={docs.isPending}
-        data-testid="dropzone"
-        onDragOver={(e) => {
-          e.preventDefault();
-          setDragOver(true);
-        }}
-        onDragLeave={() => setDragOver(false)}
-        onDrop={onDrop}
-      >
+      <LibraryHeader
+        count={docs.data && !filtering ? items.length : null}
+        fileInput={fileInput}
+        filter={filterInput}
+        onFilter={setFilterInput}
+        onFiles={add}
+      />
+      <DropList busy={docs.isPending} onFiles={add}>
         {visibleUploads.map((u) => (
           <UploadingItem key={u.key} item={u} onRetry={retry} onDismiss={dismiss} />
         ))}
@@ -180,41 +278,10 @@ export function LibraryPanel({ meId, expanded = false }: { meId: string; expande
             onRemove={(doc) => setToRemove(doc)}
           />
         ))}
-        {docs.isPending && (
-          <li className="empty">
-            <Spinner label="Đang tải danh sách" />
-          </li>
-        )}
-        {isEmpty && (
-          <li>
-            {filtering ? (
-              <EmptyState icon="🔍" title={vi.library.noMatch}>
-                <Button variant="secondary" onClick={() => setFilterInput("")}>
-                  {vi.removeDoc.clearFilter}
-                </Button>
-              </EmptyState>
-            ) : (
-              <EmptyState icon="📂" title={vi.library.emptyTitle}>
-                {vi.library.emptyBody}
-              </EmptyState>
-            )}
-          </li>
-        )}
-      </ul>
+        {isEmpty && <LibraryEmpty filtering={filtering} onClear={() => setFilterInput("")} />}
+      </DropList>
       <div className="library-foot">{vi.library.foot}</div>
-      <ConfirmDialog
-        open={!!duplicate}
-        title={vi.library.duplicateTitle}
-        body={fmt(vi.errors.DUPLICATE_DOCUMENT, {
-          date: duplicate?.duplicateOf?.uploadedAt
-            ? new Date(duplicate.duplicateOf.uploadedAt).toLocaleDateString("vi-VN")
-            : "",
-        })}
-        confirmLabel={vi.library.uploadAnyway}
-        danger={false}
-        onConfirm={() => duplicate && confirmDuplicate(duplicate.key)}
-        onCancel={() => duplicate && dismiss(duplicate.key)}
-      />
+      <DuplicateDialog item={duplicate} onConfirm={confirmDuplicate} onCancel={dismiss} />
       <ConfirmDialog
         open={!!toRemove}
         title={vi.removeDoc.title}

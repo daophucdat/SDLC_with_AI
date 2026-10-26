@@ -13,6 +13,7 @@ import { LibraryPanel } from "../features/library/LibraryPanel";
 import { useDocuments } from "../features/library/useDocuments";
 import { fmt, vi } from "../i18n/vi";
 import { useChatStore } from "../state/chatStore";
+import type { SourceRef } from "../state/chatStore";
 import { useUiStore } from "../state/uiStore";
 import { AppShell, Button, GlobalBanner, Spinner, useToast } from "../ui";
 
@@ -31,6 +32,115 @@ function useOnline(): boolean {
     };
   }, []);
   return online;
+}
+
+/** US-103: a 401 inside the workspace shows a banner instead of navigating away (the draft stays in the composer). */
+function useSessionExpiry(setSessionExpired: (v: boolean) => void): void {
+  useEffect(() => {
+    setAuthRequiredHandler(() => setSessionExpired(true));
+    return () => setAuthRequiredHandler(null);
+  }, [setSessionExpired]);
+}
+
+/** US-308: restore the session's conversation after a reload. */
+function useHistoryRestore(enabled: boolean): void {
+  useEffect(() => {
+    const { conversationId, turns, restore, setConversation } = useChatStore.getState();
+    if (!enabled || !conversationId || turns.length) return;
+    getHistory(conversationId)
+      .then(restore)
+      .catch(() => setConversation(null));
+  }, [enabled]);
+}
+
+/** T305.4: #src=<docId>:<page> deep link. */
+function useSourceDeepLink(): void {
+  useEffect(() => {
+    const m = /^#src=([0-9a-f-]{36}):(\d+)$/i.exec(window.location.hash);
+    if (!m || useChatStore.getState().source) return;
+    const ref: SourceRef = { turnKey: "", index: 0, documentId: m[1], fileName: "", page: Number(m[2]), excerpt: "" };
+    useChatStore.getState().openSource(ref);
+  }, []);
+}
+
+/** REL-04: the outage banner appears after an AI_UNAVAILABLE answer and goes away with the next good one. */
+function useAiAvailability(turns: ChatTurn[], setAiAvailable: (v: boolean) => void): void {
+  useEffect(() => {
+    const last = turns[turns.length - 1];
+    if (last?.state === "FAILED" && last.errorCode === "AI_UNAVAILABLE") setAiAvailable(false);
+    if (last?.state === "COMPLETED" || last?.state === "NOT_FOUND") setAiAvailable(true);
+  }, [turns, setAiAvailable]);
+}
+
+/** Why the question box is disabled, in priority order (AC-301.5, EC-06, EC-17, REL-03), or null. */
+export function composerDisabledReason(s: {
+  sessionExpired: boolean;
+  qaOff: boolean;
+  online: boolean;
+  readyCount: number;
+  docsPending: boolean;
+}): string | null {
+  if (s.sessionExpired) return vi.banners.session;
+  if (s.qaOff) return vi.chat.disabledAi;
+  if (!s.online) return vi.chat.disabledOffline;
+  if (!s.readyCount && !s.docsPending) return vi.chat.disabledNoDocs;
+  return null;
+}
+
+function WorkspaceBanners(p: { sessionExpired: boolean; online: boolean; qaOff: boolean; aiAvailable: boolean }) {
+  const setAiAvailable = useUiStore((s) => s.setAiAvailable);
+  return (
+    <>
+      {p.sessionExpired && (
+        <GlobalBanner
+          tone="info"
+          action={
+            <Button variant="primary" onClick={() => nav.assign(loginUrl())}>
+              {vi.banners.relogin}
+            </Button>
+          }
+        >
+          {vi.banners.session}
+        </GlobalBanner>
+      )}
+      {!p.online && <GlobalBanner tone="warning">{vi.banners.offline}</GlobalBanner>}
+      {p.qaOff && <GlobalBanner tone="warning">{vi.banners.ai}</GlobalBanner>}
+      {!p.aiAvailable && !p.qaOff && (
+        <GlobalBanner
+          tone="warning"
+          action={
+            <Button variant="secondary" onClick={() => setAiAvailable(true)}>
+              {vi.chat.retry}
+            </Button>
+          }
+        >
+          {vi.banners.ai}
+        </GlobalBanner>
+      )}
+    </>
+  );
+}
+
+function SourceSlot({ source }: { source: SourceRef }) {
+  return (
+    <Suspense
+      fallback={
+        <aside className="source-panel" aria-label={vi.source.label}>
+          <div className="source-status">
+            <Spinner label={vi.source.loading} />
+          </div>
+        </aside>
+      }
+    >
+      <SourcePanel source={source} />
+    </Suspense>
+  );
+}
+
+async function logout() {
+  await api("/auth/logout", { method: "POST" }).catch(() => undefined);
+  useChatStore.getState().reset();
+  window.location.assign("/login");
 }
 
 export function WorkspacePage() {
@@ -56,52 +166,21 @@ export function WorkspacePage() {
   const all = docs.data?.items ?? [];
   const readyCount = all.filter((d) => d.status === "READY").length;
 
-  // US-103: a 401 inside the workspace shows a banner instead of navigating away (the draft stays in the composer)
-  useEffect(() => {
-    setAuthRequiredHandler(() => setSessionExpired(true));
-    return () => setAuthRequiredHandler(null);
-  }, [setSessionExpired]);
-
-  // US-308: restore the session's conversation after a reload
-  useEffect(() => {
-    const { conversationId, turns: current, restore, setConversation } = useChatStore.getState();
-    if (!flags.has("history") || !conversationId || current.length) return;
-    getHistory(conversationId)
-      .then(restore)
-      .catch(() => setConversation(null));
-  }, [flags]);
-
-  // #src=<docId>:<page> deep link (T305.4)
-  useEffect(() => {
-    const m = /^#src=([0-9a-f-]{36}):(\d+)$/i.exec(window.location.hash);
-    if (m && !useChatStore.getState().source) {
-      useChatStore
-        .getState()
-        .openSource({ turnKey: "", index: 0, documentId: m[1], fileName: "", page: Number(m[2]), excerpt: "" });
-    }
-  }, []);
-
-  // AI outage banner (REL-04): shown after an AI_UNAVAILABLE answer, cleared by the next successful one
-  useEffect(() => {
-    const last = turns[turns.length - 1];
-    if (!last) return;
-    if (last.state === "FAILED" && last.errorCode === "AI_UNAVAILABLE") setAiAvailable(false);
-    if (last.state === "COMPLETED" || last.state === "NOT_FOUND") setAiAvailable(true);
-  }, [turns, setAiAvailable]);
+  useSessionExpiry(setSessionExpired);
+  useHistoryRestore(flags.has("history"));
+  useSourceDeepLink();
+  useAiAvailability(turns, setAiAvailable);
 
   const { ask, stop } = useAsk(setAnnouncement);
   const streamingTurn = turns.find((t) => t.state === "SEARCHING" || t.state === "STREAMING");
-
   const qaOff = flags.has("qa_off"); // REL-03 kill switch
-  const disabledReason = sessionExpired
-    ? vi.banners.session
-    : qaOff
-      ? vi.chat.disabledAi
-      : !online
-        ? vi.chat.disabledOffline
-        : !readyCount && !docs.isPending
-          ? vi.chat.disabledNoDocs
-          : null;
+  const disabledReason = composerDisabledReason({
+    sessionExpired,
+    qaOff,
+    online,
+    readyCount,
+    docsPending: docs.isPending,
+  });
 
   const submit = useCallback(
     (text: string, opts: { isSuggested?: boolean; followUp?: boolean } = {}) => {
@@ -121,68 +200,19 @@ export function WorkspacePage() {
     composer.current?.focus(); // T310.3
   };
 
-  const logout = async () => {
-    await api("/auth/logout", { method: "POST" }).catch(() => undefined);
-    useChatStore.getState().reset();
-    window.location.assign("/login");
-  };
-
   const last = turns[turns.length - 1];
-  const followUpAvailable = flags.has("followup") && !!last && last.state === "COMPLETED";
-
-  const banners = (
-    <>
-      {sessionExpired && (
-        <GlobalBanner
-          tone="info"
-          action={
-            <Button variant="primary" onClick={() => nav.assign(loginUrl())}>
-              {vi.banners.relogin}
-            </Button>
-          }
-        >
-          {vi.banners.session}
-        </GlobalBanner>
-      )}
-      {!online && <GlobalBanner tone="warning">{vi.banners.offline}</GlobalBanner>}
-      {qaOff && <GlobalBanner tone="warning">{vi.banners.ai}</GlobalBanner>}
-      {!aiAvailable && !qaOff && (
-        <GlobalBanner
-          tone="warning"
-          action={
-            <Button variant="secondary" onClick={() => setAiAvailable(true)}>
-              {vi.chat.retry}
-            </Button>
-          }
-        >
-          {vi.banners.ai}
-        </GlobalBanner>
-      )}
-    </>
-  );
+  const followUpAvailable = flags.has("followup") && last?.state === "COMPLETED";
 
   return (
     <AppShell
       me={me}
-      banners={banners}
+      banners={
+        <WorkspaceBanners sessionExpired={sessionExpired} online={online} qaOff={qaOff} aiAvailable={aiAvailable} />
+      }
       library={<LibraryPanel meId={me.id} expanded={libraryOpen} />}
       libraryOpen={libraryOpen}
       onToggleLibrary={() => setLibraryOpen((o) => !o)}
-      source={
-        source && (
-          <Suspense
-            fallback={
-              <aside className="source-panel" aria-label={vi.source.label}>
-                <div className="source-status">
-                  <Spinner label={vi.source.loading} />
-                </div>
-              </aside>
-            }
-          >
-            <SourcePanel source={source} />
-          </Suspense>
-        )
-      }
+      source={source && <SourceSlot source={source} />}
       onLogout={logout}
     >
       <ChatThread

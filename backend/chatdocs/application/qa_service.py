@@ -30,7 +30,7 @@ from chatdocs.domain.errors import (
 from chatdocs.domain.ids import uuid7
 from chatdocs.domain.qa import citation_policy
 from chatdocs.domain.qa.citation_policy import Citation
-from chatdocs.domain.qa.prompt import build_search_query, build_v1
+from chatdocs.domain.qa.prompt import Prompt, build_search_query, build_v1
 from chatdocs.domain.qa.question import AnswerStatus, Language, NotFoundReason, Question, Turn
 from chatdocs.platform import metrics
 from chatdocs.platform.circuit_breaker import CircuitBreaker, CircuitOpen, CircuitState
@@ -199,7 +199,25 @@ class QuestionAnsweringService:
             return
 
         prompt = build_v1(found.chunks, text, language, docs, context_tokens=self.cfg.context_tokens, history=history)
-        buf, released = "", False
+        hold = HoldBack()
+        async for piece in self._generate(prompt, cancel, out, t0, hold):
+            yield piece
+        if out.status is AnswerStatus.FAILED:
+            return
+        if cancel.is_set():
+            out.status, out.text = AnswerStatus.STOPPED, hold.buf
+            return
+        with span("citations.validate", chunks=len(prompt.chunks)):
+            result = citation_policy.validate(hold.buf, prompt.chunks, docs)  # ALG-3 → US-303
+        if result.not_found:
+            out.status, out.reason = AnswerStatus.NOT_FOUND, result.not_found
+            return
+        out.status, out.text, out.citations = AnswerStatus.COMPLETED, result.text, result.citations
+
+    async def _generate(
+        self, prompt: Prompt, cancel: asyncio.Event, out: PipelineOutcome, t0: float, hold: HoldBack
+    ) -> AsyncIterator[str]:
+        """Calls the LLM through the circuit breaker; failures end up in `out` (status FAILED + error code)."""
         try:
             self._gate.breaker.before_call()
         except CircuitOpen:
@@ -211,38 +229,25 @@ class QuestionAnsweringService:
                 async for piece in self._llm.stream(prompt, cancel, out.stats):
                     if cancel.is_set():
                         break
-                    if out.first_token_ms is None:
-                        out.first_token_ms = _ms_since(t0)
-                        metrics.QA_FIRST_TOKEN.observe(out.first_token_ms / 1000)
-                    buf += piece
+                    _mark_first_token(out, t0)
+                    released = hold.feed(piece)
                     if released:
-                        yield piece
-                    elif len(buf) >= HOLD_BACK_CHARS and not citation_policy.could_be_not_found(buf):
-                        released = True
-                        yield buf
+                        yield released
             ok = True
         except GenerationTimeout:
             out.status, out.error_code = AnswerStatus.FAILED, "AI_TIMEOUT"
-            return
         except GenerationUnavailable:
             out.status, out.error_code = AnswerStatus.FAILED, "AI_UNAVAILABLE"
-            return
         finally:
-            self._gate.breaker.record(ok or cancel.is_set())
-            metrics.LLM_CIRCUIT.set(metrics.CIRCUIT_VALUE[self._gate.breaker.state.value])
-            metrics.LLM_REQUESTS.labels("ok" if ok else (out.error_code or "error")).inc()
-            metrics.LLM_TOKENS.labels("in").inc(out.stats.input_tokens)
-            metrics.LLM_TOKENS.labels("out").inc(out.stats.output_tokens)
+            self._record_llm_call(healthy=ok or cancel.is_set(), ok=ok, out=out)
 
-        if cancel.is_set():
-            out.status, out.text = AnswerStatus.STOPPED, buf
-            return
-        with span("citations.validate", chunks=len(prompt.chunks)):
-            result = citation_policy.validate(buf, prompt.chunks, docs)  # ALG-3 → US-303
-        if result.not_found:
-            out.status, out.reason = AnswerStatus.NOT_FOUND, result.not_found
-            return
-        out.status, out.text, out.citations = AnswerStatus.COMPLETED, result.text, result.citations
+    def _record_llm_call(self, *, healthy: bool, ok: bool, out: PipelineOutcome) -> None:
+        # A user pressing "Dừng" is not a provider failure, so it counts as healthy for the breaker.
+        self._gate.breaker.record(healthy)
+        metrics.LLM_CIRCUIT.set(metrics.CIRCUIT_VALUE[self._gate.breaker.state.value])
+        metrics.LLM_REQUESTS.labels("ok" if ok else (out.error_code or "error")).inc()
+        metrics.LLM_TOKENS.labels("in").inc(out.stats.input_tokens)
+        metrics.LLM_TOKENS.labels("out").inc(out.stats.output_tokens)
 
     async def stop(self, auth: AuthContext, answer_id: UUID) -> None:
         """US-310. Sets the local flag, or tells the replica that runs the stream (T310.1)."""
@@ -301,6 +306,29 @@ class QuestionAnsweringService:
 
 def _ms_since(t0: float) -> int:
     return int((time.perf_counter() - t0) * 1000)
+
+
+def _mark_first_token(out: PipelineOutcome, t0: float) -> None:
+    if out.first_token_ms is None:
+        out.first_token_ms = _ms_since(t0)
+        metrics.QA_FIRST_TOKEN.observe(out.first_token_ms / 1000)
+
+
+class HoldBack:
+    """§0.5 rule 3: the first HOLD_BACK_CHARS are held until they cannot be the NOT_FOUND token any more."""
+
+    def __init__(self) -> None:
+        self.buf, self.released = "", False
+
+    def feed(self, piece: str) -> str | None:
+        """Returns the text to emit now (None while holding back)."""
+        self.buf += piece
+        if self.released:
+            return piece
+        if len(self.buf) >= HOLD_BACK_CHARS and not citation_policy.could_be_not_found(self.buf):
+            self.released = True
+            return self.buf
+        return None
 
 
 class AskHandle:
