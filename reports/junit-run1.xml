@@ -1,0 +1,199 @@
+<testsuites id="" name="" tests="19" failures="0" skipped="0" errors="0" time="109.541257">
+<testsuite name="tc-us201.spec.ts" timestamp="2026-10-26T14:24:22.892Z" hostname="chromium" tests="12" failures="0" skipped="0" time="77.699" errors="0">
+<testcase name="TC-201-01 [AC-201.1][H] chọn 1 PDF bằng nút Tải tài liệu → xuất hiện, Sẵn sàng, 3 trang" classname="tc-us201.spec.ts" time="7.814">
+<system-out>
+<![CDATA[
+[[ATTACHMENT|..\e2e\test-results\tc-us201-TC-201-01-AC-201-1-H-chọn-1-PDF-bằng-nút-Tải-tài-liệu-→-xuất-hiện-Sẵn-sàng-3-trang-chromium\test-finished-1.png]]
+
+[[ATTACHMENT|..\e2e\test-results\tc-us201-TC-201-01-AC-201-1-H-chọn-1-PDF-bằng-nút-Tải-tài-liệu-→-xuất-hiện-Sẵn-sàng-3-trang-chromium\trace.zip]]
+]]>
+</system-out>
+</testcase>
+<testcase name="TC-201-02 [AC-201.1][V] kéo-thả file tên tiếng Việt có dấu → tên giữ nguyên, Sẵn sàng" classname="tc-us201.spec.ts" time="6.519">
+<system-out>
+<![CDATA[
+[[ATTACHMENT|..\e2e\test-results\tc-us201-TC-201-02-AC-201-1-V-kéo-thả-file-tên-tiếng-Việt-có-dấu-→-tên-giữ-nguyên-Sẵn-sàng-chromium\test-finished-1.png]]
+
+[[ATTACHMENT|..\e2e\test-results\tc-us201-TC-201-02-AC-201-1-V-kéo-thả-file-tên-tiếng-Việt-có-dấu-→-tên-giữ-nguyên-Sẵn-sàng-chromium\trace.zip]]
+]]>
+</system-out>
+</testcase>
+<testcase name="TC-201-03 TC-201-04 [AC-201.1][B][P] PDF 49,5 MB: thấy % tiến độ tăng dần; Sẵn sàng ≤ 300 s" classname="tc-us201.spec.ts" time="7.468">
+<properties>
+<property name="TC-201-04 measured" value="5.0 s to READY">
+</property>
+</properties>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|..\e2e\test-results\tc-us201-TC-201-03-TC-201-04-AC-201-1-B-P-PDF-49-5-MB-thấy-tiến-độ-tăng-dần-Sẵn-sàng-≤-300-s-chromium\test-finished-1.png]]
+
+[[ATTACHMENT|..\e2e\test-results\tc-us201-TC-201-03-TC-201-04-AC-201-1-B-P-PDF-49-5-MB-thấy-tiến-độ-tăng-dần-Sẵn-sàng-≤-300-s-chromium\trace.zip]]
+]]>
+</system-out>
+</testcase>
+<testcase name="TC-201-05 [AC-201.2][H] chọn 10 PDF cùng lúc → 10 dòng, tối đa 3 tải song song, cả 10 Sẵn sàng" classname="tc-us201.spec.ts" time="6.889">
+<properties>
+<property name="max uploads in flight" value="3">
+</property>
+</properties>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|..\e2e\test-results\tc-us201-TC-201-05-AC-201-2-H-chọn-10-PDF-cùng-lúc-→-10-dòng-tối-đa-3-tải-song-song-cả-10-Sẵn-sàng-chromium\test-finished-1.png]]
+
+[[ATTACHMENT|..\e2e\test-results\tc-us201-TC-201-05-AC-201-2-H-chọn-10-PDF-cùng-lúc-→-10-dòng-tối-đa-3-tải-song-song-cả-10-Sẵn-sàng-chromium\trace.zip]]
+]]>
+</system-out>
+</testcase>
+<testcase name="TC-201-06 [AC-201.2][V] 9 PDF hợp lệ + 1 PDF hỏng → 9 Sẵn sàng, 1 Lỗi có lý do, không ảnh hưởng nhau" classname="tc-us201.spec.ts" time="6.407">
+<system-out>
+<![CDATA[
+[[ATTACHMENT|..\e2e\test-results\tc-us201-TC-201-06-AC-201-2-V-9-PDF-hợp-lệ-1-P-740f1--9-Sẵn-sàng-1-Lỗi-có-lý-do-không-ảnh-hưởng-nhau-chromium\test-finished-1.png]]
+
+[[ATTACHMENT|..\e2e\test-results\tc-us201-TC-201-06-AC-201-2-V-9-PDF-hợp-lệ-1-P-740f1--9-Sẵn-sàng-1-Lỗi-có-lý-do-không-ảnh-hưởng-nhau-chromium\trace.zip]]
+]]>
+</system-out>
+</testcase>
+<testcase name="TC-201-07 [AC-201.3][N] ảnh .png → từ chối ở trình duyệt, không có request tải lên" classname="tc-us201.spec.ts" time="2.257">
+<system-out>
+<![CDATA[
+[[ATTACHMENT|..\e2e\test-results\tc-us201-TC-201-07-AC-201-3-N-ảnh-png-→-từ-chối-ở-trình-duyệt-không-có-request-tải-lên-chromium\test-finished-1.png]]
+
+[[ATTACHMENT|..\e2e\test-results\tc-us201-TC-201-07-AC-201-3-N-ảnh-png-→-từ-chối-ở-trình-duyệt-không-có-request-tải-lên-chromium\trace.zip]]
+]]>
+</system-out>
+</testcase>
+<testcase name="TC-201-08 [AC-201.3][B] PDF 50 MB + 1 KB → báo vượt 50 MB, không tải lên" classname="tc-us201.spec.ts" time="2.216">
+<system-out>
+<![CDATA[
+[[ATTACHMENT|..\e2e\test-results\tc-us201-TC-201-08-AC-201-3-B-PDF-50-MB-1-KB-→-báo-vượt-50-MB-không-tải-lên-chromium\test-finished-1.png]]
+
+[[ATTACHMENT|..\e2e\test-results\tc-us201-TC-201-08-AC-201-3-B-PDF-50-MB-1-KB-→-báo-vượt-50-MB-không-tải-lên-chromium\trace.zip]]
+]]>
+</system-out>
+</testcase>
+<testcase name="TC-201-09 [AC-201.3][N] file .doc đổi đuôi .pdf → máy chủ từ chối, không vào kho" classname="tc-us201.spec.ts" time="2.256">
+<system-out>
+<![CDATA[
+[[ATTACHMENT|..\e2e\test-results\tc-us201-TC-201-09-AC-201-3-N-file-doc-đổi-đuôi-pdf-→-máy-chủ-từ-chối-không-vào-kho-chromium\test-finished-1.png]]
+
+[[ATTACHMENT|..\e2e\test-results\tc-us201-TC-201-09-AC-201-3-N-file-doc-đổi-đuôi-pdf-→-máy-chủ-từ-chối-không-vào-kho-chromium\trace.zip]]
+]]>
+</system-out>
+</testcase>
+<testcase name="TC-201-10 [AC-201.3][N] PDF 0 byte → bị từ chối kèm lý do" classname="tc-us201.spec.ts" time="2.279">
+<system-out>
+<![CDATA[
+[[ATTACHMENT|..\e2e\test-results\tc-us201-TC-201-10-AC-201-3-N-PDF-0-byte-→-bị-từ-chối-kèm-lý-do-chromium\test-finished-1.png]]
+
+[[ATTACHMENT|..\e2e\test-results\tc-us201-TC-201-10-AC-201-3-N-PDF-0-byte-→-bị-từ-chối-kèm-lý-do-chromium\trace.zip]]
+]]>
+</system-out>
+</testcase>
+<testcase name="TC-201-11 [AC-201.3][V] lô lẫn hợp lệ / không hợp lệ → chỉ file hợp lệ được tải" classname="tc-us201.spec.ts" time="2.843">
+<system-out>
+<![CDATA[
+[[ATTACHMENT|..\e2e\test-results\tc-us201-TC-201-11-AC-201-3-V-lô-lẫn-hợp-lệ-không-hợp-lệ-→-chỉ-file-hợp-lệ-được-tải-chromium\test-finished-1.png]]
+
+[[ATTACHMENT|..\e2e\test-results\tc-us201-TC-201-11-AC-201-3-V-lô-lẫn-hợp-lệ-không-hợp-lệ-→-chỉ-file-hợp-lệ-được-tải-chromium\trace.zip]]
+]]>
+</system-out>
+</testcase>
+<testcase name="TC-201-12 [AC-201.4][R] mất mạng giữa lúc tải → tạm dừng → có mạng lại tự tải tiếp" classname="tc-us201.spec.ts" time="8.758">
+<system-out>
+<![CDATA[
+[[ATTACHMENT|..\e2e\test-results\tc-us201-TC-201-12-AC-201-4-R-mất-mạng-giữa-lúc-tải-→-tạm-dừng-→-có-mạng-lại-tự-tải-tiếp-chromium\test-finished-1.png]]
+
+[[ATTACHMENT|..\e2e\test-results\tc-us201-TC-201-12-AC-201-4-R-mất-mạng-giữa-lúc-tải-→-tạm-dừng-→-có-mạng-lại-tự-tải-tiếp-chromium\trace.zip]]
+]]>
+</system-out>
+</testcase>
+<testcase name="TC-201-13 [AC-201.4][R] mất mạng quá 3 lần thử → Tải lên thất bại + Thử lại → Sẵn sàng" classname="tc-us201.spec.ts" time="21.993">
+<properties>
+<property name="upload attempts while offline" value="4">
+</property>
+</properties>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|..\e2e\test-results\tc-us201-TC-201-13-AC-201-4-R-mất-mạng-quá-3-lần-thử-→-Tải-lên-thất-bại-Thử-lại-→-Sẵn-sàng-chromium\test-finished-1.png]]
+
+[[ATTACHMENT|..\e2e\test-results\tc-us201-TC-201-13-AC-201-4-R-mất-mạng-quá-3-lần-thử-→-Tải-lên-thất-bại-Thử-lại-→-Sẵn-sàng-chromium\trace.zip]]
+]]>
+</system-out>
+</testcase>
+</testsuite>
+<testsuite name="tc-us303.spec.ts" timestamp="2026-10-26T14:24:22.892Z" hostname="chromium" tests="7" failures="0" skipped="0" time="24.129" errors="0">
+<testcase name="TC-303-01 TC-303-10 [AC-303.1][H][P] mỗi đoạn có trích dẫn; mục Nguồn &apos;Tên — trang X&apos;; ≤ 30 s, phần đầu ≤ 5 s" classname="tc-us303.spec.ts" time="2.711">
+<properties>
+<property name="paragraphs" value="[{&quot;text&quot;:&quot;Theo tài liệu: Điều 5. &quot;,&quot;cited&quot;:true}]">
+</property>
+<property name="TC-303-10 measured" value="{&quot;event&quot;:&quot;done&quot;,&quot;status&quot;:&quot;COMPLETED&quot;,&quot;reason&quot;:null,&quot;latencyMs&quot;:94,&quot;firstTokenMs&quot;:31}">
+</property>
+</properties>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|..\e2e\test-results\tc-us303-TC-303-01-TC-303-10-AC-303-1-H-P-mỗi--9f015-n-mục-Nguồn-Tên-—-trang-X-≤-30-s-phần-đầu-≤-5-s-chromium\test-finished-1.png]]
+
+[[ATTACHMENT|..\e2e\test-results\tc-us303-TC-303-01-TC-303-10-AC-303-1-H-P-mỗi--9f015-n-mục-Nguồn-Tên-—-trang-X-≤-30-s-phần-đầu-≤-5-s-chromium\trace.zip]]
+]]>
+</system-out>
+</testcase>
+<testcase name="TC-303-02 [AC-303.1][V] câu cần 2 tài liệu → mỗi đoạn có trích dẫn, Nguồn có cả 2 tài liệu" classname="tc-us303.spec.ts" time="2.856">
+<system-out>
+<![CDATA[
+[[ATTACHMENT|..\e2e\test-results\tc-us303-TC-303-02-AC-303-1-V-câu-cần-2-tài-liệu-→-mỗi-đoạn-có-trích-dẫn-Nguồn-có-cả-2-tài-liệu-chromium\test-finished-1.png]]
+
+[[ATTACHMENT|..\e2e\test-results\tc-us303-TC-303-02-AC-303-1-V-câu-cần-2-tài-liệu-→-mỗi-đoạn-có-trích-dẫn-Nguồn-có-cả-2-tài-liệu-chromium\trace.zip]]
+]]>
+</system-out>
+</testcase>
+<testcase name="TC-303-03 [AC-303.1][V] câu hỏi tiếng Anh → trả lời tiếng Anh, vẫn đủ trích dẫn" classname="tc-us303.spec.ts" time="2.827">
+<system-out>
+<![CDATA[
+[[ATTACHMENT|..\e2e\test-results\tc-us303-TC-303-03-AC-303-1-V-câu-hỏi-tiếng-Anh-→-trả-lời-tiếng-Anh-vẫn-đủ-trích-dẫn-chromium\test-finished-1.png]]
+
+[[ATTACHMENT|..\e2e\test-results\tc-us303-TC-303-03-AC-303-1-V-câu-hỏi-tiếng-Anh-→-trả-lời-tiếng-Anh-vẫn-đủ-trích-dẫn-chromium\trace.zip]]
+]]>
+</system-out>
+</testcase>
+<testcase name="TC-303-04 [AC-303.2][H] mỗi chip mở đúng tài liệu, đúng trang, đoạn trích được tô sáng" classname="tc-us303.spec.ts" time="6.878">
+<system-out>
+<![CDATA[
+[[ATTACHMENT|..\e2e\test-results\tc-us303-TC-303-04-AC-303-2-H-mỗi-chip-mở-đúng-tài-liệu-đúng-trang-đoạn-trích-được-tô-sáng-chromium\test-finished-1.png]]
+
+[[ATTACHMENT|..\e2e\test-results\tc-us303-TC-303-04-AC-303-2-H-mỗi-chip-mở-đúng-tài-liệu-đúng-trang-đoạn-trích-được-tô-sáng-chromium\trace.zip]]
+]]>
+</system-out>
+</testcase>
+<testcase name="TC-303-06 [AC-303.3][N] LLM trả lời không có trích dẫn → &apos;không tìm thấy&apos;, không còn chữ của LLM" classname="tc-us303.spec.ts" time="2.944">
+<system-out>
+<![CDATA[
+[[ATTACHMENT|..\e2e\test-results\tc-us303-TC-303-06-AC-303-3-N-LLM-trả-lời-không-có-trích-dẫn-→-không-tìm-thấy-không-còn-chữ-của-LLM-chromium\test-finished-1.png]]
+
+[[ATTACHMENT|..\e2e\test-results\tc-us303-TC-303-06-AC-303-3-N-LLM-trả-lời-không-có-trích-dẫn-→-không-tìm-thấy-không-còn-chữ-của-LLM-chromium\trace.zip]]
+]]>
+</system-out>
+</testcase>
+<testcase name="TC-303-07 TC-303-08 [AC-303.3][N][R] trích dẫn số không tồn tại → &apos;không tìm thấy&apos;; câu sau vẫn bình thường" classname="tc-us303.spec.ts" time="3.209">
+<system-out>
+<![CDATA[
+[[ATTACHMENT|..\e2e\test-results\tc-us303-TC-303-07-TC-303-08-AC-303-3-N-R-tríc-8e003-ồn-tại-→-không-tìm-thấy-câu-sau-vẫn-bình-thường-chromium\test-finished-1.png]]
+
+[[ATTACHMENT|..\e2e\test-results\tc-us303-TC-303-07-TC-303-08-AC-303-3-N-R-tríc-8e003-ồn-tại-→-không-tìm-thấy-câu-sau-vẫn-bình-thường-chromium\trace.zip]]
+]]>
+</system-out>
+</testcase>
+<testcase name="TC-303-09 [AC-303.4][H] dữ liệu lưu: trang và đoạn trích lấy từ PDF, không lấy từ chữ LLM viết" classname="tc-us303.spec.ts" time="2.704">
+<properties>
+<property name="stored citation" value="{&quot;index&quot;:1,&quot;documentId&quot;:&quot;01a17899-3b4d-72d8-9833-4c754b14c938&quot;,&quot;fileName&quot;:&quot;HopDong_ABC.pdf&quot;,&quot;page&quot;:2,&quot;excerpt&quot;:&quot;Điều 5. Thanh toán: khách hàng thanh toán 30% giá trị hợp đồng khi ký và 70% khi\nnghiệm thu.&quot;,&quot;removed&quot;:false}">
+</property>
+</properties>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|..\e2e\test-results\tc-us303-TC-303-09-AC-303-4-H-dữ-liệu-lưu-trang-và-đoạn-trích-lấy-từ-PDF-không-lấy-từ-chữ-LLM-viết-chromium\test-finished-1.png]]
+
+[[ATTACHMENT|..\e2e\test-results\tc-us303-TC-303-09-AC-303-4-H-dữ-liệu-lưu-trang-và-đoạn-trích-lấy-từ-PDF-không-lấy-từ-chữ-LLM-viết-chromium\trace.zip]]
+]]>
+</system-out>
+</testcase>
+</testsuite>
+</testsuites>

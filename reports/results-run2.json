@@ -1,0 +1,941 @@
+{
+  "config": {
+    "configFile": "C:\\Users\\User\\SDLC_with_AI\\e2e\\playwright.config.ts",
+    "rootDir": "C:/Users/User/SDLC_with_AI/e2e/specs",
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "html",
+        {
+          "open": "never",
+          "outputFolder": "playwright-report"
+        }
+      ],
+      [
+        "junit",
+        {
+          "outputFile": "C:\\Users\\User\\SDLC_with_AI\\reports\\junit-run2.xml"
+        }
+      ],
+      [
+        "json",
+        {
+          "outputFile": "C:\\Users\\User\\SDLC_with_AI\\reports\\results-run2.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 15000
+    },
+    "quiet": false,
+    "projects": [
+      {
+        "outputDir": "C:/Users/User/SDLC_with_AI/e2e/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "id": "chromium",
+        "name": "chromium",
+        "testDir": "C:/Users/User/SDLC_with_AI/e2e/specs",
+        "testIgnore": [],
+        "testMatch": [
+          "/tc-.*\\.spec\\.ts/"
+        ],
+        "timeout": 360000
+      }
+    ],
+    "shard": null,
+    "updateSnapshots": "missing",
+    "version": "1.40.1",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "tc-us201.spec.ts",
+      "file": "tc-us201.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "TC-201-01 [AC-201.1][H] chọn 1 PDF bằng nút Tải tài liệu → xuất hiện, Sẵn sàng, 3 trang",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 360000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "status": "passed",
+                  "duration": 7689,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-26T14:26:37.667Z",
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\tc-us201-TC-201-01-AC-201-1-H-chọn-1-PDF-bằng-nút-Tải-tài-liệu-→-xuất-hiện-Sẵn-sàng-3-trang-chromium\\test-finished-1.png"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\tc-us201-TC-201-01-AC-201-1-H-chọn-1-PDF-bằng-nút-Tải-tài-liệu-→-xuất-hiện-Sẵn-sàng-3-trang-chromium\\trace.zip"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "616adbc933ccee1ef793-44b9b3398931add84b05",
+          "file": "tc-us201.spec.ts",
+          "line": 23,
+          "column": 5
+        },
+        {
+          "title": "TC-201-02 [AC-201.1][V] kéo-thả file tên tiếng Việt có dấu → tên giữ nguyên, Sẵn sàng",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 360000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "status": "passed",
+                  "duration": 6614,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-26T14:26:48.133Z",
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\tc-us201-TC-201-02-AC-201-1-V-kéo-thả-file-tên-tiếng-Việt-có-dấu-→-tên-giữ-nguyên-Sẵn-sàng-chromium\\test-finished-1.png"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\tc-us201-TC-201-02-AC-201-1-V-kéo-thả-file-tên-tiếng-Việt-có-dấu-→-tên-giữ-nguyên-Sẵn-sàng-chromium\\trace.zip"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "616adbc933ccee1ef793-da8da02ef5645556a135",
+          "file": "tc-us201.spec.ts",
+          "line": 32,
+          "column": 5
+        },
+        {
+          "title": "TC-201-03 TC-201-04 [AC-201.1][B][P] PDF 49,5 MB: thấy % tiến độ tăng dần; Sẵn sàng ≤ 300 s",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 360000,
+              "annotations": [
+                {
+                  "type": "TC-201-04 measured",
+                  "description": "5.0 s to READY"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "status": "passed",
+                  "duration": 7437,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-26T14:26:54.749Z",
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\tc-us201-TC-201-03-TC-201-04-AC-201-1-B-P-PDF-49-5-MB-thấy-tiến-độ-tăng-dần-Sẵn-sàng-≤-300-s-chromium\\test-finished-1.png"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\tc-us201-TC-201-03-TC-201-04-AC-201-1-B-P-PDF-49-5-MB-thấy-tiến-độ-tăng-dần-Sẵn-sàng-≤-300-s-chromium\\trace.zip"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "616adbc933ccee1ef793-864a83bbc6f53137518f",
+          "file": "tc-us201.spec.ts",
+          "line": 52,
+          "column": 5
+        },
+        {
+          "title": "TC-201-05 [AC-201.2][H] chọn 10 PDF cùng lúc → 10 dòng, tối đa 3 tải song song, cả 10 Sẵn sàng",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 360000,
+              "annotations": [
+                {
+                  "type": "max uploads in flight",
+                  "description": "3"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "status": "passed",
+                  "duration": 6777,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-26T14:27:02.188Z",
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\tc-us201-TC-201-05-AC-201-2-H-chọn-10-PDF-cùng-lúc-→-10-dòng-tối-đa-3-tải-song-song-cả-10-Sẵn-sàng-chromium\\test-finished-1.png"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\tc-us201-TC-201-05-AC-201-2-H-chọn-10-PDF-cùng-lúc-→-10-dòng-tối-đa-3-tải-song-song-cả-10-Sẵn-sàng-chromium\\trace.zip"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "616adbc933ccee1ef793-b6d7ccb4a96b062ee05f",
+          "file": "tc-us201.spec.ts",
+          "line": 83,
+          "column": 5
+        },
+        {
+          "title": "TC-201-06 [AC-201.2][V] 9 PDF hợp lệ + 1 PDF hỏng → 9 Sẵn sàng, 1 Lỗi có lý do, không ảnh hưởng nhau",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 360000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "status": "passed",
+                  "duration": 6258,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-26T14:27:08.967Z",
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\tc-us201-TC-201-06-AC-201-2-V-9-PDF-hợp-lệ-1-P-740f1--9-Sẵn-sàng-1-Lỗi-có-lý-do-không-ảnh-hưởng-nhau-chromium\\test-finished-1.png"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\tc-us201-TC-201-06-AC-201-2-V-9-PDF-hợp-lệ-1-P-740f1--9-Sẵn-sàng-1-Lỗi-có-lý-do-không-ảnh-hưởng-nhau-chromium\\trace.zip"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "616adbc933ccee1ef793-65c2f7ebc6761fa0fb48",
+          "file": "tc-us201.spec.ts",
+          "line": 101,
+          "column": 5
+        },
+        {
+          "title": "TC-201-07 [AC-201.3][N] ảnh .png → từ chối ở trình duyệt, không có request tải lên",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 360000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "status": "passed",
+                  "duration": 2195,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-26T14:27:15.226Z",
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\tc-us201-TC-201-07-AC-201-3-N-ảnh-png-→-từ-chối-ở-trình-duyệt-không-có-request-tải-lên-chromium\\test-finished-1.png"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\tc-us201-TC-201-07-AC-201-3-N-ảnh-png-→-từ-chối-ở-trình-duyệt-không-có-request-tải-lên-chromium\\trace.zip"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "616adbc933ccee1ef793-d44361f4c23ae12fe5bd",
+          "file": "tc-us201.spec.ts",
+          "line": 110,
+          "column": 5
+        },
+        {
+          "title": "TC-201-08 [AC-201.3][B] PDF 50 MB + 1 KB → báo vượt 50 MB, không tải lên",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 360000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "status": "passed",
+                  "duration": 2194,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-26T14:27:17.423Z",
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\tc-us201-TC-201-08-AC-201-3-B-PDF-50-MB-1-KB-→-báo-vượt-50-MB-không-tải-lên-chromium\\test-finished-1.png"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\tc-us201-TC-201-08-AC-201-3-B-PDF-50-MB-1-KB-→-báo-vượt-50-MB-không-tải-lên-chromium\\trace.zip"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "616adbc933ccee1ef793-94c1568146f90c232211",
+          "file": "tc-us201.spec.ts",
+          "line": 119,
+          "column": 5
+        },
+        {
+          "title": "TC-201-09 [AC-201.3][N] file .doc đổi đuôi .pdf → máy chủ từ chối, không vào kho",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 360000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "status": "passed",
+                  "duration": 2227,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-26T14:27:19.618Z",
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\tc-us201-TC-201-09-AC-201-3-N-file-doc-đổi-đuôi-pdf-→-máy-chủ-từ-chối-không-vào-kho-chromium\\test-finished-1.png"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\tc-us201-TC-201-09-AC-201-3-N-file-doc-đổi-đuôi-pdf-→-máy-chủ-từ-chối-không-vào-kho-chromium\\trace.zip"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "616adbc933ccee1ef793-30ea47fb13c62304a857",
+          "file": "tc-us201.spec.ts",
+          "line": 128,
+          "column": 5
+        },
+        {
+          "title": "TC-201-10 [AC-201.3][N] PDF 0 byte → bị từ chối kèm lý do",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 360000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "status": "passed",
+                  "duration": 2376,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-26T14:27:21.846Z",
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\tc-us201-TC-201-10-AC-201-3-N-PDF-0-byte-→-bị-từ-chối-kèm-lý-do-chromium\\test-finished-1.png"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\tc-us201-TC-201-10-AC-201-3-N-PDF-0-byte-→-bị-từ-chối-kèm-lý-do-chromium\\trace.zip"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "616adbc933ccee1ef793-9a53629e5148ac440e97",
+          "file": "tc-us201.spec.ts",
+          "line": 135,
+          "column": 5
+        },
+        {
+          "title": "TC-201-11 [AC-201.3][V] lô lẫn hợp lệ / không hợp lệ → chỉ file hợp lệ được tải",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 360000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "status": "passed",
+                  "duration": 2845,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-26T14:27:24.224Z",
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\tc-us201-TC-201-11-AC-201-3-V-lô-lẫn-hợp-lệ-không-hợp-lệ-→-chỉ-file-hợp-lệ-được-tải-chromium\\test-finished-1.png"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\tc-us201-TC-201-11-AC-201-3-V-lô-lẫn-hợp-lệ-không-hợp-lệ-→-chỉ-file-hợp-lệ-được-tải-chromium\\trace.zip"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "616adbc933ccee1ef793-e9d72e4b5d11673feeb4",
+          "file": "tc-us201.spec.ts",
+          "line": 142,
+          "column": 5
+        },
+        {
+          "title": "TC-201-12 [AC-201.4][R] mất mạng giữa lúc tải → tạm dừng → có mạng lại tự tải tiếp",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 360000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "status": "passed",
+                  "duration": 8518,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-26T14:27:27.071Z",
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\tc-us201-TC-201-12-AC-201-4-R-mất-mạng-giữa-lúc-tải-→-tạm-dừng-→-có-mạng-lại-tự-tải-tiếp-chromium\\test-finished-1.png"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\tc-us201-TC-201-12-AC-201-4-R-mất-mạng-giữa-lúc-tải-→-tạm-dừng-→-có-mạng-lại-tự-tải-tiếp-chromium\\trace.zip"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "616adbc933ccee1ef793-515303cdd19e29de478a",
+          "file": "tc-us201.spec.ts",
+          "line": 151,
+          "column": 5
+        },
+        {
+          "title": "TC-201-13 [AC-201.4][R] mất mạng quá 3 lần thử → Tải lên thất bại + Thử lại → Sẵn sàng",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 360000,
+              "annotations": [
+                {
+                  "type": "upload attempts while offline",
+                  "description": "4"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "status": "passed",
+                  "duration": 21830,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-26T14:27:35.590Z",
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\tc-us201-TC-201-13-AC-201-4-R-mất-mạng-quá-3-lần-thử-→-Tải-lên-thất-bại-Thử-lại-→-Sẵn-sàng-chromium\\test-finished-1.png"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\tc-us201-TC-201-13-AC-201-4-R-mất-mạng-quá-3-lần-thử-→-Tải-lên-thất-bại-Thử-lại-→-Sẵn-sàng-chromium\\trace.zip"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "616adbc933ccee1ef793-1cb35d342c6249ef3ba5",
+          "file": "tc-us201.spec.ts",
+          "line": 165,
+          "column": 5
+        }
+      ]
+    },
+    {
+      "title": "tc-us303.spec.ts",
+      "file": "tc-us303.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "TC-303-01 TC-303-10 [AC-303.1][H][P] mỗi đoạn có trích dẫn; mục Nguồn 'Tên — trang X'; ≤ 30 s, phần đầu ≤ 5 s",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 360000,
+              "annotations": [
+                {
+                  "type": "paragraphs",
+                  "description": "[{\"text\":\"Theo tài liệu: Điều 5. \",\"cited\":true}]"
+                },
+                {
+                  "type": "TC-303-10 measured",
+                  "description": "{\"event\":\"done\",\"status\":\"COMPLETED\",\"reason\":null,\"latencyMs\":89,\"firstTokenMs\":26}"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "status": "passed",
+                  "duration": 2646,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-26T14:27:57.433Z",
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\tc-us303-TC-303-01-TC-303-10-AC-303-1-H-P-mỗi--9f015-n-mục-Nguồn-Tên-—-trang-X-≤-30-s-phần-đầu-≤-5-s-chromium\\test-finished-1.png"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\tc-us303-TC-303-01-TC-303-10-AC-303-1-H-P-mỗi--9f015-n-mục-Nguồn-Tên-—-trang-X-≤-30-s-phần-đầu-≤-5-s-chromium\\trace.zip"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "274141ac42247cc7ea2e-066f5957a54b5249fd65",
+          "file": "tc-us303.spec.ts",
+          "line": 43,
+          "column": 5
+        },
+        {
+          "title": "TC-303-02 [AC-303.1][V] câu cần 2 tài liệu → mỗi đoạn có trích dẫn, Nguồn có cả 2 tài liệu",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 360000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "status": "passed",
+                  "duration": 2937,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-26T14:28:00.080Z",
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\tc-us303-TC-303-02-AC-303-1-V-câu-cần-2-tài-liệu-→-mỗi-đoạn-có-trích-dẫn-Nguồn-có-cả-2-tài-liệu-chromium\\test-finished-1.png"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\tc-us303-TC-303-02-AC-303-1-V-câu-cần-2-tài-liệu-→-mỗi-đoạn-có-trích-dẫn-Nguồn-có-cả-2-tài-liệu-chromium\\trace.zip"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "274141ac42247cc7ea2e-2f5950b2a4c51553bcc6",
+          "file": "tc-us303.spec.ts",
+          "line": 63,
+          "column": 5
+        },
+        {
+          "title": "TC-303-03 [AC-303.1][V] câu hỏi tiếng Anh → trả lời tiếng Anh, vẫn đủ trích dẫn",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 360000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "status": "passed",
+                  "duration": 2844,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-26T14:28:03.019Z",
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\tc-us303-TC-303-03-AC-303-1-V-câu-hỏi-tiếng-Anh-→-trả-lời-tiếng-Anh-vẫn-đủ-trích-dẫn-chromium\\test-finished-1.png"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\tc-us303-TC-303-03-AC-303-1-V-câu-hỏi-tiếng-Anh-→-trả-lời-tiếng-Anh-vẫn-đủ-trích-dẫn-chromium\\trace.zip"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "274141ac42247cc7ea2e-0a8a5a14a22133dee26e",
+          "file": "tc-us303.spec.ts",
+          "line": 73,
+          "column": 5
+        },
+        {
+          "title": "TC-303-04 [AC-303.2][H] mỗi chip mở đúng tài liệu, đúng trang, đoạn trích được tô sáng",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 360000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "status": "passed",
+                  "duration": 7418,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-26T14:28:05.864Z",
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\tc-us303-TC-303-04-AC-303-2-H-mỗi-chip-mở-đúng-tài-liệu-đúng-trang-đoạn-trích-được-tô-sáng-chromium\\test-finished-1.png"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\tc-us303-TC-303-04-AC-303-2-H-mỗi-chip-mở-đúng-tài-liệu-đúng-trang-đoạn-trích-được-tô-sáng-chromium\\trace.zip"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "274141ac42247cc7ea2e-18dfd363d0f51d408485",
+          "file": "tc-us303.spec.ts",
+          "line": 81,
+          "column": 5
+        },
+        {
+          "title": "TC-303-06 [AC-303.3][N] LLM trả lời không có trích dẫn → 'không tìm thấy', không còn chữ của LLM",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 360000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "status": "passed",
+                  "duration": 3169,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-26T14:28:13.284Z",
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\tc-us303-TC-303-06-AC-303-3-N-LLM-trả-lời-không-có-trích-dẫn-→-không-tìm-thấy-không-còn-chữ-của-LLM-chromium\\test-finished-1.png"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\tc-us303-TC-303-06-AC-303-3-N-LLM-trả-lời-không-có-trích-dẫn-→-không-tìm-thấy-không-còn-chữ-của-LLM-chromium\\trace.zip"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "274141ac42247cc7ea2e-055526e75161c1f9fad6",
+          "file": "tc-us303.spec.ts",
+          "line": 103,
+          "column": 5
+        },
+        {
+          "title": "TC-303-07 TC-303-08 [AC-303.3][N][R] trích dẫn số không tồn tại → 'không tìm thấy'; câu sau vẫn bình thường",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 360000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "status": "passed",
+                  "duration": 3061,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-26T14:28:16.454Z",
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\tc-us303-TC-303-07-TC-303-08-AC-303-3-N-R-tríc-8e003-ồn-tại-→-không-tìm-thấy-câu-sau-vẫn-bình-thường-chromium\\test-finished-1.png"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\tc-us303-TC-303-07-TC-303-08-AC-303-3-N-R-tríc-8e003-ồn-tại-→-không-tìm-thấy-câu-sau-vẫn-bình-thường-chromium\\trace.zip"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "274141ac42247cc7ea2e-b98557d835d1578d92e2",
+          "file": "tc-us303.spec.ts",
+          "line": 116,
+          "column": 5
+        },
+        {
+          "title": "TC-303-09 [AC-303.4][H] dữ liệu lưu: trang và đoạn trích lấy từ PDF, không lấy từ chữ LLM viết",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 360000,
+              "annotations": [
+                {
+                  "type": "stored citation",
+                  "description": "{\"index\":1,\"documentId\":\"01a1789b-4383-7460-ab9f-901f7d6c0923\",\"fileName\":\"HopDong_ABC.pdf\",\"page\":2,\"excerpt\":\"Điều 5. Thanh toán: khách hàng thanh toán 30% giá trị hợp đồng khi ký và 70% khi\\nnghiệm thu.\",\"removed\":false}"
+                }
+              ],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "status": "passed",
+                  "duration": 2653,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-26T14:28:19.516Z",
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\tc-us303-TC-303-09-AC-303-4-H-dữ-liệu-lưu-trang-và-đoạn-trích-lấy-từ-PDF-không-lấy-từ-chữ-LLM-viết-chromium\\test-finished-1.png"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\tc-us303-TC-303-09-AC-303-4-H-dữ-liệu-lưu-trang-và-đoạn-trích-lấy-từ-PDF-không-lấy-từ-chữ-LLM-viết-chromium\\trace.zip"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "274141ac42247cc7ea2e-2b1151d9c90042053c0a",
+          "file": "tc-us303.spec.ts",
+          "line": 132,
+          "column": 5
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-26T14:26:28.756Z",
+    "duration": 117828.81,
+    "expected": 19,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}
