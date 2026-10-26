@@ -25,8 +25,11 @@ export default defineConfig({
       include: ["src/**/*.{ts,tsx}"],
       exclude: ["src/**/*.test.{ts,tsx}", "src/test/**", "src/main.tsx", "src/vite-env.d.ts"],
       reporter: ["text-summary", "lcov"],
-      // Day 5 L0 gate: ≥ 70 % overall
-      thresholds: { lines: 70, statements: 70, branches: 70, functions: 70 },
+      // Day 5 L0 gate: ≥ 70 % overall (vitest 0.34 syntax: top-level keys, not `thresholds: {}`)
+      lines: 70,
+      statements: 70,
+      branches: 70,
+      functions: 70,
     },
   },
 });
