@@ -1,0 +1,17 @@
+{
+  "skill": "plan-tests",
+  "should_trigger": [
+    "Lập test case cho US-204 gỡ tài liệu",
+    "AC-303.2 test thế nào cho đủ?",
+    "Story US-301 cần những kịch bản kiểm thử nào? viết giúp test plan",
+    "Bổ sung TC biên và đường âm cho AC-201.1",
+    "QA sắp kiểm US-205, soạn bộ test case có kỳ vọng PASS/FAIL trước giúp tôi"
+  ],
+  "should_not_trigger": [
+    "Viết unit test pytest cho hàm precheck trong web/src/features/library/validation.ts",
+    "Review giúp diff của nhánh hiện tại so với origin/main",
+    "Chạy lại TC-201-05 và cho tôi ảnh chụp bằng chứng",
+    "Giải thích công thức RRF trong backend/chatdocs/application/retrieval_service.py",
+    "Job CI e2e-local đang đỏ, xem log và sửa giúp"
+  ]
+}

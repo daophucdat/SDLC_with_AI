@@ -1,0 +1,82 @@
+{
+  "summary": {
+    "skill": "plan-tests",
+    "recall": "5/5",
+    "false_triggers": "0/5",
+    "correct": 10
+  },
+  "rows": [
+    {
+      "prompt": "Lập test case cho US-204 gỡ tài liệu",
+      "skills": [
+        "plan-tests"
+      ],
+      "cost_usd": 0.1418,
+      "expected": true
+    },
+    {
+      "prompt": "AC-303.2 test thế nào cho đủ?",
+      "skills": [
+        "plan-tests"
+      ],
+      "cost_usd": 0.1449,
+      "expected": true
+    },
+    {
+      "prompt": "Story US-301 cần những kịch bản kiểm thử nào? viết giúp test plan",
+      "skills": [
+        "plan-tests"
+      ],
+      "cost_usd": 0.1471,
+      "expected": true
+    },
+    {
+      "prompt": "Bổ sung TC biên và đường âm cho AC-201.1",
+      "skills": [
+        "plan-tests"
+      ],
+      "cost_usd": 0.1447,
+      "expected": true
+    },
+    {
+      "prompt": "QA sắp kiểm US-205, soạn bộ test case có kỳ vọng PASS/FAIL trước giúp tôi",
+      "skills": [
+        "plan-tests"
+      ],
+      "cost_usd": 0.1449,
+      "expected": true
+    },
+    {
+      "prompt": "Viết unit test pytest cho hàm precheck trong web/src/features/library/validation.ts",
+      "skills": [],
+      "cost_usd": 0.1449,
+      "expected": false
+    },
+    {
+      "prompt": "Review giúp diff của nhánh hiện tại so với origin/main",
+      "skills": [
+        "review-diff"
+      ],
+      "cost_usd": 0.1439,
+      "expected": false
+    },
+    {
+      "prompt": "Chạy lại TC-201-05 và cho tôi ảnh chụp bằng chứng",
+      "skills": [],
+      "cost_usd": 0.158,
+      "expected": false
+    },
+    {
+      "prompt": "Giải thích công thức RRF trong backend/chatdocs/application/retrieval_service.py",
+      "skills": [],
+      "cost_usd": 0.1538,
+      "expected": false
+    },
+    {
+      "prompt": "Job CI e2e-local đang đỏ, xem log và sửa giúp",
+      "skills": [],
+      "cost_usd": 0.1589,
+      "expected": false
+    }
+  ]
+}

@@ -5,7 +5,7 @@
 1. **Cài:** Docker Desktop (đủ để chạy) · thêm Python 3.12 + Node 20 nếu muốn phát triển → `make install`
 2. **Cấu hình:** không cần cho dev (LLM giả lập, Keycloak có sẵn tài khoản). Dùng Claude thật: `export LLM_PROVIDER=anthropic LLM_API_KEY=…`
 3. **Chạy:** `make up` → mở http://localhost:5173, đăng nhập `thu.ha` / `Test@1234` (Trưởng nhóm: `quoc.bao`)
-4. **Test:** `make test` (backend + web) · toàn bộ cổng chất lượng: `make check`
+4. **Test:** `make test` (backend + web) · toàn bộ cổng chất lượng: `make check` · 22 test case E2E (không cần Docker): `cd e2e && npm ci && npx playwright install chromium && npm run test:tc`
 5. **Dừng:** `make down`
 
 Không có `make` (Windows): dùng `bash scripts/dev.sh <lệnh>` với cùng tên lệnh, ví dụ `bash scripts/dev.sh up`.
@@ -13,6 +13,8 @@ Không có `make` (Windows): dùng `bash scripts/dev.sh <lệnh>` với cùng t�
 | Đọc tiếp | |
 |---|---|
 | Quy tắc làm việc (người và agent) | [AGENTS.md](AGENTS.md) |
+| Skill cho Claude Code (`/plan-tests`, `/commit-gate`, `/sdlc-workflow` …) | [docs/skills.md](docs/skills.md), [CLAUDE.md](CLAUDE.md) |
+| Kiểm thử: kế hoạch, test case, kết quả, lỗi | [docs/test-plan.md](docs/test-plan.md), [docs/test-cases.md](docs/test-cases.md), [reports/test-report.md](reports/test-report.md), [docs/bugs.md](docs/bugs.md) |
 | Yêu cầu, thiết kế | [docs/02-requirements](docs/02-requirements), [docs/03-design/SAD.md](docs/03-design/SAD.md) |
 | Truy vết US ↔ code ↔ test | [docs/traceability.md](docs/traceability.md) |
 | Quyết định kiến trúc khi hiện thực | [docs/adr](docs/adr/README.md) |

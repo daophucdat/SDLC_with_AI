@@ -66,18 +66,21 @@ Không có `make` (Windows): `bash scripts/dev.sh <lệnh>` — cùng tên lện
 
 ## 7. Vòng lặp cho mỗi user story (Specify → Generate → Verify → Refine)
 
+Các bước là skill trong `.claude/skills/` (danh mục: `docs/skills.md`); kiểm thử theo test case: `/plan-tests`, `/run-test-case` (Day 6).
+
 1. **Plan** — `/plan-story US-xxx`: đọc story, AC, task; liệt kê AC → test sẽ viết, file sẽ đổi, câu hỏi còn mở. Dừng nếu AC chưa rõ.
 2. **Test trước** — `/gen-tests US-xxx`: viết test theo từng AC (cả edge case và trường hợp âm), chạy để thấy chúng **đỏ**.
 3. **Code** — thay đổi nhỏ nhất để test xanh; giữ ranh giới lớp.
 4. **Verify** — `make check`; rồi `/review-diff` (L1, rubric `docs/quality/code_review_rubric.md`).
 5. **Refine** — sửa theo bằng chứng (log, comment), không theo cảm giác. `/fix-ci` khi CI đỏ.
 6. **Ghi lại** — cập nhật `docs/traceability.md`; quyết định kiến trúc mới → ADR trong `docs/adr/`.
+7. **Commit** — `/commit-gate "type(scope): … [US-xxx]"`: chạy cổng L0 trên phần đã stage, ghi `reports/gate-<tree>.json`, chỉ commit khi PASS.
 
 Dừng khi mọi cổng xanh và Definition of Done (mục 9) đạt.
 
 ## 8. Commit và PR
 
-- Commit nhỏ, **Conventional Commits** và có mã yêu cầu: `feat(qa): giữ 16 ký tự đầu của câu trả lời [US-304]`. CI chặn commit thiếu mã (`scripts/check_traceability.py`).
+- Commit nhỏ, **Conventional Commits** và có mã yêu cầu: `feat(qa): giữ 16 ký tự đầu của câu trả lời [US-304]`. Hook `commit-msg` (`.githooks/`) chặn ngay trên máy, CI chặn lần nữa (`scripts/check_traceability.py`).
 - PR ≤ ~400 dòng thay đổi; dùng mẫu `.github/pull_request_template.md`; 1 approver không phải người viết code (L2, `CODEOWNERS`).
 
 ## 9. Definition of Done
