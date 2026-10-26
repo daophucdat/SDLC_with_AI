@@ -14,7 +14,8 @@ case "$target" in
   up)        $COMPOSE up --build -d && echo "→ http://localhost:5173  (thu.ha / Test@1234)" ;;
   down)      $COMPOSE down ;;
   logs)      $COMPOSE logs -f api worker ;;
-  install)   (cd backend && python -m venv .venv && "$PY" -m pip install -e ".[dev,otel]") && (cd web && npm ci) ;;
+  install)   (cd backend && python -m venv .venv && "$PY" -m pip install -e ".[dev,otel]") && (cd web && npm ci) \
+               && git config core.hooksPath .githooks ;;
   lint)      (cd backend && "$BIN/ruff" check . && "$BIN/black" --check . && "$BIN/lint-imports") && (cd web && npm run lint) ;;
   typecheck) (cd web && npm run typecheck) ;;
   test)      (cd backend && "$PY" -m pytest -q) && (cd web && npm test) ;;
@@ -24,6 +25,7 @@ case "$target" in
   traceability)
     "$PY" -m pytest -q -p no:cacheprovider scripts eval
     "$PY" scripts/check_traceability.py matrix
+    "$PY" scripts/check_skills.py
     "$PY" scripts/check_traceability.py commits "${RANGE:-origin/main..HEAD}" ;;
   check)     for t in lint typecheck coverage traceability; do echo "== $t"; bash "$0" "$t"; done; echo "== all local L0 gates passed" ;;
   sbom)      mkdir -p sbom && (cd backend && "$BIN/cyclonedx-py" environment --output-format JSON -o ../sbom/backend.cdx.json) \
