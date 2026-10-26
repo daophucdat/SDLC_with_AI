@@ -1,0 +1,11 @@
+#!/usr/bin/env sh
+# Day 7 — hard rule as a hook: every commit is a Conventional Commit with a requirement code (US/EN/REL/BR).
+# Enable once per clone: git config core.hooksPath .githooks   (bash scripts/dev.sh install does it)
+root="$(git rev-parse --show-toplevel)"
+export PYTHONIOENCODING=utf-8
+for py in "$root/backend/.venv/Scripts/python.exe" "$root/backend/.venv/bin/python" python3 python; do
+  if command -v "$py" >/dev/null 2>&1 || [ -x "$py" ]; then
+    exec "$py" "$root/scripts/check_traceability.py" message "$1"
+  fi
+done
+echo "commit-msg: no python found — traceability not checked" >&2

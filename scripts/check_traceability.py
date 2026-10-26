@@ -2,6 +2,7 @@
 
     python scripts/check_traceability.py commits <git range>   # e.g. origin/main..HEAD
     python scripts/check_traceability.py matrix                # docs/traceability.md is complete and points at real files
+    python scripts/check_traceability.py message <file>        # one message — the commit-msg hook (.githooks/)
 
 Commit rule: Conventional Commits subject (`type(scope)!: summary`) and at least one requirement code in the subject
 or body — US-xxx (user story), EN-xx (enabler), REL-xx (release task) or BR-xxx (business requirement). Merge and
@@ -49,6 +50,18 @@ def commits(rev_range: str) -> int:
     return 1 if failures else 0
 
 
+def message_file(path: str) -> int:
+    """commit-msg hook: the hard rule runs before the commit exists, not only in CI (Day 7: luật cứng → hook)."""
+    with open(path, encoding="utf-8") as f:
+        text = "\n".join(line for line in f.read().splitlines() if not line.startswith("#"))
+    problems = check_message(text)
+    for p in problems:
+        print(f"commit-msg: {p}", file=sys.stderr)
+    if problems:
+        print("commit-msg: e.g. 'feat(qa): short summary [US-304]' — see AGENTS.md §8", file=sys.stderr)
+    return 1 if problems else 0
+
+
 def _read(path: str) -> str:
     with open(os.path.join(ROOT, path), encoding="utf-8") as f:
         return f.read()
@@ -80,6 +93,8 @@ def matrix() -> int:
 if __name__ == "__main__":
     if len(sys.argv) >= 2 and sys.argv[1] == "matrix":
         sys.exit(matrix())
+    if len(sys.argv) == 3 and sys.argv[1] == "message":
+        sys.exit(message_file(sys.argv[2]))
     if len(sys.argv) == 3 and sys.argv[1] == "commits":
         sys.exit(commits(sys.argv[2]))
     print(__doc__)

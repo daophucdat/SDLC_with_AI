@@ -25,6 +25,7 @@ logs:
 install:       ## backend venv + web node_modules
 	cd backend && python -m venv .venv && $(BIN)/python -m pip install -e ".[dev,otel]"
 	cd web && npm ci
+	git config core.hooksPath .githooks
 
 lint:          ## format, lint, complexity ≤ 10, import rules
 	cd backend && $(BIN)/ruff check . && $(BIN)/black --check . && $(BIN)/lint-imports
