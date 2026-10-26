@@ -1,0 +1,8 @@
+# Line endings: LF in the repo (CI runs on Linux); Windows checkouts convert as configured
+* text=auto eol=lf
+*.pptx binary
+*.xlsx binary
+*.pdf binary
+*.png binary
+*.jpg binary
+*.drawio text

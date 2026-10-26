@@ -26,3 +26,10 @@ eval/datasets/*/docs/
 e2e/node_modules/
 e2e/test-results/
 e2e/playwright-report/
+# coverage / SBOM outputs
+.coverage
+coverage.xml
+web/coverage/
+sbom/
+backend/mutants/
+backend/.mutmut-cache
