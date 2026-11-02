@@ -1,7 +1,7 @@
 """Traceability gate (Day 5 L0: "mỗi commit có US/FR") + matrix check.
 
     python scripts/check_traceability.py commits <git range>   # e.g. origin/main..HEAD
-    python scripts/check_traceability.py matrix                # docs/traceability.md is complete and points at real files
+    python scripts/check_traceability.py matrix                # docs/traceability.md complete, points at real files
     python scripts/check_traceability.py message <file>        # one message — the commit-msg hook (.githooks/)
 
 Commit rule: Conventional Commits subject (`type(scope)!: summary`) and at least one requirement code in the subject
@@ -12,6 +12,7 @@ from __future__ import annotations
 
 import os
 import re
+import shutil
 import subprocess
 import sys
 
@@ -37,8 +38,9 @@ def check_message(message: str) -> list[str]:
 
 
 def commits(rev_range: str) -> int:
-    out = subprocess.run(
-        ["git", "log", "--format=%H%x1f%B%x1e", rev_range], cwd=ROOT, capture_output=True, text=True, check=True
+    git = shutil.which("git") or "git"
+    out = subprocess.run(  # noqa: S603 — fixed argv, no shell; the range comes from CI / the developer
+        [git, "log", "--format=%H%x1f%B%x1e", rev_range], cwd=ROOT, capture_output=True, text=True, check=True
     ).stdout
     failures = 0
     for record in filter(str.strip, out.split("\x1e")):

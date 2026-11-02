@@ -16,7 +16,7 @@ case "$target" in
   logs)      $COMPOSE logs -f api worker ;;
   install)   (cd backend && python -m venv .venv && "$PY" -m pip install -e ".[dev,otel]") && (cd web && npm ci) \
                && git config core.hooksPath .githooks ;;
-  lint)      (cd backend && "$BIN/ruff" check . && "$BIN/black" --check . && "$BIN/lint-imports") && (cd web && npm run lint) ;;
+  lint)      (cd backend && "$BIN/ruff" check . ../scripts ../eval && "$BIN/black" --check --config pyproject.toml . ../scripts ../eval && "$BIN/lint-imports") && (cd web && npm run lint) ;;
   typecheck) (cd web && npm run typecheck) ;;
   test)      (cd backend && "$PY" -m pytest -q) && (cd web && npm test) ;;
   coverage)

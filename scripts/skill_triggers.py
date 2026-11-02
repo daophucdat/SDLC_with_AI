@@ -47,7 +47,7 @@ def run(prompt: str) -> dict:
     claude = shutil.which("claude") or "claude"
     cmd = [claude, "-p", prompt, "--output-format", "stream-json", "--verbose", "--max-turns", "2"]
     cmd += ["--disallowedTools", "Write Edit Bash NotebookEdit"]
-    out = subprocess.run(
+    out = subprocess.run(  # noqa: S603 — fixed argv, no shell; prompts come from the skill's own evals file
         cmd, check=False, cwd=ROOT, capture_output=True, text=True, encoding="utf-8", errors="replace"
     ).stdout
     return {"prompt": prompt, "skills": skills_called(out), "cost_usd": round(cost(out), 4)}
@@ -77,7 +77,7 @@ def main() -> int:
     cases = [(p, True) for p in spec["should_trigger"]] + [(p, False) for p in spec["should_not_trigger"]]
     with ThreadPoolExecutor(max_workers=5) as pool:
         results = list(pool.map(lambda c: run(c[0]), cases))
-    rows = [{**r, "expected": exp} for r, (_, exp) in zip(results, cases)]
+    rows = [{**r, "expected": exp} for r, (_, exp) in zip(results, cases, strict=True)]
     summary = summarize(skill, rows)
     out = ROOT / "reports" / f"skill-triggers-{skill}.json"
     out.parent.mkdir(exist_ok=True)

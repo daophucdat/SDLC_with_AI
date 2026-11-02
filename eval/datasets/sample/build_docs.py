@@ -32,8 +32,10 @@ DOCS = {
         "Phạt chậm thanh toán: 0,05% giá trị chậm trả cho mỗi ngày chậm.",
     ],
     "BaoGia_XYZ_Q3.pdf": [
-        "BÁO GIÁ QUÝ 3/2026 GỬI CÔNG TY CỔ PHẦN XYZ\n\nHạng mục 1: Bản quyền phần mềm 50 người dùng — 400.000.000 đồng.\n"
-        "Hạng mục 2: Triển khai và đào tạo — 150.000.000 đồng.\nHạng mục 3: Hỗ trợ vận hành 12 tháng — 90.000.000 đồng.",
+        "BÁO GIÁ QUÝ 3/2026 GỬI CÔNG TY CỔ PHẦN XYZ\n\n"
+        "Hạng mục 1: Bản quyền phần mềm 50 người dùng — 400.000.000 đồng.\n"
+        "Hạng mục 2: Triển khai và đào tạo — 150.000.000 đồng.\n"
+        "Hạng mục 3: Hỗ trợ vận hành 12 tháng — 90.000.000 đồng.",
         "Báo giá có hiệu lực 30 ngày. Thời gian triển khai dự kiến 10 tuần kể từ ngày ký hợp đồng.",
     ],
     "BienBan_Hop_KhachHang_DEF.pdf": [

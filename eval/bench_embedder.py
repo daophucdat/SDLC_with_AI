@@ -22,8 +22,10 @@ from datetime import datetime, timezone
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "backend"))
 from chatdocs.adapters.embedder.tei import TeiEmbedder  # noqa: E402
 
-WORDS = ("hợp đồng thanh toán bảo hành nghiệm thu báo giá khách hàng điều khoản phụ lục giá trị ngày ký bên A bên B "
-         "phạt chậm trả hiệu lực bản quyền phần mềm triển khai đào tạo vận hành hỗ trợ").split()
+WORDS = (
+    "hợp đồng thanh toán bảo hành nghiệm thu báo giá khách hàng điều khoản phụ lục giá trị ngày ký bên A bên B "
+    "phạt chậm trả hiệu lực bản quyền phần mềm triển khai đào tạo vận hành hỗ trợ"
+).split()
 NFR03_SECONDS = 300
 QUERY_P95_MS = 200
 
@@ -37,7 +39,7 @@ def p95(values: list[float]) -> float:
 
 
 async def run(url: str, chunks: int, batch: int, queries: int, out: str) -> int:
-    rng = random.Random(42)
+    rng = random.Random(42)  # noqa: S311 — reproducible fake chunks, nothing secret
     emb = TeiEmbedder(base_url=url, dimension=1024, batch_size=batch)
     if not await emb.health():
         print(f"embedder at {url} is not healthy", file=sys.stderr)
@@ -58,9 +60,14 @@ async def run(url: str, chunks: int, batch: int, queries: int, out: str) -> int:
     q95 = p95(lat)
 
     rate = chunks / index_s
+    index_cell = f"{index_s:.1f} s ({rate:.1f} đoạn/s)"
+    index_max = f"≤ {NFR03_SECONDS * 0.6:.0f} s (60% của NFR-03)"
+    query_cell = f"{q95:.0f} ms (trung vị {statistics.median(lat):.0f} ms)"
     ok_index, ok_query = index_s <= NFR03_SECONDS * 0.6, q95 <= QUERY_P95_MS  # keep 40% of NFR-03 for extraction + DB
+    index_ok, query_ok = ("✅" if ok_index else "❌"), ("✅" if ok_query else "❌")
     os.makedirs(os.path.dirname(out), exist_ok=True)
-    with open(out, "w", encoding="utf-8") as f:
+    # noqa below: one small report, written once after every measurement is done — blocking is harmless
+    with open(out, "w", encoding="utf-8") as f:  # noqa: ASYNC230
         f.write(f"""# Embedder benchmark (EN-03, TQ-02)
 
 | Thuộc tính | Giá trị |
@@ -72,8 +79,8 @@ async def run(url: str, chunks: int, batch: int, queries: int, out: str) -> int:
 
 | Phép đo | Kết quả | Ngưỡng | Đạt |
 |---|---|---|---|
-| Lập chỉ mục {chunks} đoạn × ~500 token (≈ file 300 trang) | {index_s:.1f} s ({rate:.1f} đoạn/s) | ≤ {NFR03_SECONDS * 0.6:.0f} s (60% của NFR-03) | {"✅" if ok_index else "❌"} |
-| Truy vấn đơn, p95 trên {queries} câu | {q95:.0f} ms (trung vị {statistics.median(lat):.0f} ms) | ≤ {QUERY_P95_MS} ms | {"✅" if ok_query else "❌"} |
+| Lập chỉ mục {chunks} đoạn × ~500 token (≈ file 300 trang) | {index_cell} | {index_max} | {index_ok} |
+| Truy vấn đơn, p95 trên {queries} câu | {query_cell} | ≤ {QUERY_P95_MS} ms | {query_ok} |
 
 **Quyết định (điền sau khi review):** CPU đủ / thêm bản sao embedder / cần GPU — đóng TQ-02.
 """)
@@ -87,7 +94,9 @@ if __name__ == "__main__":
     ap.add_argument("--chunks", type=int, default=1500)
     ap.add_argument("--batch", type=int, default=32)
     ap.add_argument("--queries", type=int, default=200)
-    ap.add_argument("--out", default=os.path.join(os.path.dirname(__file__), "..", "docs", "implement", "reports",
-                                                 "embedder_benchmark.md"))
+    ap.add_argument(
+        "--out",
+        default=os.path.join(os.path.dirname(__file__), "..", "docs", "implement", "reports", "embedder_benchmark.md"),
+    )
     a = ap.parse_args()
     sys.exit(asyncio.run(run(a.url, a.chunks, a.batch, a.queries, a.out)))

@@ -230,8 +230,17 @@ def main() -> int:
         w.writerow(["id", "question", "expected_answer", "answer", "citations", "correct (1/0)", "note"])
         for r in rows:
             cites = "; ".join(f"[{c['index']}] {c['fileName']} p{c['page']}" for c in r["result"]["citations"])
-            w.writerow([r["case"]["id"], r["case"]["question"], r["case"].get("expected_answer", ""),
-                        r["result"]["text"], cites, "", ""])
+            w.writerow(
+                [
+                    r["case"]["id"],
+                    r["case"]["question"],
+                    r["case"].get("expected_answer", ""),
+                    r["result"]["text"],
+                    cites,
+                    "",
+                    "",
+                ]
+            )
     print(md)
     print(f"→ {base}.md")
     # Exit 1 only for safety failures; the quality numbers are reviewed, not gated, in the nightly job.

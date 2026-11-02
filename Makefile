@@ -28,7 +28,7 @@ install:       ## backend venv + web node_modules
 	git config core.hooksPath .githooks
 
 lint:          ## format, lint, complexity ≤ 10, import rules
-	cd backend && $(BIN)/ruff check . && $(BIN)/black --check . && $(BIN)/lint-imports
+	cd backend && $(BIN)/ruff check . ../scripts ../eval && $(BIN)/black --check --config pyproject.toml . ../scripts ../eval && $(BIN)/lint-imports
 	cd web && npm run lint
 
 typecheck:

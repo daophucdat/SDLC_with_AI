@@ -26,7 +26,8 @@ def test_not_found_cases():
 
 
 def test_sources_must_match_page_exactly_and_all_be_present():
-    case = {"id": "M", "question": "?", "expected_sources": [{"file": "a.pdf", "page": 2}, {"file": "b.pdf", "page": 1}]}
+    sources = [{"file": "a.pdf", "page": 2}, {"file": "b.pdf", "page": 1}]
+    case = {"id": "M", "question": "?", "expected_sources": sources}
     assert score(case, res(cites=[("a.pdf", 2), ("b.pdf", 1), ("c.pdf", 9)]))["sources_ok"] is True
     assert score(case, res(cites=[("a.pdf", 3), ("b.pdf", 1)]))["sources_ok"] is False
     assert score(case, res(cites=[("a.pdf", 2)]))["sources_ok"] is False
@@ -42,7 +43,10 @@ def test_sample_dataset_loads_and_report_renders():
     cases = load_cases(os.path.join(os.path.dirname(__file__), "datasets", "sample"))
     assert {c["id"] for c in cases} >= {"S01", "N01", "F02"}
     assert all(("expects_not_found" in c) for c in cases)
-    rows = [{"case": c, "result": res("NOT_FOUND" if c.get("expects_not_found") else "COMPLETED"), "score": {}} for c in cases]
+    rows = [
+        {"case": c, "result": res("NOT_FOUND" if c.get("expects_not_found") else "COMPLETED"), "score": {}}
+        for c in cases
+    ]
     for r in rows:
         r["score"] = score(r["case"], r["result"])
     md = report("sample", rows, {"base_url": "http://x", "started_at": "now"}, None)
