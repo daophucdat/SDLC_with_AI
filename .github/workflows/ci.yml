@@ -174,9 +174,9 @@ jobs:
       - name: Test cases TC-201-01 … TC-303-10 (retries 0)
         working-directory: e2e
         run: npm run test:tc
-      - name: Video + GIF of every test case (reports/test-media.md)
+      - name: Video + GIF of every test case, HTML + PDF report (reports/test-report.pdf)
         if: always()
-        run: python scripts/test_media.py && python scripts/test_report.py || true  # evidence, not a gate
+        run: python scripts/test_media.py && python scripts/test_report.py && python scripts/test_report_html.py || true  # evidence, not a gate
       - if: always()
         uses: actions/upload-artifact@v4
         with:

@@ -160,6 +160,22 @@ def test_mcp_server_reports_errors_without_dying():
     assert mcp_server.handle({"jsonrpc": "2.0", "id": 9, "method": "nope"})["error"]["code"] == -32601
 
 
+def test_html_report_renders_markdown_tables_and_keeps_a_header_row_heading():
+    from test_report_html import inline_md, md_cells, md_table, table_after
+
+    text = "intro\n| Mã | TC |\n|---|---|\n| HD-1 | TC-201-05 |\n\nafter\n"
+    text += "## Ma trận\n\n| AC | TC |\n|---|---|\n| A | B |\n"
+    assert table_after(text, "| Mã") == ["| Mã | TC |", "|---|---|", "| HD-1 | TC-201-05 |"]
+    assert table_after(text, "## Ma trận") == ["| AC | TC |", "|---|---|", "| A | B |"]
+    assert "<th>Mã</th>" in md_table(table_after(text, "| Mã")) and "<td>HD-1</td>" in md_table(
+        table_after(text, "| Mã")
+    )
+    assert md_cells(r"| a \| b | c |") == [r"a \| b", "c"]
+    assert inline_md("**3** `POST` <x> [d](docs/bugs.md)") == (
+        '<b>3</b> <code>POST</code> &lt;x&gt; <a href="docs/bugs.md">d</a>'
+    )
+
+
 def test_an_agent_needs_name_description_tools_rules_and_a_catalog_row():
     from check_skills import agent_problems
 

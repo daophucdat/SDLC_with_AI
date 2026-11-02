@@ -22,7 +22,7 @@ Skill là sản phẩm, không phải prompt: có chủ sở hữu, version, ng�
 | `commit-gate` | **chỉ người gọi** | daophucdat | 1.0.0 | 2026-11-26 | Cổng L0 trên tree đã stage → `reports/gate-<tree>.json` → commit | `scripts/gate.py` |
 | `fix-ci` | **chỉ người gọi** | daophucdat | 1.1.0 | 2026-11-26 | CI đỏ → sửa nhỏ nhất theo log | — |
 | `sdlc-workflow` | **chỉ người gọi** | daophucdat | 1.0.0 | 2026-11-26 | Cả vòng SDLC từ BRD, cổng duyệt mỗi pha → `docs/sdlc-state.md` | `phases.md` |
-| `test-evidence` | **chỉ người gọi** | daophucdat | 1.0.0 | 2026-12-02 | Chạy TC có ghi video → GIF + video mỗi TC, nhúng vào `reports/test-report.md`, `reports/test-media.md` | `scripts/test_media.py`, MCP `chatdocs-sdlc` |
+| `test-evidence` | **chỉ người gọi** | daophucdat | 1.1.0 | 2026-12-02 | Chạy TC có ghi video → ảnh + GIF + video mỗi TC, báo cáo `reports/test-report.md`, `.html`, `.pdf` | `scripts/test_media.py`, `scripts/test_report_html.py`, MCP `chatdocs-sdlc` |
 
 Version 1.1.0 là các lệnh `.claude/commands/*.md` của Day 5 chuyển sang dạng skill: thêm từ khoá kích hoạt, `## KHÔNG ĐƯỢC`, giới hạn công cụ. Đổi `description` thì tăng version phụ và đo lại kích hoạt; đổi quy trình thì tăng version chính.
 

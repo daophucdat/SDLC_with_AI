@@ -61,6 +61,6 @@ Thứ tự: **plan → test case (PASS/FAIL ghi trước) → thực thi → bá
 | Test plan | `docs/test-plan.md` (file này) |
 | Test case + ma trận AC ↔ TC | `docs/test-cases.md` |
 | Spec Playwright (mỗi test mang mã TC) | `e2e/specs/tc-us201.spec.ts`, `e2e/specs/tc-us303.spec.ts` |
-| Bằng chứng chạy | `reports/test-report.md` (tổng hợp, 2 lần chạy), `reports/junit-run*.xml`, `reports/screenshots/<run>/<TC>.png`, GIF `reports/gifs/<run>/`, video `reports/videos/<run>/` (thư viện `reports/test-media.md`, sinh bằng `python scripts/test_media.py`); bảng kết quả sinh bằng `python scripts/test_report.py`; trace + HTML report trong `e2e/playwright-report/` và artifact CI |
+| Bằng chứng chạy | `reports/test-report.md` (tổng hợp, 2 lần chạy), `reports/junit-run*.xml`, `reports/screenshots/<run>/<TC>.png`, GIF `reports/gifs/<run>/`, video `reports/videos/<run>/` (thư viện `reports/test-media.md`, sinh bằng `python scripts/test_media.py`), bản gửi đi `reports/test-report.pdf` / `.html` (`python scripts/test_report_html.py`); bảng kết quả sinh bằng `python scripts/test_report.py`; trace + HTML report trong `e2e/playwright-report/` và artifact CI |
 | Bug | `docs/bugs.md` (một dòng mỗi TC FAIL) |
 | Truy vết | `docs/traceability.md` — US ↔ AC ↔ TC ↔ bằng chứng |

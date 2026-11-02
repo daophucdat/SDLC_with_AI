@@ -1,0 +1,202 @@
+<!doctype html><html lang="vi"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1"><title>Báo cáo kiểm thử</title>
+<style>
+:root { --fg:#1d2433; --muted:#5b6475; --line:#d9dee7; --pass:#17723a; --fail:#b42318; --bg:#ffffff; --soft:#f4f6fa; }
+* { box-sizing: border-box; }
+body { margin: 0 auto; max-width: 1100px; padding: 24px 16px; font: 14px/1.5 system-ui, "Segoe UI", sans-serif;
+       color: var(--fg); background: var(--bg); }
+h1 { font-size: 24px; margin: 0 0 4px; }
+h2 { font-size: 18px; margin: 28px 0 8px; border-bottom: 2px solid var(--line); }
+h3 { font-size: 15px; margin: 0 0 6px; }
+table { border-collapse: collapse; width: 100%; margin: 8px 0; font-size: 13px; }
+th, td { border: 1px solid var(--line); padding: 4px 6px; text-align: left; vertical-align: top; }
+th { background: var(--soft); }
+code { background: var(--soft); padding: 0 3px; border-radius: 3px; font-size: 12px; }
+.muted { color: var(--muted); }
+.badge { display: inline-block; padding: 0 8px; border-radius: 10px; font-weight: 600; font-size: 12px; color: #fff; }
+.PASS { background: var(--pass); } .FAIL { background: var(--fail); } .SKIP, .none { background: var(--muted); }
+.kpis { display: flex; flex-wrap: wrap; gap: 12px; margin: 12px 0; }
+.kpi { border: 1px solid var(--line); border-radius: 8px; padding: 8px 14px; min-width: 150px; }
+.kpi b { display: block; font-size: 22px; }
+.tc { border: 1px solid var(--line); border-radius: 8px; padding: 12px; margin: 14px 0; break-inside: avoid; }
+.media { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 8px; margin-top: 8px; }
+.media img, .media video { width: 100%; border: 1px solid var(--line); border-radius: 4px; }
+.media figcaption { font-size: 12px; color: var(--muted); }
+.screen-only { display: block; }
+@media print {
+  body { max-width: none; padding: 0; font-size: 11px; }
+  .screen-only { display: none !important; }
+  .tc { page-break-inside: avoid; }
+  a { color: inherit; }
+}
+@page { size: A4; margin: 12mm; }
+</style></head><body>
+<h1>Báo cáo kiểm thử — US-201, US-303</h1>
+<p class="muted">Sinh lúc 2026-11-02 21:33 từ <code>reports/results-*.json</code> · mã nguồn
+<code>5cd6bea</code> · Playwright, Chromium, retries 0 · app test cục bộ (<code>backend/tests/e2e_server.py</code>
++ Vite). Kỳ vọng lấy nguyên văn từ <code>docs/test-cases.md</code> (ghi trước khi chạy).</p>
+<div class="kpis"><div class="kpi">run1<b>22/22 PASS</b></div><div class="kpi">run2<b>22/22 PASS</b></div><div class="kpi">Test case tự động<b>22</b></div>
+<div class="kpi">Lỗi sản phẩm (BUG)<b>0</b></div></div>
+<p class="screen-only muted">Bản in: <a href="test-report.pdf">test-report.pdf</a> · bảng markdown:
+<a href="test-report.md">test-report.md</a> · thư viện GIF: <a href="test-media.md">test-media.md</a></p>
+<h2>Tổng hợp</h2><table><thead><tr><th>TC</th><th>AC</th><th>run1</th><th>run2</th><th>Thời gian (s)</th></tr></thead><tbody><tr><td><a href="#TC-201-01">TC-201-01</a></td><td>AC-201.1</td><td><span class="badge PASS">PASS</span></td><td><span class="badge PASS">PASS</span></td><td>8.4 / 8.4</td></tr><tr><td><a href="#TC-201-02">TC-201-02</a></td><td>AC-201.1</td><td><span class="badge PASS">PASS</span></td><td><span class="badge PASS">PASS</span></td><td>7.3 / 7.1</td></tr><tr><td><a href="#TC-201-03">TC-201-03</a></td><td>AC-201.1</td><td><span class="badge PASS">PASS</span></td><td><span class="badge PASS">PASS</span></td><td>9.4 / 8.3</td></tr><tr><td><a href="#TC-201-04">TC-201-04</a></td><td>AC-201.1</td><td><span class="badge PASS">PASS</span></td><td><span class="badge PASS">PASS</span></td><td>9.4 / 8.3</td></tr><tr><td><a href="#TC-201-05">TC-201-05</a></td><td>AC-201.2</td><td><span class="badge PASS">PASS</span></td><td><span class="badge PASS">PASS</span></td><td>7.5 / 7.4</td></tr><tr><td><a href="#TC-201-06">TC-201-06</a></td><td>AC-201.2</td><td><span class="badge PASS">PASS</span></td><td><span class="badge PASS">PASS</span></td><td>7.2 / 8.1</td></tr><tr><td><a href="#TC-201-07">TC-201-07</a></td><td>AC-201.3</td><td><span class="badge PASS">PASS</span></td><td><span class="badge PASS">PASS</span></td><td>2.7 / 2.9</td></tr><tr><td><a href="#TC-201-08">TC-201-08</a></td><td>AC-201.3</td><td><span class="badge PASS">PASS</span></td><td><span class="badge PASS">PASS</span></td><td>2.9 / 2.7</td></tr><tr><td><a href="#TC-201-09">TC-201-09</a></td><td>AC-201.3</td><td><span class="badge PASS">PASS</span></td><td><span class="badge PASS">PASS</span></td><td>2.8 / 2.9</td></tr><tr><td><a href="#TC-201-10">TC-201-10</a></td><td>AC-201.3</td><td><span class="badge PASS">PASS</span></td><td><span class="badge PASS">PASS</span></td><td>2.8 / 3.0</td></tr><tr><td><a href="#TC-201-11">TC-201-11</a></td><td>AC-201.3</td><td><span class="badge PASS">PASS</span></td><td><span class="badge PASS">PASS</span></td><td>3.1 / 3.1</td></tr><tr><td><a href="#TC-201-12">TC-201-12</a></td><td>AC-201.4</td><td><span class="badge PASS">PASS</span></td><td><span class="badge PASS">PASS</span></td><td>5.5 / 9.2</td></tr><tr><td><a href="#TC-201-13">TC-201-13</a></td><td>AC-201.4</td><td><span class="badge PASS">PASS</span></td><td><span class="badge PASS">PASS</span></td><td>19.2 / 22.6</td></tr><tr><td><a href="#TC-303-01">TC-303-01</a></td><td>AC-303.1</td><td><span class="badge PASS">PASS</span></td><td><span class="badge PASS">PASS</span></td><td>3.3 / 3.3</td></tr><tr><td><a href="#TC-303-02">TC-303-02</a></td><td>AC-303.1</td><td><span class="badge PASS">PASS</span></td><td><span class="badge PASS">PASS</span></td><td>3.4 / 3.5</td></tr><tr><td><a href="#TC-303-03">TC-303-03</a></td><td>AC-303.1</td><td><span class="badge PASS">PASS</span></td><td><span class="badge PASS">PASS</span></td><td>3.5 / 3.6</td></tr><tr><td><a href="#TC-303-04">TC-303-04</a></td><td>AC-303.2</td><td><span class="badge PASS">PASS</span></td><td><span class="badge PASS">PASS</span></td><td>7.4 / 7.6</td></tr><tr><td><a href="#TC-303-06">TC-303-06</a></td><td>AC-303.3</td><td><span class="badge PASS">PASS</span></td><td><span class="badge PASS">PASS</span></td><td>3.8 / 3.9</td></tr><tr><td><a href="#TC-303-07">TC-303-07</a></td><td>AC-303.3</td><td><span class="badge PASS">PASS</span></td><td><span class="badge PASS">PASS</span></td><td>3.9 / 4.0</td></tr><tr><td><a href="#TC-303-08">TC-303-08</a></td><td>AC-303.3</td><td><span class="badge PASS">PASS</span></td><td><span class="badge PASS">PASS</span></td><td>3.9 / 4.0</td></tr><tr><td><a href="#TC-303-09">TC-303-09</a></td><td>AC-303.4</td><td><span class="badge PASS">PASS</span></td><td><span class="badge PASS">PASS</span></td><td>3.3 / 3.4</td></tr><tr><td><a href="#TC-303-10">TC-303-10</a></td><td>AC-303.1</td><td><span class="badge PASS">PASS</span></td><td><span class="badge PASS">PASS</span></td><td>3.3 / 3.3</td></tr></tbody></table>
+<p class="muted">Chưa chạy tự động (thủ công): TC-303-05.</p>
+<h2>Phiếu lỗi (docs/bugs.md)</h2><table><thead><tr><th>Mã</th><th>Loại</th><th>TC</th><th>Mức</th><th>Trạng thái</th></tr></thead><tbody><tr><td>HD-1</td><td>HD</td><td>TC-201-05</td><td>Cao (báo sai một lỗi sản phẩm không có)</td><td>Đã sửa</td></tr><tr><td>HD-2</td><td>HD</td><td>TC-201-12, TC-201-13</td><td>Cao (test kịch bản khác với AC)</td><td>Đã sửa</td></tr><tr><td>HD-3</td><td>HD</td><td>tất cả</td><td>Trung bình</td><td>Đã sửa</td></tr><tr><td>HD-4</td><td>HD</td><td>TC-303-01, 06, 07, 08, 10</td><td>Trung bình</td><td>Đã sửa</td></tr><tr><td>TD-1</td><td>TD</td><td>TC-303-06</td><td>Thấp</td><td>Đã sửa TC</td></tr><tr><td>TD-2</td><td>TD</td><td>TC-303-09</td><td>Thấp</td><td>Đã sửa TC</td></tr><tr><td>OBS-1</td><td>OBS</td><td>(ngoài AC-201.4)</td><td>Thấp</td><td><b>Mở — chờ PO</b></td></tr></tbody></table>
+<h2>Ma trận AC ↔ TC</h2><table><thead><tr><th>AC</th><th>TC</th><th>Số TC</th><th>Heuristic phủ</th></tr></thead><tbody><tr><td>AC-201.1</td><td>TC-201-01, 02, 03, 04</td><td>4</td><td>H, V, B, P</td></tr><tr><td>AC-201.2</td><td>TC-201-05, 06</td><td>2</td><td>H, V</td></tr><tr><td>AC-201.3</td><td>TC-201-07, 08, 09, 10, 11</td><td>5</td><td>N, B, V</td></tr><tr><td>AC-201.4</td><td>TC-201-12, 13</td><td>2</td><td>R</td></tr><tr><td>AC-303.1</td><td>TC-303-01, 02, 03, 10</td><td>4</td><td>H, V, P</td></tr><tr><td>AC-303.2</td><td>TC-303-04, 05</td><td>2</td><td>H, P (thủ công)</td></tr><tr><td>AC-303.3</td><td>TC-303-06, 07, 08</td><td>3</td><td>N, R</td></tr><tr><td>AC-303.4</td><td>TC-303-09</td><td>1</td><td>H (dữ liệu)</td></tr></tbody></table>
+<h2>Chi tiết từng test case — bằng chứng lượt run2</h2>
+<section class="tc" id="TC-201-01">
+<h3>TC-201-01 · AC-201.1 [H] run1: <span class="badge PASS">PASS</span> run2: <span class="badge PASS">PASS</span></h3>
+<table><tr><th style="width:14%">Bước</th><td>Bấm "Tải tài liệu", chọn <code>HopDong_ABC.pdf</code> (3 trang)</td></tr>
+<tr><th>PASS khi</th><td>Dòng <code>HopDong_ABC.pdf</code> xuất hiện trong kho ≤ 2 s; sau đó badge "Sẵn sàng", meta "3 trang", "Bạn" ≤ 30 s</td></tr>
+<tr><th>FAIL khi</th><td>Không có dòng, hoặc dừng ở trạng thái khác, hoặc sai số trang</td></tr></table>
+
+<div class="media"><figure><img src="screenshots/run2/TC-201-01.png" alt="TC-201-01"><figcaption>Ảnh: TC-201-01.png</figcaption></figure><figure class="screen-only"><img src="gifs/run2/TC-201-01.gif" alt="GIF"><figcaption>GIF diễn biến</figcaption></figure><figure class="screen-only"><video controls preload="none" src="videos/run2/TC-201-01.webm" poster="screenshots/run2/TC-201-01.png"></video><figcaption>Video đủ thời lượng</figcaption></figure></div><p class="muted">Tệp: <a href="gifs/run2/TC-201-01.gif">TC-201-01.gif</a> · <a href="videos/run2/TC-201-01.webm">TC-201-01.webm</a></p>
+</section><section class="tc" id="TC-201-02">
+<h3>TC-201-02 · AC-201.1 [V] run1: <span class="badge PASS">PASS</span> run2: <span class="badge PASS">PASS</span></h3>
+<table><tr><th style="width:14%">Bước</th><td>Kéo-thả file <code>Hợp đồng ABC – bản ký.pdf</code> (tên tiếng Việt có dấu, gạch dài) vào danh sách</td></tr>
+<tr><th>PASS khi</th><td>Tên hiển thị đúng từng ký tự; đạt "Sẵn sàng"</td></tr>
+<tr><th>FAIL khi</th><td>Tên bị biến đổi / mất dấu, hoặc không nhận khi kéo-thả</td></tr></table>
+
+<div class="media"><figure><img src="screenshots/run2/TC-201-02.png" alt="TC-201-02"><figcaption>Ảnh: TC-201-02.png</figcaption></figure><figure class="screen-only"><img src="gifs/run2/TC-201-02.gif" alt="GIF"><figcaption>GIF diễn biến</figcaption></figure><figure class="screen-only"><video controls preload="none" src="videos/run2/TC-201-02.webm" poster="screenshots/run2/TC-201-02.png"></video><figcaption>Video đủ thời lượng</figcaption></figure></div><p class="muted">Tệp: <a href="gifs/run2/TC-201-02.gif">TC-201-02.gif</a> · <a href="videos/run2/TC-201-02.webm">TC-201-02.webm</a></p>
+</section><section class="tc" id="TC-201-03">
+<h3>TC-201-03 · AC-201.1 [B] run1: <span class="badge PASS">PASS</span> run2: <span class="badge PASS">PASS</span></h3>
+<table><tr><th style="width:14%">Bước</th><td>Mạng tải lên giả lập ~4 MB/s; chọn PDF hợp lệ <b>49,5 MB</b></td></tr>
+<tr><th>PASS khi</th><td>Trong lúc tải: badge "Đang tải lên N%" với 0 &lt; N &lt; 100, <code>progressbar</code> có <code>aria-valuenow</code> tăng dần; cuối cùng không bị từ chối</td></tr>
+<tr><th>FAIL khi</th><td>Không thấy %, % không tăng, hoặc bị báo vượt 50 MB</td></tr></table>
+<ul class="muted"><li>TC-201-04 measured: 5.1 s to READY</li></ul>
+<div class="media"><figure><img src="screenshots/run2/TC-201-03.png" alt="TC-201-03"><figcaption>Ảnh: TC-201-03.png</figcaption></figure><figure class="screen-only"><img src="gifs/run2/TC-201-03+TC-201-04.gif" alt="GIF"><figcaption>GIF diễn biến</figcaption></figure><figure class="screen-only"><video controls preload="none" src="videos/run2/TC-201-03+TC-201-04.webm" poster="screenshots/run2/TC-201-03.png"></video><figcaption>Video đủ thời lượng</figcaption></figure></div><p class="muted">Tệp: <a href="gifs/run2/TC-201-03+TC-201-04.gif">TC-201-03+TC-201-04.gif</a> · <a href="videos/run2/TC-201-03+TC-201-04.webm">TC-201-03+TC-201-04.webm</a></p>
+</section><section class="tc" id="TC-201-04">
+<h3>TC-201-04 · AC-201.1 [P] run1: <span class="badge PASS">PASS</span> run2: <span class="badge PASS">PASS</span></h3>
+<table><tr><th style="width:14%">Bước</th><td>(cùng lượt với TC-201-03) đo từ lúc chọn file tới "Sẵn sàng"</td></tr>
+<tr><th>PASS khi</th><td>≤ 300 s (NFR-03, môi trường cục bộ)</td></tr>
+<tr><th>FAIL khi</th><td>&gt; 300 s hoặc lỗi</td></tr></table>
+<ul class="muted"><li>TC-201-04 measured: 5.1 s to READY</li></ul>
+<div class="media"><figure><img src="screenshots/run2/TC-201-04.png" alt="TC-201-04"><figcaption>Ảnh: TC-201-04.png</figcaption></figure><figure class="screen-only"><img src="gifs/run2/TC-201-03+TC-201-04.gif" alt="GIF"><figcaption>GIF diễn biến</figcaption></figure><figure class="screen-only"><video controls preload="none" src="videos/run2/TC-201-03+TC-201-04.webm" poster="screenshots/run2/TC-201-04.png"></video><figcaption>Video đủ thời lượng</figcaption></figure></div><p class="muted">Tệp: <a href="gifs/run2/TC-201-03+TC-201-04.gif">TC-201-03+TC-201-04.gif</a> · <a href="videos/run2/TC-201-03+TC-201-04.webm">TC-201-03+TC-201-04.webm</a></p>
+</section><section class="tc" id="TC-201-05">
+<h3>TC-201-05 · AC-201.2 [H] run1: <span class="badge PASS">PASS</span> run2: <span class="badge PASS">PASS</span></h3>
+<table><tr><th style="width:14%">Bước</th><td>Chọn cùng lúc 10 PDF hợp lệ khác nội dung</td></tr>
+<tr><th>PASS khi</th><td>10 dòng, mỗi dòng có badge riêng; <b>không quá 3</b> yêu cầu <code>POST /documents</code> chạy đồng thời; cả 10 đạt "Sẵn sàng"</td></tr>
+<tr><th>FAIL khi</th><td>Thiếu dòng, &gt; 3 upload song song, hoặc có file không đạt</td></tr></table>
+<ul class="muted"><li>max uploads in flight: 3</li></ul>
+<div class="media"><figure><img src="screenshots/run2/TC-201-05-queue.png" alt="TC-201-05-queue"><figcaption>Ảnh: TC-201-05-queue.png</figcaption></figure><figure><img src="screenshots/run2/TC-201-05.png" alt="TC-201-05"><figcaption>Ảnh: TC-201-05.png</figcaption></figure><figure class="screen-only"><img src="gifs/run2/TC-201-05.gif" alt="GIF"><figcaption>GIF diễn biến</figcaption></figure><figure class="screen-only"><video controls preload="none" src="videos/run2/TC-201-05.webm" poster="screenshots/run2/TC-201-05.png"></video><figcaption>Video đủ thời lượng</figcaption></figure></div><p class="muted">Tệp: <a href="gifs/run2/TC-201-05.gif">TC-201-05.gif</a> · <a href="videos/run2/TC-201-05.webm">TC-201-05.webm</a></p>
+</section><section class="tc" id="TC-201-06">
+<h3>TC-201-06 · AC-201.2 [V] run1: <span class="badge PASS">PASS</span> run2: <span class="badge PASS">PASS</span></h3>
+<table><tr><th style="width:14%">Bước</th><td>Chọn cùng lúc 9 PDF hợp lệ khác (<code>TaiLieu_11</code>–<code>19</code>) + 1 PDF hỏng (đầu <code>%PDF-</code> nhưng nội dung hỏng)</td></tr>
+<tr><th>PASS khi</th><td>9 dòng "Sẵn sàng", dòng file hỏng "Lỗi" kèm "File bị hỏng hoặc không mở được." — các file không ảnh hưởng nhau</td></tr>
+<tr><th>FAIL khi</th><td>File hỏng làm hỏng file khác, hoặc không có lý do</td></tr></table>
+
+<div class="media"><figure><img src="screenshots/run2/TC-201-06.png" alt="TC-201-06"><figcaption>Ảnh: TC-201-06.png</figcaption></figure><figure class="screen-only"><img src="gifs/run2/TC-201-06.gif" alt="GIF"><figcaption>GIF diễn biến</figcaption></figure><figure class="screen-only"><video controls preload="none" src="videos/run2/TC-201-06.webm" poster="screenshots/run2/TC-201-06.png"></video><figcaption>Video đủ thời lượng</figcaption></figure></div><p class="muted">Tệp: <a href="gifs/run2/TC-201-06.gif">TC-201-06.gif</a> · <a href="videos/run2/TC-201-06.webm">TC-201-06.webm</a></p>
+</section><section class="tc" id="TC-201-07">
+<h3>TC-201-07 · AC-201.3 [N] run1: <span class="badge PASS">PASS</span> run2: <span class="badge PASS">PASS</span></h3>
+<table><tr><th style="width:14%">Bước</th><td>Chọn <code>anh.png</code></td></tr>
+<tr><th>PASS khi</th><td>Toast "anh.png: Chỉ hỗ trợ file PDF."; <b>không có</b> <code>POST /documents</code>; không có dòng trong kho</td></tr>
+<tr><th>FAIL khi</th><td>Có request tải lên, hoặc file vào kho</td></tr></table>
+
+<div class="media"><figure><img src="screenshots/run2/TC-201-07.png" alt="TC-201-07"><figcaption>Ảnh: TC-201-07.png</figcaption></figure><figure class="screen-only"><img src="gifs/run2/TC-201-07.gif" alt="GIF"><figcaption>GIF diễn biến</figcaption></figure><figure class="screen-only"><video controls preload="none" src="videos/run2/TC-201-07.webm" poster="screenshots/run2/TC-201-07.png"></video><figcaption>Video đủ thời lượng</figcaption></figure></div><p class="muted">Tệp: <a href="gifs/run2/TC-201-07.gif">TC-201-07.gif</a> · <a href="videos/run2/TC-201-07.webm">TC-201-07.webm</a></p>
+</section><section class="tc" id="TC-201-08">
+<h3>TC-201-08 · AC-201.3 [B] run1: <span class="badge PASS">PASS</span> run2: <span class="badge PASS">PASS</span></h3>
+<table><tr><th style="width:14%">Bước</th><td>Chọn PDF <b>50 MB + 1 KB</b></td></tr>
+<tr><th>PASS khi</th><td>Toast "… File vượt 50 MB. Hãy tách file hoặc liên hệ trưởng nhóm."; không có <code>POST /documents</code></td></tr>
+<tr><th>FAIL khi</th><td>Tải lên bắt đầu, hoặc không có lý do</td></tr></table>
+
+<div class="media"><figure><img src="screenshots/run2/TC-201-08.png" alt="TC-201-08"><figcaption>Ảnh: TC-201-08.png</figcaption></figure><figure class="screen-only"><img src="gifs/run2/TC-201-08.gif" alt="GIF"><figcaption>GIF diễn biến</figcaption></figure><figure class="screen-only"><video controls preload="none" src="videos/run2/TC-201-08.webm" poster="screenshots/run2/TC-201-08.png"></video><figcaption>Video đủ thời lượng</figcaption></figure></div><p class="muted">Tệp: <a href="gifs/run2/TC-201-08.gif">TC-201-08.gif</a> · <a href="videos/run2/TC-201-08.webm">TC-201-08.webm</a></p>
+</section><section class="tc" id="TC-201-09">
+<h3>TC-201-09 · AC-201.3 [N] run1: <span class="badge PASS">PASS</span> run2: <span class="badge PASS">PASS</span></h3>
+<table><tr><th style="width:14%">Bước</th><td>Chọn <code>Word_doi_duoi.pdf</code> (nội dung .doc, đuôi .pdf)</td></tr>
+<tr><th>PASS khi</th><td>Máy chủ từ chối: toast "… Chỉ hỗ trợ file PDF."; kho không có dòng</td></tr>
+<tr><th>FAIL khi</th><td>File vào kho</td></tr></table>
+
+<div class="media"><figure><img src="screenshots/run2/TC-201-09.png" alt="TC-201-09"><figcaption>Ảnh: TC-201-09.png</figcaption></figure><figure class="screen-only"><img src="gifs/run2/TC-201-09.gif" alt="GIF"><figcaption>GIF diễn biến</figcaption></figure><figure class="screen-only"><video controls preload="none" src="videos/run2/TC-201-09.webm" poster="screenshots/run2/TC-201-09.png"></video><figcaption>Video đủ thời lượng</figcaption></figure></div><p class="muted">Tệp: <a href="gifs/run2/TC-201-09.gif">TC-201-09.gif</a> · <a href="videos/run2/TC-201-09.webm">TC-201-09.webm</a></p>
+</section><section class="tc" id="TC-201-10">
+<h3>TC-201-10 · AC-201.3 [N] run1: <span class="badge PASS">PASS</span> run2: <span class="badge PASS">PASS</span></h3>
+<table><tr><th style="width:14%">Bước</th><td>Chọn <code>Rong.pdf</code> (0 byte)</td></tr>
+<tr><th>PASS khi</th><td>Bị từ chối kèm lý do; kho không có dòng</td></tr>
+<tr><th>FAIL khi</th><td>File vào kho hoặc lỗi không có thông báo</td></tr></table>
+
+<div class="media"><figure><img src="screenshots/run2/TC-201-10.png" alt="TC-201-10"><figcaption>Ảnh: TC-201-10.png</figcaption></figure><figure class="screen-only"><img src="gifs/run2/TC-201-10.gif" alt="GIF"><figcaption>GIF diễn biến</figcaption></figure><figure class="screen-only"><video controls preload="none" src="videos/run2/TC-201-10.webm" poster="screenshots/run2/TC-201-10.png"></video><figcaption>Video đủ thời lượng</figcaption></figure></div><p class="muted">Tệp: <a href="gifs/run2/TC-201-10.gif">TC-201-10.gif</a> · <a href="videos/run2/TC-201-10.webm">TC-201-10.webm</a></p>
+</section><section class="tc" id="TC-201-11">
+<h3>TC-201-11 · AC-201.3 [V] run1: <span class="badge PASS">PASS</span> run2: <span class="badge PASS">PASS</span></h3>
+<table><tr><th style="width:14%">Bước</th><td>Chọn cùng lúc <code>BaoGia_XYZ.pdf</code>, <code>anh.png</code>, file 50 MB + 1 KB</td></tr>
+<tr><th>PASS khi</th><td>2 toast từ chối đúng lý do; <code>BaoGia_XYZ.pdf</code> vẫn đạt "Sẵn sàng"</td></tr>
+<tr><th>FAIL khi</th><td>File hợp lệ bị chặn theo, hoặc thiếu lý do</td></tr></table>
+
+<div class="media"><figure><img src="screenshots/run2/TC-201-11-rejected.png" alt="TC-201-11-rejected"><figcaption>Ảnh: TC-201-11-rejected.png</figcaption></figure><figure><img src="screenshots/run2/TC-201-11.png" alt="TC-201-11"><figcaption>Ảnh: TC-201-11.png</figcaption></figure><figure class="screen-only"><img src="gifs/run2/TC-201-11.gif" alt="GIF"><figcaption>GIF diễn biến</figcaption></figure><figure class="screen-only"><video controls preload="none" src="videos/run2/TC-201-11.webm" poster="screenshots/run2/TC-201-11.png"></video><figcaption>Video đủ thời lượng</figcaption></figure></div><p class="muted">Tệp: <a href="gifs/run2/TC-201-11.gif">TC-201-11.gif</a> · <a href="videos/run2/TC-201-11.webm">TC-201-11.webm</a></p>
+</section><section class="tc" id="TC-201-12">
+<h3>TC-201-12 · AC-201.4 [R] run1: <span class="badge PASS">PASS</span> run2: <span class="badge PASS">PASS</span></h3>
+<table><tr><th style="width:14%">Bước</th><td>Chọn PDF 8 MB; khi đang tải (file <b>chưa tới server</b>) → <b>mất mạng</b> 2 s → có mạng lại ‹sửa r1, HD-2›</td></tr>
+<tr><th>PASS khi</th><td>Thấy "Tạm dừng — mất kết nối"; sau khi có mạng, tự tải tiếp và đạt "Sẵn sàng" mà người dùng không phải làm gì; kho có đúng 1 dòng file đó</td></tr>
+<tr><th>FAIL khi</th><td>Kẹt ở tạm dừng, mất file, hoặc phải tải lại tay</td></tr></table>
+
+<div class="media"><figure><img src="screenshots/run2/TC-201-12-paused.png" alt="TC-201-12-paused"><figcaption>Ảnh: TC-201-12-paused.png</figcaption></figure><figure><img src="screenshots/run2/TC-201-12.png" alt="TC-201-12"><figcaption>Ảnh: TC-201-12.png</figcaption></figure><figure class="screen-only"><img src="gifs/run2/TC-201-12.gif" alt="GIF"><figcaption>GIF diễn biến</figcaption></figure><figure class="screen-only"><video controls preload="none" src="videos/run2/TC-201-12.webm" poster="screenshots/run2/TC-201-12.png"></video><figcaption>Video đủ thời lượng</figcaption></figure></div><p class="muted">Tệp: <a href="gifs/run2/TC-201-12.gif">TC-201-12.gif</a> · <a href="videos/run2/TC-201-12.webm">TC-201-12.webm</a></p>
+</section><section class="tc" id="TC-201-13">
+<h3>TC-201-13 · AC-201.4 [R] run1: <span class="badge PASS">PASS</span> run2: <span class="badge PASS">PASS</span></h3>
+<table><tr><th style="width:14%">Bước</th><td>Chọn PDF 8 MB khác (file <b>chưa tới server</b>); mất mạng <b>&gt; 14 s</b> (quá 3 lần thử 2/4/8 s) → có mạng lại → menu "Thử lại"</td></tr>
+<tr><th>PASS khi</th><td>Đúng 1 lần gửi + 3 lần thử; rồi "Tải lên thất bại" + thông điệp kiểm tra kết nối + mục "Thử lại"; bấm "Thử lại" → "Sẵn sàng", 1 dòng</td></tr>
+<tr><th>FAIL khi</th><td>Thử quá 3 lần, không có nút thử lại, hoặc thử lại không chạy</td></tr></table>
+<ul class="muted"><li>upload attempts while offline: 4</li></ul>
+<div class="media"><figure><img src="screenshots/run2/TC-201-13-failed.png" alt="TC-201-13-failed"><figcaption>Ảnh: TC-201-13-failed.png</figcaption></figure><figure><img src="screenshots/run2/TC-201-13.png" alt="TC-201-13"><figcaption>Ảnh: TC-201-13.png</figcaption></figure><figure class="screen-only"><img src="gifs/run2/TC-201-13.gif" alt="GIF"><figcaption>GIF diễn biến</figcaption></figure><figure class="screen-only"><video controls preload="none" src="videos/run2/TC-201-13.webm" poster="screenshots/run2/TC-201-13.png"></video><figcaption>Video đủ thời lượng</figcaption></figure></div><p class="muted">Tệp: <a href="gifs/run2/TC-201-13.gif">TC-201-13.gif</a> · <a href="videos/run2/TC-201-13.webm">TC-201-13.webm</a></p>
+</section><section class="tc" id="TC-303-01">
+<h3>TC-303-01 · AC-303.1 [H] run1: <span class="badge PASS">PASS</span> run2: <span class="badge PASS">PASS</span></h3>
+<table><tr><th style="width:14%">Bước</th><td>Hỏi "Điều khoản thanh toán của hợp đồng ABC là gì?"</td></tr>
+<tr><th>PASS khi</th><td>Mỗi đoạn của câu trả lời có ≥ 1 chip trích dẫn <code>[n]</code>; cuối thẻ có mục "Nguồn" với dòng "HopDong_ABC.pdf — trang 2"</td></tr>
+<tr><th>FAIL khi</th><td>Có đoạn không trích dẫn, không có mục Nguồn, hoặc định dạng khác "Tên — trang X"</td></tr></table>
+<ul class="muted"><li>paragraphs: [{&quot;text&quot;:&quot;Theo tài liệu: Điều 5. &quot;,&quot;cited&quot;:true}]</li><li>TC-303-10 measured: {&quot;event&quot;:&quot;done&quot;,&quot;status&quot;:&quot;COMPLETED&quot;,&quot;reason&quot;:null,&quot;latencyMs&quot;:92,&quot;firstTokenMs&quot;:28}</li></ul>
+<div class="media"><figure><img src="screenshots/run2/TC-303-01.png" alt="TC-303-01"><figcaption>Ảnh: TC-303-01.png</figcaption></figure><figure class="screen-only"><img src="gifs/run2/TC-303-01+TC-303-10.gif" alt="GIF"><figcaption>GIF diễn biến</figcaption></figure><figure class="screen-only"><video controls preload="none" src="videos/run2/TC-303-01+TC-303-10.webm" poster="screenshots/run2/TC-303-01.png"></video><figcaption>Video đủ thời lượng</figcaption></figure></div><p class="muted">Tệp: <a href="gifs/run2/TC-303-01+TC-303-10.gif">TC-303-01+TC-303-10.gif</a> · <a href="videos/run2/TC-303-01+TC-303-10.webm">TC-303-01+TC-303-10.webm</a></p>
+</section><section class="tc" id="TC-303-02">
+<h3>TC-303-02 · AC-303.1 [V] run1: <span class="badge PASS">PASS</span> run2: <span class="badge PASS">PASS</span></h3>
+<table><tr><th style="width:14%">Bước</th><td>Hỏi câu cần 2 tài liệu: "Thanh toán hợp đồng ABC và đơn giá triển khai báo giá XYZ?"</td></tr>
+<tr><th>PASS khi</th><td>Mỗi đoạn có chip; mục Nguồn có <b>cả</b> <code>HopDong_ABC.pdf</code> và <code>BaoGia_XYZ.pdf</code></td></tr>
+<tr><th>FAIL khi</th><td>Chỉ một tài liệu, hoặc đoạn thiếu chip</td></tr></table>
+
+<div class="media"><figure><img src="screenshots/run2/TC-303-02.png" alt="TC-303-02"><figcaption>Ảnh: TC-303-02.png</figcaption></figure><figure class="screen-only"><img src="gifs/run2/TC-303-02.gif" alt="GIF"><figcaption>GIF diễn biến</figcaption></figure><figure class="screen-only"><video controls preload="none" src="videos/run2/TC-303-02.webm" poster="screenshots/run2/TC-303-02.png"></video><figcaption>Video đủ thời lượng</figcaption></figure></div><p class="muted">Tệp: <a href="gifs/run2/TC-303-02.gif">TC-303-02.gif</a> · <a href="videos/run2/TC-303-02.webm">TC-303-02.webm</a></p>
+</section><section class="tc" id="TC-303-03">
+<h3>TC-303-03 · AC-303.1 [V] run1: <span class="badge PASS">PASS</span> run2: <span class="badge PASS">PASS</span></h3>
+<table><tr><th style="width:14%">Bước</th><td>Hỏi tiếng Anh "What are the payment terms of the ABC contract?"</td></tr>
+<tr><th>PASS khi</th><td>Câu trả lời tiếng Anh ("According to the documents…"), vẫn đủ chip và mục Nguồn</td></tr>
+<tr><th>FAIL khi</th><td>Mất trích dẫn khi đổi ngôn ngữ</td></tr></table>
+
+<div class="media"><figure><img src="screenshots/run2/TC-303-03.png" alt="TC-303-03"><figcaption>Ảnh: TC-303-03.png</figcaption></figure><figure class="screen-only"><img src="gifs/run2/TC-303-03.gif" alt="GIF"><figcaption>GIF diễn biến</figcaption></figure><figure class="screen-only"><video controls preload="none" src="videos/run2/TC-303-03.webm" poster="screenshots/run2/TC-303-03.png"></video><figcaption>Video đủ thời lượng</figcaption></figure></div><p class="muted">Tệp: <a href="gifs/run2/TC-303-03.gif">TC-303-03.gif</a> · <a href="videos/run2/TC-303-03.webm">TC-303-03.webm</a></p>
+</section><section class="tc" id="TC-303-04">
+<h3>TC-303-04 · AC-303.2 [H] run1: <span class="badge PASS">PASS</span> run2: <span class="badge PASS">PASS</span></h3>
+<table><tr><th style="width:14%">Bước</th><td>Với mỗi chip của TC-303-01 và TC-303-02: bấm chip</td></tr>
+<tr><th>PASS khi</th><td>Vùng nguồn mở <b>đúng tài liệu, đúng trang</b> ghi ở chip; đoạn trích được tô sáng và chứa từ khoá của ý (vd. "30%")</td></tr>
+<tr><th>FAIL khi</th><td>Mở sai tài liệu / sai trang, hoặc không tô sáng được</td></tr></table>
+
+<div class="media"><figure><img src="screenshots/run2/TC-303-04-chip1.png" alt="TC-303-04-chip1"><figcaption>Ảnh: TC-303-04-chip1.png</figcaption></figure><figure><img src="screenshots/run2/TC-303-04-chip2.png" alt="TC-303-04-chip2"><figcaption>Ảnh: TC-303-04-chip2.png</figcaption></figure><figure class="screen-only"><img src="gifs/run2/TC-303-04.gif" alt="GIF"><figcaption>GIF diễn biến</figcaption></figure><figure class="screen-only"><video controls preload="none" src="videos/run2/TC-303-04.webm" poster="screenshots/run2/TC-303-04-chip2.png"></video><figcaption>Video đủ thời lượng</figcaption></figure></div><p class="muted">Tệp: <a href="gifs/run2/TC-303-04.gif">TC-303-04.gif</a> · <a href="videos/run2/TC-303-04.webm">TC-303-04.webm</a></p>
+</section><section class="tc" id="TC-303-06">
+<h3>TC-303-06 · AC-303.3 [N] run1: <span class="badge PASS">PASS</span> run2: <span class="badge PASS">PASS</span></h3>
+<table><tr><th style="width:14%">Bước</th><td>Hỏi câu khiến LLM trả lời <b>không có trích dẫn</b> (kịch bản <code>#noref</code> của LLM giả lập)</td></tr>
+<tr><th>PASS khi</th><td>Thẻ trung tính "Không tìm thấy thông tin này trong N tài liệu hiện có", <b>N = số tài liệu Sẵn sàng trong kho</b> ‹sửa r1, TD-1›; không còn chữ do LLM viết; không có mục Nguồn</td></tr>
+<tr><th>FAIL khi</th><td>Hiện câu trả lời không trích dẫn</td></tr></table>
+
+<div class="media"><figure><img src="screenshots/run2/TC-303-06.png" alt="TC-303-06"><figcaption>Ảnh: TC-303-06.png</figcaption></figure><figure class="screen-only"><img src="gifs/run2/TC-303-06.gif" alt="GIF"><figcaption>GIF diễn biến</figcaption></figure><figure class="screen-only"><video controls preload="none" src="videos/run2/TC-303-06.webm" poster="screenshots/run2/TC-303-06.png"></video><figcaption>Video đủ thời lượng</figcaption></figure></div><p class="muted">Tệp: <a href="gifs/run2/TC-303-06.gif">TC-303-06.gif</a> · <a href="videos/run2/TC-303-06.webm">TC-303-06.webm</a></p>
+</section><section class="tc" id="TC-303-07">
+<h3>TC-303-07 · AC-303.3 [N] run1: <span class="badge PASS">PASS</span> run2: <span class="badge PASS">PASS</span></h3>
+<table><tr><th style="width:14%">Bước</th><td>Hỏi câu khiến LLM trích dẫn <b>số không có trong ngữ cảnh</b> (<code>#badref</code>)</td></tr>
+<tr><th>PASS khi</th><td>Như TC-303-06</td></tr>
+<tr><th>FAIL khi</th><td>Hiện số trích dẫn không tồn tại</td></tr></table>
+
+<div class="media"><figure><img src="screenshots/run2/TC-303-07.png" alt="TC-303-07"><figcaption>Ảnh: TC-303-07.png</figcaption></figure><figure class="screen-only"><img src="gifs/run2/TC-303-07+TC-303-08.gif" alt="GIF"><figcaption>GIF diễn biến</figcaption></figure><figure class="screen-only"><video controls preload="none" src="videos/run2/TC-303-07+TC-303-08.webm" poster="screenshots/run2/TC-303-07.png"></video><figcaption>Video đủ thời lượng</figcaption></figure></div><p class="muted">Tệp: <a href="gifs/run2/TC-303-07+TC-303-08.gif">TC-303-07+TC-303-08.gif</a> · <a href="videos/run2/TC-303-07+TC-303-08.webm">TC-303-07+TC-303-08.webm</a></p>
+</section><section class="tc" id="TC-303-08">
+<h3>TC-303-08 · AC-303.3 [R] run1: <span class="badge PASS">PASS</span> run2: <span class="badge PASS">PASS</span></h3>
+<table><tr><th style="width:14%">Bước</th><td>Ngay sau TC-303-07, cùng hội thoại, hỏi lại câu của TC-303-01</td></tr>
+<tr><th>PASS khi</th><td>Câu trả lời bình thường, đủ chip và Nguồn — lỗi trước không làm hỏng hội thoại</td></tr>
+<tr><th>FAIL khi</th><td>Thẻ lỗi / không tìm thấy lan sang câu sau</td></tr></table>
+
+<div class="media"><figure><img src="screenshots/run2/TC-303-08.png" alt="TC-303-08"><figcaption>Ảnh: TC-303-08.png</figcaption></figure><figure class="screen-only"><img src="gifs/run2/TC-303-07+TC-303-08.gif" alt="GIF"><figcaption>GIF diễn biến</figcaption></figure><figure class="screen-only"><video controls preload="none" src="videos/run2/TC-303-07+TC-303-08.webm" poster="screenshots/run2/TC-303-08.png"></video><figcaption>Video đủ thời lượng</figcaption></figure></div><p class="muted">Tệp: <a href="gifs/run2/TC-303-07+TC-303-08.gif">TC-303-07+TC-303-08.gif</a> · <a href="videos/run2/TC-303-07+TC-303-08.webm">TC-303-07+TC-303-08.webm</a></p>
+</section><section class="tc" id="TC-303-09">
+<h3>TC-303-09 · AC-303.4 [H] run1: <span class="badge PASS">PASS</span> run2: <span class="badge PASS">PASS</span></h3>
+<table><tr><th style="width:14%">Bước</th><td>Sau TC-303-01, đọc dữ liệu đã lưu: <code>GET /api/v1/conversations/{id}/questions</code></td></tr>
+<tr><th>PASS khi</th><td>Mỗi trích dẫn có <code>fileName</code>, <code>page</code> = trang thật trong PDF, <code>excerpt</code> là <b>đoạn văn trong PDF</b> (so theo từ, khoảng trắng gộp — PDF dùng no-break space ‹sửa r1, TD-2›; không chứa câu dẫn "Theo tài liệu:" do LLM viết)</td></tr>
+<tr><th>FAIL khi</th><td>Excerpt lấy từ chữ LLM, hoặc trang không khớp PDF</td></tr></table>
+<ul class="muted"><li>stored citation: {&quot;index&quot;:1,&quot;documentId&quot;:&quot;01a19c6e-0d24-74f9-b6de-23e1af0aa1b3&quot;,&quot;fileName&quot;:&quot;HopDong_ABC.pdf&quot;,&quot;page&quot;:2,&quot;excerpt&quot;:&quot;Điều 5. Thanh toán: khách hàng thanh toán 30% giá trị hợp đồng khi ký và 70% khi\nnghiệm thu.&quot;,&quot;removed&quot;:false}</li></ul>
+<div class="media"><figure class="screen-only"><img src="gifs/run2/TC-303-09.gif" alt="GIF"><figcaption>GIF diễn biến</figcaption></figure><figure class="screen-only"><video controls preload="none" src="videos/run2/TC-303-09.webm"></video><figcaption>Video đủ thời lượng</figcaption></figure></div><p class="muted">Tệp: <a href="gifs/run2/TC-303-09.gif">TC-303-09.gif</a> · <a href="videos/run2/TC-303-09.webm">TC-303-09.webm</a></p>
+</section><section class="tc" id="TC-303-10">
+<h3>TC-303-10 · AC-303.1 [P] run1: <span class="badge PASS">PASS</span> run2: <span class="badge PASS">PASS</span></h3>
+<table><tr><th style="width:14%">Bước</th><td>Đo trong TC-303-01 qua sự kiện SSE <code>done</code></td></tr>
+<tr><th>PASS khi</th><td><code>latencyMs</code> ≤ 30 000 (NFR-01) và <code>firstTokenMs</code> ≤ 5 000 (NFR-02)</td></tr>
+<tr><th>FAIL khi</th><td>Vượt ngưỡng</td></tr></table>
+<ul class="muted"><li>paragraphs: [{&quot;text&quot;:&quot;Theo tài liệu: Điều 5. &quot;,&quot;cited&quot;:true}]</li><li>TC-303-10 measured: {&quot;event&quot;:&quot;done&quot;,&quot;status&quot;:&quot;COMPLETED&quot;,&quot;reason&quot;:null,&quot;latencyMs&quot;:92,&quot;firstTokenMs&quot;:28}</li></ul>
+<div class="media"><figure class="screen-only"><img src="gifs/run2/TC-303-01+TC-303-10.gif" alt="GIF"><figcaption>GIF diễn biến</figcaption></figure><figure class="screen-only"><video controls preload="none" src="videos/run2/TC-303-01+TC-303-10.webm"></video><figcaption>Video đủ thời lượng</figcaption></figure></div><p class="muted">Tệp: <a href="gifs/run2/TC-303-01+TC-303-10.gif">TC-303-01+TC-303-10.gif</a> · <a href="videos/run2/TC-303-01+TC-303-10.webm">TC-303-01+TC-303-10.webm</a></p>
+</section>
+</body></html>

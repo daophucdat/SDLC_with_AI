@@ -11,6 +11,7 @@ Kế hoạch: [docs/test-plan.md](../docs/test-plan.md) · Test case (kỳ vọn
 | Lệnh | `cd e2e && E2E_RUN=run1 npm run test:tc` rồi `E2E_RUN=run2 npm run test:tc`; video + GIF: `python scripts/test_media.py`; bảng dưới: `python scripts/test_report.py` |
 | Retry | 0 (playwright.config.ts) — mỗi PASS là PASS ngay lần đầu |
 | Thô | `reports/junit-run1.xml`, `reports/junit-run2.xml` (19 test, 0 failure, ~130 s mỗi lượt khi có video) · `reports/results-run*.json` · trace: `e2e/test-results/<run>/` (không commit) |
+| Bản gửi đi | **[test-report.pdf](test-report.pdf)** (A4, 17 trang: tổng hợp, phiếu lỗi, ma trận AC ↔ TC, kỳ vọng + ảnh từng TC) · [test-report.html](test-report.html) (cùng nội dung, có GIF và trình phát video) — `python scripts/test_report_html.py` |
 | Video / GIF | Mỗi test một video `.webm` (1280×800, đủ thời lượng) và một GIF (720 px, ≤ 8 khung/s) — cột "Bằng chứng" dưới đây; xem tất cả GIF trong [test-media.md](test-media.md) |
 
 ## Kết quả
