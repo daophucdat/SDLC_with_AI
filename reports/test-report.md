@@ -4,13 +4,14 @@ Kế hoạch: [docs/test-plan.md](../docs/test-plan.md) · Test case (kỳ vọn
 
 | | |
 |---|---|
-| Ngày chạy | 2026-10-26 |
-| Mã nguồn | `main` @ b2c5dc1 + thay đổi Day 6 (commit `test(e2e): …` cùng ngày) |
+| Ngày chạy | 2026-11-02 (chạy lại có ghi video; lượt đầu 2026-10-26) |
+| Mã nguồn | `main` @ 49d3fe2 + bật video, `outputDir` theo lượt |
 | Môi trường | App test cục bộ (`backend/tests/e2e_server.py`: FastAPI + repo trong bộ nhớ + PyMuPDF thật + LLM giả lập; Vite dev server :5180) |
 | Công cụ | Playwright 1.40.1 · Chromium · Node 16.17.1 · Python 3.10.6 · Windows 11 |
-| Lệnh | `cd e2e && E2E_RUN=run1 npm run test:tc` rồi `E2E_RUN=run2 npm run test:tc`; bảng dưới: `python scripts/test_report.py` |
+| Lệnh | `cd e2e && E2E_RUN=run1 npm run test:tc` rồi `E2E_RUN=run2 npm run test:tc`; video + GIF: `python scripts/test_media.py`; bảng dưới: `python scripts/test_report.py` |
 | Retry | 0 (playwright.config.ts) — mỗi PASS là PASS ngay lần đầu |
-| Thô | `reports/junit-run1.xml`, `reports/junit-run2.xml` (19 test, 0 failure, ~110 s mỗi lượt) · `reports/results-run*.json` · trace + video lỗi: `e2e/test-results/` (không commit) |
+| Thô | `reports/junit-run1.xml`, `reports/junit-run2.xml` (19 test, 0 failure, ~130 s mỗi lượt khi có video) · `reports/results-run*.json` · trace: `e2e/test-results/<run>/` (không commit) |
+| Video / GIF | Mỗi test một video `.webm` (1280×800, đủ thời lượng) và một GIF (720 px, ≤ 8 khung/s) — cột "Bằng chứng" dưới đây; xem tất cả GIF trong [test-media.md](test-media.md) |
 
 ## Kết quả
 
@@ -19,28 +20,28 @@ Kế hoạch: [docs/test-plan.md](../docs/test-plan.md) · Test case (kỳ vọn
 <!-- results:start -->
 | TC | run1 | run2 | Thời gian (s) | Đo được | Bằng chứng (run2) |
 |---|---|---|---|---|---|
-| TC-201-01 | PASS | PASS | 7.8 / 7.7 |  | [TC-201-01](screenshots/run2/TC-201-01.png) |
-| TC-201-02 | PASS | PASS | 6.5 / 6.6 |  | [TC-201-02](screenshots/run2/TC-201-02.png) |
-| TC-201-03 | PASS | PASS | 7.5 / 7.4 | TC-201-04 measured: 5.0 s to READY | [TC-201-03](screenshots/run2/TC-201-03.png) |
-| TC-201-04 | PASS | PASS | 7.5 / 7.4 | TC-201-04 measured: 5.0 s to READY | [TC-201-04](screenshots/run2/TC-201-04.png) |
-| TC-201-05 | PASS | PASS | 6.9 / 6.8 | max uploads in flight: 3 | [TC-201-05-queue](screenshots/run2/TC-201-05-queue.png) [TC-201-05](screenshots/run2/TC-201-05.png) |
-| TC-201-06 | PASS | PASS | 6.4 / 6.3 |  | [TC-201-06](screenshots/run2/TC-201-06.png) |
-| TC-201-07 | PASS | PASS | 2.3 / 2.2 |  | [TC-201-07](screenshots/run2/TC-201-07.png) |
-| TC-201-08 | PASS | PASS | 2.2 / 2.2 |  | [TC-201-08](screenshots/run2/TC-201-08.png) |
-| TC-201-09 | PASS | PASS | 2.3 / 2.2 |  | [TC-201-09](screenshots/run2/TC-201-09.png) |
-| TC-201-10 | PASS | PASS | 2.3 / 2.4 |  | [TC-201-10](screenshots/run2/TC-201-10.png) |
-| TC-201-11 | PASS | PASS | 2.8 / 2.8 |  | [TC-201-11-rejected](screenshots/run2/TC-201-11-rejected.png) [TC-201-11](screenshots/run2/TC-201-11.png) |
-| TC-201-12 | PASS | PASS | 8.8 / 8.5 |  | [TC-201-12-paused](screenshots/run2/TC-201-12-paused.png) [TC-201-12](screenshots/run2/TC-201-12.png) |
-| TC-201-13 | PASS | PASS | 22.0 / 21.8 | upload attempts while offline: 4 | [TC-201-13-failed](screenshots/run2/TC-201-13-failed.png) [TC-201-13](screenshots/run2/TC-201-13.png) |
-| TC-303-01 | PASS | PASS | 2.7 / 2.6 | TC-303-10 measured: {"event":"done","status":"COMPLETED","reason":null,"latencyMs":89,"firstTokenMs":26} | [TC-303-01](screenshots/run2/TC-303-01.png) |
-| TC-303-02 | PASS | PASS | 2.9 / 2.9 |  | [TC-303-02](screenshots/run2/TC-303-02.png) |
-| TC-303-03 | PASS | PASS | 2.8 / 2.8 |  | [TC-303-03](screenshots/run2/TC-303-03.png) |
-| TC-303-04 | PASS | PASS | 6.9 / 7.4 |  | [TC-303-04-chip1](screenshots/run2/TC-303-04-chip1.png) [TC-303-04-chip2](screenshots/run2/TC-303-04-chip2.png) |
-| TC-303-06 | PASS | PASS | 2.9 / 3.2 |  | [TC-303-06](screenshots/run2/TC-303-06.png) |
-| TC-303-07 | PASS | PASS | 3.2 / 3.1 |  | [TC-303-07](screenshots/run2/TC-303-07.png) |
-| TC-303-08 | PASS | PASS | 3.2 / 3.1 |  | [TC-303-08](screenshots/run2/TC-303-08.png) |
-| TC-303-09 | PASS | PASS | 2.7 / 2.7 | stored citation: {"index":1,"documentId":"01a1789b-4383-7460-ab9f-901f7d6c0923","fileName":"HopDong_ABC.pdf","page":2,"excerpt":"Điều 5. Thanh toán: khách hàng thanh toán 30% giá trị hợp đồng khi ký và 70% khi\nnghiệm thu.","removed":false} |  |
-| TC-303-10 | PASS | PASS | 2.7 / 2.6 | TC-303-10 measured: {"event":"done","status":"COMPLETED","reason":null,"latencyMs":89,"firstTokenMs":26} |  |
+| TC-201-01 | PASS | PASS | 8.4 / 8.4 |  | [TC-201-01](screenshots/run2/TC-201-01.png) [GIF](gifs/run2/TC-201-01.gif) [video](videos/run2/TC-201-01.webm) |
+| TC-201-02 | PASS | PASS | 7.3 / 7.1 |  | [TC-201-02](screenshots/run2/TC-201-02.png) [GIF](gifs/run2/TC-201-02.gif) [video](videos/run2/TC-201-02.webm) |
+| TC-201-03 | PASS | PASS | 9.4 / 8.3 | TC-201-04 measured: 5.1 s to READY | [TC-201-03](screenshots/run2/TC-201-03.png) [GIF](gifs/run2/TC-201-03+TC-201-04.gif) [video](videos/run2/TC-201-03+TC-201-04.webm) |
+| TC-201-04 | PASS | PASS | 9.4 / 8.3 | TC-201-04 measured: 5.1 s to READY | [TC-201-04](screenshots/run2/TC-201-04.png) [GIF](gifs/run2/TC-201-03+TC-201-04.gif) [video](videos/run2/TC-201-03+TC-201-04.webm) |
+| TC-201-05 | PASS | PASS | 7.5 / 7.4 | max uploads in flight: 3 | [TC-201-05-queue](screenshots/run2/TC-201-05-queue.png) [TC-201-05](screenshots/run2/TC-201-05.png) [GIF](gifs/run2/TC-201-05.gif) [video](videos/run2/TC-201-05.webm) |
+| TC-201-06 | PASS | PASS | 7.2 / 8.1 |  | [TC-201-06](screenshots/run2/TC-201-06.png) [GIF](gifs/run2/TC-201-06.gif) [video](videos/run2/TC-201-06.webm) |
+| TC-201-07 | PASS | PASS | 2.7 / 2.9 |  | [TC-201-07](screenshots/run2/TC-201-07.png) [GIF](gifs/run2/TC-201-07.gif) [video](videos/run2/TC-201-07.webm) |
+| TC-201-08 | PASS | PASS | 2.9 / 2.7 |  | [TC-201-08](screenshots/run2/TC-201-08.png) [GIF](gifs/run2/TC-201-08.gif) [video](videos/run2/TC-201-08.webm) |
+| TC-201-09 | PASS | PASS | 2.8 / 2.9 |  | [TC-201-09](screenshots/run2/TC-201-09.png) [GIF](gifs/run2/TC-201-09.gif) [video](videos/run2/TC-201-09.webm) |
+| TC-201-10 | PASS | PASS | 2.8 / 3.0 |  | [TC-201-10](screenshots/run2/TC-201-10.png) [GIF](gifs/run2/TC-201-10.gif) [video](videos/run2/TC-201-10.webm) |
+| TC-201-11 | PASS | PASS | 3.1 / 3.1 |  | [TC-201-11-rejected](screenshots/run2/TC-201-11-rejected.png) [TC-201-11](screenshots/run2/TC-201-11.png) [GIF](gifs/run2/TC-201-11.gif) [video](videos/run2/TC-201-11.webm) |
+| TC-201-12 | PASS | PASS | 5.5 / 9.2 |  | [TC-201-12-paused](screenshots/run2/TC-201-12-paused.png) [TC-201-12](screenshots/run2/TC-201-12.png) [GIF](gifs/run2/TC-201-12.gif) [video](videos/run2/TC-201-12.webm) |
+| TC-201-13 | PASS | PASS | 19.2 / 22.6 | upload attempts while offline: 4 | [TC-201-13-failed](screenshots/run2/TC-201-13-failed.png) [TC-201-13](screenshots/run2/TC-201-13.png) [GIF](gifs/run2/TC-201-13.gif) [video](videos/run2/TC-201-13.webm) |
+| TC-303-01 | PASS | PASS | 3.3 / 3.3 | TC-303-10 measured: {"event":"done","status":"COMPLETED","reason":null,"latencyMs":92,"firstTokenMs":28} | [TC-303-01](screenshots/run2/TC-303-01.png) [GIF](gifs/run2/TC-303-01+TC-303-10.gif) [video](videos/run2/TC-303-01+TC-303-10.webm) |
+| TC-303-02 | PASS | PASS | 3.4 / 3.5 |  | [TC-303-02](screenshots/run2/TC-303-02.png) [GIF](gifs/run2/TC-303-02.gif) [video](videos/run2/TC-303-02.webm) |
+| TC-303-03 | PASS | PASS | 3.5 / 3.6 |  | [TC-303-03](screenshots/run2/TC-303-03.png) [GIF](gifs/run2/TC-303-03.gif) [video](videos/run2/TC-303-03.webm) |
+| TC-303-04 | PASS | PASS | 7.4 / 7.6 |  | [TC-303-04-chip1](screenshots/run2/TC-303-04-chip1.png) [TC-303-04-chip2](screenshots/run2/TC-303-04-chip2.png) [GIF](gifs/run2/TC-303-04.gif) [video](videos/run2/TC-303-04.webm) |
+| TC-303-06 | PASS | PASS | 3.8 / 3.9 |  | [TC-303-06](screenshots/run2/TC-303-06.png) [GIF](gifs/run2/TC-303-06.gif) [video](videos/run2/TC-303-06.webm) |
+| TC-303-07 | PASS | PASS | 3.9 / 4.0 |  | [TC-303-07](screenshots/run2/TC-303-07.png) [GIF](gifs/run2/TC-303-07+TC-303-08.gif) [video](videos/run2/TC-303-07+TC-303-08.webm) |
+| TC-303-08 | PASS | PASS | 3.9 / 4.0 |  | [TC-303-08](screenshots/run2/TC-303-08.png) [GIF](gifs/run2/TC-303-07+TC-303-08.gif) [video](videos/run2/TC-303-07+TC-303-08.webm) |
+| TC-303-09 | PASS | PASS | 3.3 / 3.4 | stored citation: {"index":1,"documentId":"01a19c6e-0d24-74f9-b6de-23e1af0aa1b3","fileName":"HopDong_ABC.pdf","page":2,"excerpt":"Điều 5. Thanh toán: khách hàng thanh toán 30% giá trị hợp đồng khi ký và 70% khi\nnghiệm thu.","removed":false} | [GIF](gifs/run2/TC-303-09.gif) [video](videos/run2/TC-303-09.webm) |
+| TC-303-10 | PASS | PASS | 3.3 / 3.3 | TC-303-10 measured: {"event":"done","status":"COMPLETED","reason":null,"latencyMs":92,"firstTokenMs":28} | [GIF](gifs/run2/TC-303-01+TC-303-10.gif) [video](videos/run2/TC-303-01+TC-303-10.webm) |
 
 Tổng: run1: 22/22 PASS · run2: 22/22 PASS — 22 TC tự động.
 <!-- results:end -->

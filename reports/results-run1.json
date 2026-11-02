@@ -46,7 +46,7 @@
     "quiet": false,
     "projects": [
       {
-        "outputDir": "C:/Users/User/SDLC_with_AI/e2e/test-results",
+        "outputDir": "C:/Users/User/SDLC_with_AI/e2e/test-results/run1",
         "repeatEach": 1,
         "retries": 0,
         "id": "chromium",
@@ -87,22 +87,27 @@
                 {
                   "workerIndex": 0,
                   "status": "passed",
-                  "duration": 7814,
+                  "duration": 8413,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-26T14:24:23.817Z",
+                  "startTime": "2026-11-02T13:21:23.449Z",
                   "attachments": [
                     {
                       "name": "screenshot",
                       "contentType": "image/png",
-                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\tc-us201-TC-201-01-AC-201-1-H-chọn-1-PDF-bằng-nút-Tải-tài-liệu-→-xuất-hiện-Sẵn-sàng-3-trang-chromium\\test-finished-1.png"
+                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\run1\\tc-us201-TC-201-01-AC-201-1-H-chọn-1-PDF-bằng-nút-Tải-tài-liệu-→-xuất-hiện-Sẵn-sàng-3-trang-chromium\\test-finished-1.png"
+                    },
+                    {
+                      "name": "video",
+                      "contentType": "video/webm",
+                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\run1\\tc-us201-TC-201-01-AC-201-1-H-chọn-1-PDF-bằng-nút-Tải-tài-liệu-→-xuất-hiện-Sẵn-sàng-3-trang-chromium\\video.webm"
                     },
                     {
                       "name": "trace",
                       "contentType": "application/zip",
-                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\tc-us201-TC-201-01-AC-201-1-H-chọn-1-PDF-bằng-nút-Tải-tài-liệu-→-xuất-hiện-Sẵn-sàng-3-trang-chromium\\trace.zip"
+                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\run1\\tc-us201-TC-201-01-AC-201-1-H-chọn-1-PDF-bằng-nút-Tải-tài-liệu-→-xuất-hiện-Sẵn-sàng-3-trang-chromium\\trace.zip"
                     }
                   ]
                 }
@@ -130,22 +135,27 @@
                 {
                   "workerIndex": 0,
                   "status": "passed",
-                  "duration": 6519,
+                  "duration": 7334,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-26T14:24:35.010Z",
+                  "startTime": "2026-11-02T13:21:34.347Z",
                   "attachments": [
                     {
                       "name": "screenshot",
                       "contentType": "image/png",
-                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\tc-us201-TC-201-02-AC-201-1-V-kéo-thả-file-tên-tiếng-Việt-có-dấu-→-tên-giữ-nguyên-Sẵn-sàng-chromium\\test-finished-1.png"
+                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\run1\\tc-us201-TC-201-02-AC-201-1-V-kéo-thả-file-tên-tiếng-Việt-có-dấu-→-tên-giữ-nguyên-Sẵn-sàng-chromium\\test-finished-1.png"
+                    },
+                    {
+                      "name": "video",
+                      "contentType": "video/webm",
+                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\run1\\tc-us201-TC-201-02-AC-201-1-V-kéo-thả-file-tên-tiếng-Việt-có-dấu-→-tên-giữ-nguyên-Sẵn-sàng-chromium\\video.webm"
                     },
                     {
                       "name": "trace",
                       "contentType": "application/zip",
-                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\tc-us201-TC-201-02-AC-201-1-V-kéo-thả-file-tên-tiếng-Việt-có-dấu-→-tên-giữ-nguyên-Sẵn-sàng-chromium\\trace.zip"
+                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\run1\\tc-us201-TC-201-02-AC-201-1-V-kéo-thả-file-tên-tiếng-Việt-có-dấu-→-tên-giữ-nguyên-Sẵn-sàng-chromium\\trace.zip"
                     }
                   ]
                 }
@@ -168,7 +178,7 @@
               "annotations": [
                 {
                   "type": "TC-201-04 measured",
-                  "description": "5.0 s to READY"
+                  "description": "6.1 s to READY"
                 }
               ],
               "expectedStatus": "passed",
@@ -178,22 +188,27 @@
                 {
                   "workerIndex": 0,
                   "status": "passed",
-                  "duration": 7468,
+                  "duration": 9404,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-26T14:24:41.530Z",
+                  "startTime": "2026-11-02T13:21:41.683Z",
                   "attachments": [
                     {
                       "name": "screenshot",
                       "contentType": "image/png",
-                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\tc-us201-TC-201-03-TC-201-04-AC-201-1-B-P-PDF-49-5-MB-thấy-tiến-độ-tăng-dần-Sẵn-sàng-≤-300-s-chromium\\test-finished-1.png"
+                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\run1\\tc-us201-TC-201-03-TC-201-04-AC-201-1-B-P-PDF-49-5-MB-thấy-tiến-độ-tăng-dần-Sẵn-sàng-≤-300-s-chromium\\test-finished-1.png"
+                    },
+                    {
+                      "name": "video",
+                      "contentType": "video/webm",
+                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\run1\\tc-us201-TC-201-03-TC-201-04-AC-201-1-B-P-PDF-49-5-MB-thấy-tiến-độ-tăng-dần-Sẵn-sàng-≤-300-s-chromium\\video.webm"
                     },
                     {
                       "name": "trace",
                       "contentType": "application/zip",
-                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\tc-us201-TC-201-03-TC-201-04-AC-201-1-B-P-PDF-49-5-MB-thấy-tiến-độ-tăng-dần-Sẵn-sàng-≤-300-s-chromium\\trace.zip"
+                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\run1\\tc-us201-TC-201-03-TC-201-04-AC-201-1-B-P-PDF-49-5-MB-thấy-tiến-độ-tăng-dần-Sẵn-sàng-≤-300-s-chromium\\trace.zip"
                     }
                   ]
                 }
@@ -226,22 +241,27 @@
                 {
                   "workerIndex": 0,
                   "status": "passed",
-                  "duration": 6889,
+                  "duration": 7514,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-26T14:24:49.001Z",
+                  "startTime": "2026-11-02T13:21:51.089Z",
                   "attachments": [
                     {
                       "name": "screenshot",
                       "contentType": "image/png",
-                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\tc-us201-TC-201-05-AC-201-2-H-chọn-10-PDF-cùng-lúc-→-10-dòng-tối-đa-3-tải-song-song-cả-10-Sẵn-sàng-chromium\\test-finished-1.png"
+                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\run1\\tc-us201-TC-201-05-AC-201-2-H-chọn-10-PDF-cùng-lúc-→-10-dòng-tối-đa-3-tải-song-song-cả-10-Sẵn-sàng-chromium\\test-finished-1.png"
+                    },
+                    {
+                      "name": "video",
+                      "contentType": "video/webm",
+                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\run1\\tc-us201-TC-201-05-AC-201-2-H-chọn-10-PDF-cùng-lúc-→-10-dòng-tối-đa-3-tải-song-song-cả-10-Sẵn-sàng-chromium\\video.webm"
                     },
                     {
                       "name": "trace",
                       "contentType": "application/zip",
-                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\tc-us201-TC-201-05-AC-201-2-H-chọn-10-PDF-cùng-lúc-→-10-dòng-tối-đa-3-tải-song-song-cả-10-Sẵn-sàng-chromium\\trace.zip"
+                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\run1\\tc-us201-TC-201-05-AC-201-2-H-chọn-10-PDF-cùng-lúc-→-10-dòng-tối-đa-3-tải-song-song-cả-10-Sẵn-sàng-chromium\\trace.zip"
                     }
                   ]
                 }
@@ -269,22 +289,27 @@
                 {
                   "workerIndex": 0,
                   "status": "passed",
-                  "duration": 6407,
+                  "duration": 7225,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-26T14:24:55.891Z",
+                  "startTime": "2026-11-02T13:21:58.606Z",
                   "attachments": [
                     {
                       "name": "screenshot",
                       "contentType": "image/png",
-                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\tc-us201-TC-201-06-AC-201-2-V-9-PDF-hợp-lệ-1-P-740f1--9-Sẵn-sàng-1-Lỗi-có-lý-do-không-ảnh-hưởng-nhau-chromium\\test-finished-1.png"
+                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\run1\\tc-us201-TC-201-06-AC-201-2-V-9-PDF-hợp-lệ-1-P-740f1--9-Sẵn-sàng-1-Lỗi-có-lý-do-không-ảnh-hưởng-nhau-chromium\\test-finished-1.png"
+                    },
+                    {
+                      "name": "video",
+                      "contentType": "video/webm",
+                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\run1\\tc-us201-TC-201-06-AC-201-2-V-9-PDF-hợp-lệ-1-P-740f1--9-Sẵn-sàng-1-Lỗi-có-lý-do-không-ảnh-hưởng-nhau-chromium\\video.webm"
                     },
                     {
                       "name": "trace",
                       "contentType": "application/zip",
-                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\tc-us201-TC-201-06-AC-201-2-V-9-PDF-hợp-lệ-1-P-740f1--9-Sẵn-sàng-1-Lỗi-có-lý-do-không-ảnh-hưởng-nhau-chromium\\trace.zip"
+                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\run1\\tc-us201-TC-201-06-AC-201-2-V-9-PDF-hợp-lệ-1-P-740f1--9-Sẵn-sàng-1-Lỗi-có-lý-do-không-ảnh-hưởng-nhau-chromium\\trace.zip"
                     }
                   ]
                 }
@@ -312,22 +337,27 @@
                 {
                   "workerIndex": 0,
                   "status": "passed",
-                  "duration": 2257,
+                  "duration": 2729,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-26T14:25:02.300Z",
+                  "startTime": "2026-11-02T13:22:05.832Z",
                   "attachments": [
                     {
                       "name": "screenshot",
                       "contentType": "image/png",
-                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\tc-us201-TC-201-07-AC-201-3-N-ảnh-png-→-từ-chối-ở-trình-duyệt-không-có-request-tải-lên-chromium\\test-finished-1.png"
+                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\run1\\tc-us201-TC-201-07-AC-201-3-N-ảnh-png-→-từ-chối-ở-trình-duyệt-không-có-request-tải-lên-chromium\\test-finished-1.png"
+                    },
+                    {
+                      "name": "video",
+                      "contentType": "video/webm",
+                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\run1\\tc-us201-TC-201-07-AC-201-3-N-ảnh-png-→-từ-chối-ở-trình-duyệt-không-có-request-tải-lên-chromium\\video.webm"
                     },
                     {
                       "name": "trace",
                       "contentType": "application/zip",
-                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\tc-us201-TC-201-07-AC-201-3-N-ảnh-png-→-từ-chối-ở-trình-duyệt-không-có-request-tải-lên-chromium\\trace.zip"
+                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\run1\\tc-us201-TC-201-07-AC-201-3-N-ảnh-png-→-từ-chối-ở-trình-duyệt-không-có-request-tải-lên-chromium\\trace.zip"
                     }
                   ]
                 }
@@ -355,22 +385,27 @@
                 {
                   "workerIndex": 0,
                   "status": "passed",
-                  "duration": 2216,
+                  "duration": 2854,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-26T14:25:04.558Z",
+                  "startTime": "2026-11-02T13:22:08.563Z",
                   "attachments": [
                     {
                       "name": "screenshot",
                       "contentType": "image/png",
-                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\tc-us201-TC-201-08-AC-201-3-B-PDF-50-MB-1-KB-→-báo-vượt-50-MB-không-tải-lên-chromium\\test-finished-1.png"
+                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\run1\\tc-us201-TC-201-08-AC-201-3-B-PDF-50-MB-1-KB-→-báo-vượt-50-MB-không-tải-lên-chromium\\test-finished-1.png"
+                    },
+                    {
+                      "name": "video",
+                      "contentType": "video/webm",
+                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\run1\\tc-us201-TC-201-08-AC-201-3-B-PDF-50-MB-1-KB-→-báo-vượt-50-MB-không-tải-lên-chromium\\video.webm"
                     },
                     {
                       "name": "trace",
                       "contentType": "application/zip",
-                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\tc-us201-TC-201-08-AC-201-3-B-PDF-50-MB-1-KB-→-báo-vượt-50-MB-không-tải-lên-chromium\\trace.zip"
+                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\run1\\tc-us201-TC-201-08-AC-201-3-B-PDF-50-MB-1-KB-→-báo-vượt-50-MB-không-tải-lên-chromium\\trace.zip"
                     }
                   ]
                 }
@@ -398,22 +433,27 @@
                 {
                   "workerIndex": 0,
                   "status": "passed",
-                  "duration": 2256,
+                  "duration": 2835,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-26T14:25:06.776Z",
+                  "startTime": "2026-11-02T13:22:11.419Z",
                   "attachments": [
                     {
                       "name": "screenshot",
                       "contentType": "image/png",
-                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\tc-us201-TC-201-09-AC-201-3-N-file-doc-đổi-đuôi-pdf-→-máy-chủ-từ-chối-không-vào-kho-chromium\\test-finished-1.png"
+                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\run1\\tc-us201-TC-201-09-AC-201-3-N-file-doc-đổi-đuôi-pdf-→-máy-chủ-từ-chối-không-vào-kho-chromium\\test-finished-1.png"
+                    },
+                    {
+                      "name": "video",
+                      "contentType": "video/webm",
+                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\run1\\tc-us201-TC-201-09-AC-201-3-N-file-doc-đổi-đuôi-pdf-→-máy-chủ-từ-chối-không-vào-kho-chromium\\video.webm"
                     },
                     {
                       "name": "trace",
                       "contentType": "application/zip",
-                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\tc-us201-TC-201-09-AC-201-3-N-file-doc-đổi-đuôi-pdf-→-máy-chủ-từ-chối-không-vào-kho-chromium\\trace.zip"
+                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\run1\\tc-us201-TC-201-09-AC-201-3-N-file-doc-đổi-đuôi-pdf-→-máy-chủ-từ-chối-không-vào-kho-chromium\\trace.zip"
                     }
                   ]
                 }
@@ -441,22 +481,27 @@
                 {
                   "workerIndex": 0,
                   "status": "passed",
-                  "duration": 2279,
+                  "duration": 2805,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-26T14:25:09.033Z",
+                  "startTime": "2026-11-02T13:22:14.255Z",
                   "attachments": [
                     {
                       "name": "screenshot",
                       "contentType": "image/png",
-                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\tc-us201-TC-201-10-AC-201-3-N-PDF-0-byte-→-bị-từ-chối-kèm-lý-do-chromium\\test-finished-1.png"
+                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\run1\\tc-us201-TC-201-10-AC-201-3-N-PDF-0-byte-→-bị-từ-chối-kèm-lý-do-chromium\\test-finished-1.png"
+                    },
+                    {
+                      "name": "video",
+                      "contentType": "video/webm",
+                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\run1\\tc-us201-TC-201-10-AC-201-3-N-PDF-0-byte-→-bị-từ-chối-kèm-lý-do-chromium\\video.webm"
                     },
                     {
                       "name": "trace",
                       "contentType": "application/zip",
-                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\tc-us201-TC-201-10-AC-201-3-N-PDF-0-byte-→-bị-từ-chối-kèm-lý-do-chromium\\trace.zip"
+                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\run1\\tc-us201-TC-201-10-AC-201-3-N-PDF-0-byte-→-bị-từ-chối-kèm-lý-do-chromium\\trace.zip"
                     }
                   ]
                 }
@@ -484,22 +529,27 @@
                 {
                   "workerIndex": 0,
                   "status": "passed",
-                  "duration": 2843,
+                  "duration": 3070,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-26T14:25:11.314Z",
+                  "startTime": "2026-11-02T13:22:17.062Z",
                   "attachments": [
                     {
                       "name": "screenshot",
                       "contentType": "image/png",
-                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\tc-us201-TC-201-11-AC-201-3-V-lô-lẫn-hợp-lệ-không-hợp-lệ-→-chỉ-file-hợp-lệ-được-tải-chromium\\test-finished-1.png"
+                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\run1\\tc-us201-TC-201-11-AC-201-3-V-lô-lẫn-hợp-lệ-không-hợp-lệ-→-chỉ-file-hợp-lệ-được-tải-chromium\\test-finished-1.png"
+                    },
+                    {
+                      "name": "video",
+                      "contentType": "video/webm",
+                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\run1\\tc-us201-TC-201-11-AC-201-3-V-lô-lẫn-hợp-lệ-không-hợp-lệ-→-chỉ-file-hợp-lệ-được-tải-chromium\\video.webm"
                     },
                     {
                       "name": "trace",
                       "contentType": "application/zip",
-                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\tc-us201-TC-201-11-AC-201-3-V-lô-lẫn-hợp-lệ-không-hợp-lệ-→-chỉ-file-hợp-lệ-được-tải-chromium\\trace.zip"
+                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\run1\\tc-us201-TC-201-11-AC-201-3-V-lô-lẫn-hợp-lệ-không-hợp-lệ-→-chỉ-file-hợp-lệ-được-tải-chromium\\trace.zip"
                     }
                   ]
                 }
@@ -527,22 +577,27 @@
                 {
                   "workerIndex": 0,
                   "status": "passed",
-                  "duration": 8758,
+                  "duration": 5462,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-26T14:25:14.159Z",
+                  "startTime": "2026-11-02T13:22:20.134Z",
                   "attachments": [
                     {
                       "name": "screenshot",
                       "contentType": "image/png",
-                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\tc-us201-TC-201-12-AC-201-4-R-mất-mạng-giữa-lúc-tải-→-tạm-dừng-→-có-mạng-lại-tự-tải-tiếp-chromium\\test-finished-1.png"
+                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\run1\\tc-us201-TC-201-12-AC-201-4-R-mất-mạng-giữa-lúc-tải-→-tạm-dừng-→-có-mạng-lại-tự-tải-tiếp-chromium\\test-finished-1.png"
+                    },
+                    {
+                      "name": "video",
+                      "contentType": "video/webm",
+                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\run1\\tc-us201-TC-201-12-AC-201-4-R-mất-mạng-giữa-lúc-tải-→-tạm-dừng-→-có-mạng-lại-tự-tải-tiếp-chromium\\video.webm"
                     },
                     {
                       "name": "trace",
                       "contentType": "application/zip",
-                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\tc-us201-TC-201-12-AC-201-4-R-mất-mạng-giữa-lúc-tải-→-tạm-dừng-→-có-mạng-lại-tự-tải-tiếp-chromium\\trace.zip"
+                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\run1\\tc-us201-TC-201-12-AC-201-4-R-mất-mạng-giữa-lúc-tải-→-tạm-dừng-→-có-mạng-lại-tự-tải-tiếp-chromium\\trace.zip"
                     }
                   ]
                 }
@@ -575,22 +630,27 @@
                 {
                   "workerIndex": 0,
                   "status": "passed",
-                  "duration": 21993,
+                  "duration": 19171,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-26T14:25:22.918Z",
+                  "startTime": "2026-11-02T13:22:25.599Z",
                   "attachments": [
                     {
                       "name": "screenshot",
                       "contentType": "image/png",
-                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\tc-us201-TC-201-13-AC-201-4-R-mất-mạng-quá-3-lần-thử-→-Tải-lên-thất-bại-Thử-lại-→-Sẵn-sàng-chromium\\test-finished-1.png"
+                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\run1\\tc-us201-TC-201-13-AC-201-4-R-mất-mạng-quá-3-lần-thử-→-Tải-lên-thất-bại-Thử-lại-→-Sẵn-sàng-chromium\\test-finished-1.png"
+                    },
+                    {
+                      "name": "video",
+                      "contentType": "video/webm",
+                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\run1\\tc-us201-TC-201-13-AC-201-4-R-mất-mạng-quá-3-lần-thử-→-Tải-lên-thất-bại-Thử-lại-→-Sẵn-sàng-chromium\\video.webm"
                     },
                     {
                       "name": "trace",
                       "contentType": "application/zip",
-                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\tc-us201-TC-201-13-AC-201-4-R-mất-mạng-quá-3-lần-thử-→-Tải-lên-thất-bại-Thử-lại-→-Sẵn-sàng-chromium\\trace.zip"
+                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\run1\\tc-us201-TC-201-13-AC-201-4-R-mất-mạng-quá-3-lần-thử-→-Tải-lên-thất-bại-Thử-lại-→-Sẵn-sàng-chromium\\trace.zip"
                     }
                   ]
                 }
@@ -625,7 +685,7 @@
                 },
                 {
                   "type": "TC-303-10 measured",
-                  "description": "{\"event\":\"done\",\"status\":\"COMPLETED\",\"reason\":null,\"latencyMs\":94,\"firstTokenMs\":31}"
+                  "description": "{\"event\":\"done\",\"status\":\"COMPLETED\",\"reason\":null,\"latencyMs\":88,\"firstTokenMs\":27}"
                 }
               ],
               "expectedStatus": "passed",
@@ -635,22 +695,27 @@
                 {
                   "workerIndex": 0,
                   "status": "passed",
-                  "duration": 2711,
+                  "duration": 3295,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-26T14:25:44.925Z",
+                  "startTime": "2026-11-02T13:22:44.785Z",
                   "attachments": [
                     {
                       "name": "screenshot",
                       "contentType": "image/png",
-                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\tc-us303-TC-303-01-TC-303-10-AC-303-1-H-P-mỗi--9f015-n-mục-Nguồn-Tên-—-trang-X-≤-30-s-phần-đầu-≤-5-s-chromium\\test-finished-1.png"
+                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\run1\\tc-us303-TC-303-01-TC-303-10-AC-303-1-H-P-mỗi--9f015-n-mục-Nguồn-Tên-—-trang-X-≤-30-s-phần-đầu-≤-5-s-chromium\\test-finished-1.png"
+                    },
+                    {
+                      "name": "video",
+                      "contentType": "video/webm",
+                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\run1\\tc-us303-TC-303-01-TC-303-10-AC-303-1-H-P-mỗi--9f015-n-mục-Nguồn-Tên-—-trang-X-≤-30-s-phần-đầu-≤-5-s-chromium\\video.webm"
                     },
                     {
                       "name": "trace",
                       "contentType": "application/zip",
-                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\tc-us303-TC-303-01-TC-303-10-AC-303-1-H-P-mỗi--9f015-n-mục-Nguồn-Tên-—-trang-X-≤-30-s-phần-đầu-≤-5-s-chromium\\trace.zip"
+                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\run1\\tc-us303-TC-303-01-TC-303-10-AC-303-1-H-P-mỗi--9f015-n-mục-Nguồn-Tên-—-trang-X-≤-30-s-phần-đầu-≤-5-s-chromium\\trace.zip"
                     }
                   ]
                 }
@@ -678,22 +743,27 @@
                 {
                   "workerIndex": 0,
                   "status": "passed",
-                  "duration": 2856,
+                  "duration": 3391,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-26T14:25:47.637Z",
+                  "startTime": "2026-11-02T13:22:48.081Z",
                   "attachments": [
                     {
                       "name": "screenshot",
                       "contentType": "image/png",
-                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\tc-us303-TC-303-02-AC-303-1-V-câu-cần-2-tài-liệu-→-mỗi-đoạn-có-trích-dẫn-Nguồn-có-cả-2-tài-liệu-chromium\\test-finished-1.png"
+                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\run1\\tc-us303-TC-303-02-AC-303-1-V-câu-cần-2-tài-liệu-→-mỗi-đoạn-có-trích-dẫn-Nguồn-có-cả-2-tài-liệu-chromium\\test-finished-1.png"
+                    },
+                    {
+                      "name": "video",
+                      "contentType": "video/webm",
+                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\run1\\tc-us303-TC-303-02-AC-303-1-V-câu-cần-2-tài-liệu-→-mỗi-đoạn-có-trích-dẫn-Nguồn-có-cả-2-tài-liệu-chromium\\video.webm"
                     },
                     {
                       "name": "trace",
                       "contentType": "application/zip",
-                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\tc-us303-TC-303-02-AC-303-1-V-câu-cần-2-tài-liệu-→-mỗi-đoạn-có-trích-dẫn-Nguồn-có-cả-2-tài-liệu-chromium\\trace.zip"
+                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\run1\\tc-us303-TC-303-02-AC-303-1-V-câu-cần-2-tài-liệu-→-mỗi-đoạn-có-trích-dẫn-Nguồn-có-cả-2-tài-liệu-chromium\\trace.zip"
                     }
                   ]
                 }
@@ -721,22 +791,27 @@
                 {
                   "workerIndex": 0,
                   "status": "passed",
-                  "duration": 2827,
+                  "duration": 3493,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-26T14:25:50.495Z",
+                  "startTime": "2026-11-02T13:22:51.474Z",
                   "attachments": [
                     {
                       "name": "screenshot",
                       "contentType": "image/png",
-                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\tc-us303-TC-303-03-AC-303-1-V-câu-hỏi-tiếng-Anh-→-trả-lời-tiếng-Anh-vẫn-đủ-trích-dẫn-chromium\\test-finished-1.png"
+                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\run1\\tc-us303-TC-303-03-AC-303-1-V-câu-hỏi-tiếng-Anh-→-trả-lời-tiếng-Anh-vẫn-đủ-trích-dẫn-chromium\\test-finished-1.png"
+                    },
+                    {
+                      "name": "video",
+                      "contentType": "video/webm",
+                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\run1\\tc-us303-TC-303-03-AC-303-1-V-câu-hỏi-tiếng-Anh-→-trả-lời-tiếng-Anh-vẫn-đủ-trích-dẫn-chromium\\video.webm"
                     },
                     {
                       "name": "trace",
                       "contentType": "application/zip",
-                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\tc-us303-TC-303-03-AC-303-1-V-câu-hỏi-tiếng-Anh-→-trả-lời-tiếng-Anh-vẫn-đủ-trích-dẫn-chromium\\trace.zip"
+                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\run1\\tc-us303-TC-303-03-AC-303-1-V-câu-hỏi-tiếng-Anh-→-trả-lời-tiếng-Anh-vẫn-đủ-trích-dẫn-chromium\\trace.zip"
                     }
                   ]
                 }
@@ -764,22 +839,27 @@
                 {
                   "workerIndex": 0,
                   "status": "passed",
-                  "duration": 6878,
+                  "duration": 7385,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-26T14:25:53.323Z",
+                  "startTime": "2026-11-02T13:22:54.969Z",
                   "attachments": [
                     {
                       "name": "screenshot",
                       "contentType": "image/png",
-                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\tc-us303-TC-303-04-AC-303-2-H-mỗi-chip-mở-đúng-tài-liệu-đúng-trang-đoạn-trích-được-tô-sáng-chromium\\test-finished-1.png"
+                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\run1\\tc-us303-TC-303-04-AC-303-2-H-mỗi-chip-mở-đúng-tài-liệu-đúng-trang-đoạn-trích-được-tô-sáng-chromium\\test-finished-1.png"
+                    },
+                    {
+                      "name": "video",
+                      "contentType": "video/webm",
+                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\run1\\tc-us303-TC-303-04-AC-303-2-H-mỗi-chip-mở-đúng-tài-liệu-đúng-trang-đoạn-trích-được-tô-sáng-chromium\\video.webm"
                     },
                     {
                       "name": "trace",
                       "contentType": "application/zip",
-                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\tc-us303-TC-303-04-AC-303-2-H-mỗi-chip-mở-đúng-tài-liệu-đúng-trang-đoạn-trích-được-tô-sáng-chromium\\trace.zip"
+                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\run1\\tc-us303-TC-303-04-AC-303-2-H-mỗi-chip-mở-đúng-tài-liệu-đúng-trang-đoạn-trích-được-tô-sáng-chromium\\trace.zip"
                     }
                   ]
                 }
@@ -807,22 +887,27 @@
                 {
                   "workerIndex": 0,
                   "status": "passed",
-                  "duration": 2944,
+                  "duration": 3760,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-26T14:26:00.201Z",
+                  "startTime": "2026-11-02T13:23:02.356Z",
                   "attachments": [
                     {
                       "name": "screenshot",
                       "contentType": "image/png",
-                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\tc-us303-TC-303-06-AC-303-3-N-LLM-trả-lời-không-có-trích-dẫn-→-không-tìm-thấy-không-còn-chữ-của-LLM-chromium\\test-finished-1.png"
+                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\run1\\tc-us303-TC-303-06-AC-303-3-N-LLM-trả-lời-không-có-trích-dẫn-→-không-tìm-thấy-không-còn-chữ-của-LLM-chromium\\test-finished-1.png"
+                    },
+                    {
+                      "name": "video",
+                      "contentType": "video/webm",
+                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\run1\\tc-us303-TC-303-06-AC-303-3-N-LLM-trả-lời-không-có-trích-dẫn-→-không-tìm-thấy-không-còn-chữ-của-LLM-chromium\\video.webm"
                     },
                     {
                       "name": "trace",
                       "contentType": "application/zip",
-                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\tc-us303-TC-303-06-AC-303-3-N-LLM-trả-lời-không-có-trích-dẫn-→-không-tìm-thấy-không-còn-chữ-của-LLM-chromium\\trace.zip"
+                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\run1\\tc-us303-TC-303-06-AC-303-3-N-LLM-trả-lời-không-có-trích-dẫn-→-không-tìm-thấy-không-còn-chữ-của-LLM-chromium\\trace.zip"
                     }
                   ]
                 }
@@ -850,22 +935,27 @@
                 {
                   "workerIndex": 0,
                   "status": "passed",
-                  "duration": 3209,
+                  "duration": 3894,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-26T14:26:03.146Z",
+                  "startTime": "2026-11-02T13:23:06.119Z",
                   "attachments": [
                     {
                       "name": "screenshot",
                       "contentType": "image/png",
-                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\tc-us303-TC-303-07-TC-303-08-AC-303-3-N-R-tríc-8e003-ồn-tại-→-không-tìm-thấy-câu-sau-vẫn-bình-thường-chromium\\test-finished-1.png"
+                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\run1\\tc-us303-TC-303-07-TC-303-08-AC-303-3-N-R-tríc-8e003-ồn-tại-→-không-tìm-thấy-câu-sau-vẫn-bình-thường-chromium\\test-finished-1.png"
+                    },
+                    {
+                      "name": "video",
+                      "contentType": "video/webm",
+                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\run1\\tc-us303-TC-303-07-TC-303-08-AC-303-3-N-R-tríc-8e003-ồn-tại-→-không-tìm-thấy-câu-sau-vẫn-bình-thường-chromium\\video.webm"
                     },
                     {
                       "name": "trace",
                       "contentType": "application/zip",
-                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\tc-us303-TC-303-07-TC-303-08-AC-303-3-N-R-tríc-8e003-ồn-tại-→-không-tìm-thấy-câu-sau-vẫn-bình-thường-chromium\\trace.zip"
+                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\run1\\tc-us303-TC-303-07-TC-303-08-AC-303-3-N-R-tríc-8e003-ồn-tại-→-không-tìm-thấy-câu-sau-vẫn-bình-thường-chromium\\trace.zip"
                     }
                   ]
                 }
@@ -888,7 +978,7 @@
               "annotations": [
                 {
                   "type": "stored citation",
-                  "description": "{\"index\":1,\"documentId\":\"01a17899-3b4d-72d8-9833-4c754b14c938\",\"fileName\":\"HopDong_ABC.pdf\",\"page\":2,\"excerpt\":\"Điều 5. Thanh toán: khách hàng thanh toán 30% giá trị hợp đồng khi ký và 70% khi\\nnghiệm thu.\",\"removed\":false}"
+                  "description": "{\"index\":1,\"documentId\":\"01a19c6c-0d12-762e-bf86-d13df77e1d2a\",\"fileName\":\"HopDong_ABC.pdf\",\"page\":2,\"excerpt\":\"Điều 5. Thanh toán: khách hàng thanh toán 30% giá trị hợp đồng khi ký và 70% khi\\nnghiệm thu.\",\"removed\":false}"
                 }
               ],
               "expectedStatus": "passed",
@@ -898,22 +988,27 @@
                 {
                   "workerIndex": 0,
                   "status": "passed",
-                  "duration": 2704,
+                  "duration": 3328,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-10-26T14:26:06.357Z",
+                  "startTime": "2026-11-02T13:23:10.014Z",
                   "attachments": [
                     {
                       "name": "screenshot",
                       "contentType": "image/png",
-                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\tc-us303-TC-303-09-AC-303-4-H-dữ-liệu-lưu-trang-và-đoạn-trích-lấy-từ-PDF-không-lấy-từ-chữ-LLM-viết-chromium\\test-finished-1.png"
+                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\run1\\tc-us303-TC-303-09-AC-303-4-H-dữ-liệu-lưu-trang-và-đoạn-trích-lấy-từ-PDF-không-lấy-từ-chữ-LLM-viết-chromium\\test-finished-1.png"
+                    },
+                    {
+                      "name": "video",
+                      "contentType": "video/webm",
+                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\run1\\tc-us303-TC-303-09-AC-303-4-H-dữ-liệu-lưu-trang-và-đoạn-trích-lấy-từ-PDF-không-lấy-từ-chữ-LLM-viết-chromium\\video.webm"
                     },
                     {
                       "name": "trace",
                       "contentType": "application/zip",
-                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\tc-us303-TC-303-09-AC-303-4-H-dữ-liệu-lưu-trang-và-đoạn-trích-lấy-từ-PDF-không-lấy-từ-chữ-LLM-viết-chromium\\trace.zip"
+                      "path": "C:\\Users\\User\\SDLC_with_AI\\e2e\\test-results\\run1\\tc-us303-TC-303-09-AC-303-4-H-dữ-liệu-lưu-trang-và-đoạn-trích-lấy-từ-PDF-không-lấy-từ-chữ-LLM-viết-chromium\\trace.zip"
                     }
                   ]
                 }
@@ -931,8 +1026,8 @@
   ],
   "errors": [],
   "stats": {
-    "startTime": "2026-10-26T14:24:15.153Z",
-    "duration": 117093.311,
+    "startTime": "2026-11-02T13:21:13.198Z",
+    "duration": 126912.147,
     "expected": 19,
     "skipped": 0,
     "unexpected": 0,

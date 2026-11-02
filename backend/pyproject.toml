@@ -40,6 +40,7 @@ dev = [
   "ruff>=0.4",
   "black>=24.3",
   "import-linter>=2.0",
+  "pillow>=10",  # scripts/test_media.py: GIF evidence from Playwright traces
 ]
 
 [build-system]

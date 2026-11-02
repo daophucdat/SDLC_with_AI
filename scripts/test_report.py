@@ -4,7 +4,8 @@ Reads the Playwright JSON results ``reports/results-<run>.json`` and rewrites th
 ``<!-- results:start -->`` / ``<!-- results:end -->`` markers of ``reports/test-report.md``; the rest of the report
 (defects, notes) is written by hand.
 
-    python scripts/test_report.py            # after: cd e2e && E2E_RUN=run1 npm run test:tc ; E2E_RUN=run2 ...
+    python scripts/test_media.py             # after: cd e2e && E2E_RUN=run1 npm run test:tc ; E2E_RUN=run2 ...
+    python scripts/test_report.py            # evidence column links the screenshots, GIF and video of each TC
 """
 
 from __future__ import annotations
@@ -44,7 +45,11 @@ def load_run(path: Path) -> dict[str, dict]:
 
 def evidence(run: str, tc: str) -> list[str]:
     shots = sorted((REPORTS / "screenshots" / run).glob(f"{tc}*.png"))
-    return [f"[{p.stem}](screenshots/{run}/{p.name})" for p in shots]
+    links = [f"[{p.stem}](screenshots/{run}/{p.name})" for p in shots]
+    # scripts/test_media.py: one GIF + video per test, named after every TC it covers (TC-303-01+TC-303-10)
+    for folder, label in (("gifs", "GIF"), ("videos", "video")):
+        links += [f"[{label}]({folder}/{run}/{p.name})" for p in sorted((REPORTS / folder / run).glob(f"*{tc}*"))]
+    return links
 
 
 def table(runs: dict[str, dict[str, dict]]) -> str:

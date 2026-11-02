@@ -27,13 +27,24 @@ export default defineConfig({
   fullyParallel: false,
   workers: 1, // one shared library per run: test cases run in the order of docs/test-cases.md
   retries: 0, // Day 6: a PASS must hold without retries; flakiness is found by running the suite twice
+  // one folder per run: Playwright empties outputDir at start, so run2 would delete the traces / videos of run1
+  outputDir: path.join("test-results", process.env.E2E_RUN ?? "run"),
   reporter: [
     ["list"],
     ["html", { open: "never", outputFolder: "playwright-report" }],
     ["junit", { outputFile: path.join(root, "reports", `junit-${process.env.E2E_RUN ?? "run"}.xml`) }],
     ["json", { outputFile: path.join(root, "reports", `results-${process.env.E2E_RUN ?? "run"}.json`) }],
   ],
-  use: { baseURL, trace: "on", screenshot: "on", video: "off", locale: "vi-VN", actionTimeout: 15_000 },
+  // Video of every test case (evidence next to the screenshots); scripts/test_media.py copies it to
+  // reports/videos/<run>/ and turns the trace's screencast into reports/gifs/<run>/<TC>.gif. E2E_VIDEO=off to skip.
+  use: {
+    baseURL,
+    trace: "on",
+    screenshot: "on",
+    video: process.env.E2E_VIDEO === "off" ? "off" : { mode: "on", size: { width: 1280, height: 800 } },
+    locale: "vi-VN",
+    actionTimeout: 15_000,
+  },
   projects: local
     ? [{ name: "chromium", use: { ...devices["Desktop Chrome"], viewport: { width: 1440, height: 900 } } }]
     : [
