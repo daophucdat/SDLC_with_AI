@@ -1,9 +1,13 @@
-import { fireEvent, screen, waitFor, within } from "@testing-library/react";
+import { act, fireEvent, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import type { DocumentDto } from "../../api-client/types";
 import { axeViolations, doc, ME, mockFetch, renderApp } from "../../test/utils";
+import { FILTER_DEBOUNCE_MS } from "./LibraryPanel";
 
 vi.mock("../../analytics/track", () => ({ track: vi.fn() }));
+
+/** LibraryPanel arms its filter debounce on mount; let that timer fire inside act before asserting further. */
+const flushFilterDebounce = () => act(() => new Promise<void>((r) => setTimeout(r, FILTER_DEBOUNCE_MS)));
 
 afterEach(() => {
   vi.unstubAllGlobals();
@@ -37,6 +41,7 @@ describe("US-202 library list", () => {
     ]);
     const { container } = renderApp("/");
     expect(await screen.findByText("San-sang.pdf")).toBeInTheDocument();
+    await flushFilterDebounce();
     expect(screen.getByText("Sẵn sàng")).toBeInTheDocument();
     expect(screen.getByText("Có thể hỏi khi tài liệu sẵn sàng.")).toBeInTheDocument();
     expect(screen.getByText(/ảnh scan/)).toBeInTheDocument();
@@ -79,11 +84,11 @@ describe("US-202 library list", () => {
     const before = listCalls();
 
     status = "READY";
-    await vi.advanceTimersByTimeAsync(3100);
+    await act(() => vi.advanceTimersByTimeAsync(3100));
     expect(await screen.findByText("“Bao-gia.pdf” đã sẵn sàng để hỏi")).toBeInTheDocument();
     expect(listCalls()).toBe(before + 1);
 
-    await vi.advanceTimersByTimeAsync(10_000); // nothing processing → polling stops
+    await act(() => vi.advanceTimersByTimeAsync(10_000)); // nothing processing → polling stops
     expect(listCalls()).toBe(before + 1);
   });
 
@@ -147,7 +152,7 @@ describe("US-201 upload", () => {
     pick([new File(["%PDF-1.7"], "Hop-dong.pdf", { type: "application/pdf" })]);
     const xhr = FakeXhr.last[0];
     expect(xhr.url).toBe("/api/v1/documents?force=false");
-    xhr.upload.onprogress?.({ lengthComputable: true, loaded: 40, total: 100 });
+    act(() => xhr.upload.onprogress?.({ lengthComputable: true, loaded: 40, total: 100 }));
     const row = await screen.findByText("Hop-dong.pdf");
     expect(within(row.closest("li")!).getByText("Đang tải lên 40%")).toBeInTheDocument();
     expect(screen.getByRole("progressbar", { name: "Tiến độ tải Hop-dong.pdf" })).toHaveAttribute(
@@ -156,7 +161,7 @@ describe("US-201 upload", () => {
     );
 
     docs = [doc({ id: "n", fileName: "Hop-dong.pdf", status: "PROCESSING" })];
-    xhr.respond(202, docs[0]);
+    act(() => xhr.respond(202, docs[0]));
     expect(await screen.findByText("Đang xử lý")).toBeInTheDocument();
   });
 
