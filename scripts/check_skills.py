@@ -6,6 +6,10 @@ Checks for each .claude/skills/<name>/SKILL.md: frontmatter `name` = folder name
 when_to_use ≤ 1 536 characters — the part Claude sees every turn), SKILL.md < 500 lines, a `## KHÔNG ĐƯỢC`
 section or `disallowed-tools`, every linked supporting file exists, and a row in docs/skills.md with owner,
 version and review date. Also: CLAUDE.md plus the files it imports with @path < 200 lines.
+
+Subagents (.claude/agents/<name>.md): frontmatter `name` = file name, a description, an explicit `tools` list
+(least privilege — an agent without one inherits every tool), a `## KHÔNG ĐƯỢC` section, and a row in
+docs/skills.md.
 """
 
 from __future__ import annotations
@@ -16,6 +20,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 SKILLS = ROOT / ".claude" / "skills"
+AGENTS = ROOT / ".claude" / "agents"
 CATALOG = ROOT / "docs" / "skills.md"
 MAX_ROUTER_CHARS = 1536
 MAX_SKILL_LINES = 500
@@ -67,6 +72,22 @@ def skill_problems(name: str, text: str, exists, catalog: str) -> list[str]:
     return problems
 
 
+def agent_problems(name: str, text: str, catalog: str) -> list[str]:
+    fm = frontmatter(text)
+    problems = []
+    if fm.get("name") != name:
+        problems.append(f"agent {name}: frontmatter name {fm.get('name')!r} ≠ file name")
+    if not fm.get("description"):
+        problems.append(f"agent {name}: no description — Claude cannot decide when to delegate")
+    if not fm.get("tools"):
+        problems.append(f"agent {name}: no tools list — it would inherit every tool")
+    if "## KHÔNG ĐƯỢC" not in text:
+        problems.append(f"agent {name}: no '## KHÔNG ĐƯỢC' section")
+    if not any(ln.startswith(f"| `{name}`") for ln in catalog.splitlines()):
+        problems.append(f"agent {name}: not listed in docs/skills.md")
+    return problems
+
+
 def memory_lines(path: Path) -> int:
     """Lines Claude loads for CLAUDE.md: the file plus every @path import (one level, as used here)."""
     text = path.read_text(encoding="utf-8")
@@ -86,12 +107,16 @@ def main() -> int:
         folder = SKILLS / name
         text = (folder / "SKILL.md").read_text(encoding="utf-8")
         problems += skill_problems(name, text, lambda link, f=folder: (f / link).exists(), catalog)
+    agents = sorted(p.stem for p in AGENTS.glob("*.md"))
+    for name in agents:
+        problems += agent_problems(name, (AGENTS / f"{name}.md").read_text(encoding="utf-8"), catalog)
     lines = memory_lines(ROOT / "CLAUDE.md")
     if lines >= MAX_MEMORY_LINES:
         problems.append(f"CLAUDE.md + imports is {lines} lines (≥ {MAX_MEMORY_LINES}) — move processes to skills")
     for p in problems:
         print(p)
-    print(f"skills: {'FAIL' if problems else 'OK'} ({len(names)} skills, CLAUDE.md + imports {lines} lines)")
+    status = "FAIL" if problems else "OK"
+    print(f"skills: {status} ({len(names)} skills, {len(agents)} agents, CLAUDE.md + imports {lines} lines)")
     return 1 if problems else 0
 
 

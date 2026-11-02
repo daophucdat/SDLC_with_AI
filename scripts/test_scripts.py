@@ -113,3 +113,59 @@ def test_skill_problems_name_each_missing_part():
     assert any("version" in p for p in no_version)
     long = GOOD_SKILL.replace("Rút test case từ AC.", "x" * 1600)
     assert any("1536" in p for p in skill_problems("plan-tests", long, lambda link: True, CATALOG))
+
+
+def test_gif_pacing_drops_close_frames_and_shortens_idle_waits():
+    from test_media import LAST_HOLD_MS, MAX_HOLD_MS, pace
+
+    # 0 → 50 ms is closer than 8 fps (dropped); 200 → 10 200 ms is an idle wait (capped); the last frame is held
+    assert pace([0, 50, 200, 10_200]) == [(0, 200), (2, MAX_HOLD_MS), (3, LAST_HOLD_MS)]
+    assert pace([]) == []
+
+
+def test_media_gallery_names_a_shared_test_after_every_test_case(tmp_path, monkeypatch):
+    import test_media
+
+    monkeypatch.setattr(test_media, "REPORTS", tmp_path)
+    t = {"title": "TC-303-01 + TC-303-10 hỏi", "ids": ["TC-303-01", "TC-303-10"], "status": "failed"}
+    t["gif"] = tmp_path / "gifs" / "run2" / "TC-303-01+TC-303-10.gif"
+    t["video"] = None
+    md = test_media.gallery("run2", [t])
+    assert "## TC-303-01 + TC-303-10 hỏi — FAIL" in md
+    assert "![TC-303-01+TC-303-10](gifs/run2/TC-303-01+TC-303-10.gif)" in md
+    assert "không có video" in md
+
+
+def test_mcp_server_lists_and_calls_tools():
+    import mcp_server
+
+    init = mcp_server.handle({"jsonrpc": "2.0", "id": 1, "method": "initialize", "params": {"protocolVersion": "x"}})
+    assert init["result"]["protocolVersion"] == "x" and "tools" in init["result"]["capabilities"]
+    assert mcp_server.handle({"jsonrpc": "2.0", "method": "notifications/initialized"}) is None
+    names = {
+        t["name"] for t in mcp_server.handle({"jsonrpc": "2.0", "id": 2, "method": "tools/list"})["result"]["tools"]
+    }
+    assert names == {"story", "test_cases", "test_results", "defect", "find_code"}
+    call = {"name": "test_cases", "arguments": {"query": "US-201"}}
+    text = mcp_server.handle({"jsonrpc": "2.0", "id": 3, "method": "tools/call", "params": call})["result"]
+    assert not text["isError"] and "| TC-201-01 |" in text["content"][0]["text"]
+
+
+def test_mcp_server_reports_errors_without_dying():
+    import mcp_server
+
+    bad = mcp_server.call_tool({"name": "story", "arguments": {"wrong": "US-201"}})
+    assert bad["isError"] and "TypeError" in bad["content"][0]["text"]
+    assert mcp_server.call_tool({"name": "nope"})["isError"]
+    assert mcp_server.handle({"jsonrpc": "2.0", "id": 9, "method": "nope"})["error"]["code"] == -32601
+
+
+def test_an_agent_needs_name_description_tools_rules_and_a_catalog_row():
+    from check_skills import agent_problems
+
+    good = "---\nname: code-reviewer\ndescription: Review L1.\ntools: Read, Grep\n---\n\n## KHÔNG ĐƯỢC\n- Không sửa.\n"
+    assert agent_problems("code-reviewer", good, "| `code-reviewer` | x |") == []
+    bare = "---\nname: other\n---\n"
+    problems = "\n".join(agent_problems("code-reviewer", bare, ""))
+    for expected in ("≠ file name", "no description", "no tools", "KHÔNG ĐƯỢC", "not listed"):
+        assert expected in problems

@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "chatdocs-sdlc": {
+      "type": "stdio",
+      "command": "python",
+      "args": ["scripts/mcp_server.py"],
+      "env": { "PYTHONUTF8": "1" }
+    }
+  }
+}

@@ -13,16 +13,20 @@ Phần dưới chỉ là sự thật riêng cho Claude Code. Quy trình nhiều 
 | `/review-diff [range]` | bạn hoặc Claude | review L1 theo rubric |
 | `/plan-tests US-xxx` | bạn hoặc Claude | AC → test case trong `docs/test-cases.md` |
 | `/run-test-case TC-…` | chỉ bạn | chạy TC Playwright, lưu bằng chứng |
+| `/test-evidence [TC/US/all]` | chỉ bạn | chạy TC có video → GIF + video trong báo cáo |
 | `/commit-gate "msg"` | chỉ bạn | cổng L0 → `reports/gate-<tree>.json` → commit |
 | `/fix-ci [run]` | chỉ bạn | CI đỏ |
 | `/sdlc-workflow <BRD>` | chỉ bạn | cả vòng SDLC, cổng duyệt mỗi pha, trạng thái `docs/sdlc-state.md` |
+
+Sub agent (`.claude/agents/`, chỉ đọc, danh mục cùng file): `test-investigator` (TC FAIL → BUG/TD/HD), `code-reviewer` (L1 ngữ cảnh sạch), `traceability-auditor` (US ↔ AC ↔ test ↔ TC), `requirements-analyst` (hỏi phạm vi, trả lời kèm file:dòng).
 
 ## Kiểm thử (Day 6)
 
 - Test case + kỳ vọng ghi trước: `docs/test-cases.md`; kế hoạch: `docs/test-plan.md`; phiếu lỗi: `docs/bugs.md`.
 - App test cục bộ, không cần Docker: `backend/tests/e2e_server.py` (API :8000) + Vite :5180 — Playwright tự khởi động cả hai.
 - Chạy: `cd e2e && E2E_RUN=run1 npm run test:tc` (tạo fixture rồi chạy 22 TC), lượt 2 `E2E_RUN=run2`; một TC: `npx playwright test -g "TC-201-05"`.
-- Báo cáo: `python scripts/test_report.py` → `reports/test-report.md`; ảnh `reports/screenshots/<run>/<TC>.png`; trace `e2e/test-results/`.
+- Báo cáo: `python scripts/test_media.py` (video + GIF, cần Pillow) rồi `python scripts/test_report.py` → `reports/test-report.md`, `reports/test-media.md`; ảnh `reports/screenshots/<run>/`, GIF `reports/gifs/<run>/`, video `reports/videos/<run>/`; trace `e2e/test-results/`.
+- MCP `chatdocs-sdlc` (`.mcp.json`, chỉ đọc): `story`, `test_cases`, `test_results`, `defect`, `find_code` — hỏi tài liệu qua đây thay vì grep.
 - `retries: 0`. FAIL → tìm nguyên nhân có bằng chứng rồi phân loại BUG / TD / HD; **không** đổi kỳ vọng cho khớp kết quả.
 - Đang chạy test: không sửa `backend/`, `web/` cùng lúc (server dev nạp lại giữa chừng); không dừng tiến trình không do mình khởi động — cổng bị chiếm thì đặt `E2E_WEB_PORT` / `E2E_API_PORT`.
 - Stack đầy đủ (Keycloak, PostgreSQL, MinIO): `E2E_STACK=compose npx playwright test` sau `make up`.

@@ -22,6 +22,7 @@ Skill là sản phẩm, không phải prompt: có chủ sở hữu, version, ng�
 | `commit-gate` | **chỉ người gọi** | daophucdat | 1.0.0 | 2026-11-26 | Cổng L0 trên tree đã stage → `reports/gate-<tree>.json` → commit | `scripts/gate.py` |
 | `fix-ci` | **chỉ người gọi** | daophucdat | 1.1.0 | 2026-11-26 | CI đỏ → sửa nhỏ nhất theo log | — |
 | `sdlc-workflow` | **chỉ người gọi** | daophucdat | 1.0.0 | 2026-11-26 | Cả vòng SDLC từ BRD, cổng duyệt mỗi pha → `docs/sdlc-state.md` | `phases.md` |
+| `test-evidence` | **chỉ người gọi** | daophucdat | 1.0.0 | 2026-12-02 | Chạy TC có ghi video → GIF + video mỗi TC, nhúng vào `reports/test-report.md`, `reports/test-media.md` | `scripts/test_media.py`, MCP `chatdocs-sdlc` |
 
 Version 1.1.0 là các lệnh `.claude/commands/*.md` của Day 5 chuyển sang dạng skill: thêm từ khoá kích hoạt, `## KHÔNG ĐƯỢC`, giới hạn công cụ. Đổi `description` thì tăng version phụ và đo lại kích hoạt; đổi quy trình thì tăng version chính.
 
@@ -29,7 +30,7 @@ Version 1.1.0 là các lệnh `.claude/commands/*.md` của Day 5 chuyển sang 
 
 Ba câu hỏi của Day 7, áp cho từng skill:
 
-1. Có lặp lại không? Cả 8 skill đều có: mỗi story, mỗi commit, mỗi lượt test.
+1. Có lặp lại không? Cả 9 skill đều có: mỗi story, mỗi commit, mỗi lượt test.
 2. Có cần suy luận không? Có, trừ phần chạy cổng: phần đó là script `gate.py`, skill chỉ quyết định stage gì và viết message.
 3. Có tác dụng phụ không?
 
@@ -39,6 +40,7 @@ Hai nhóm theo câu 3:
   - `commit-gate`: tạo commit;
   - `fix-ci`: sửa code;
   - `run-test-case`: khởi động server, ghi `reports/`;
+  - `test-evidence`: khởi động server, ghi video / GIF vào `reports/`;
   - `sdlc-workflow`: điều phối mọi thứ.
 - **Không có tác dụng phụ ngoài tài liệu / test → để Claude tự gọi.** `plan-story` và `review-diff` còn chặn hẳn `Edit` / `Write`.
 
@@ -46,6 +48,33 @@ Luật phải luôn đúng không nằm trong skill:
 
 - commit có mã yêu cầu → hook `.githooks/commit-msg` + CI;
 - không sửa đặc tả baseline → `permissions.deny` trong `.claude/settings.json`.
+
+## Sub agent — `.claude/agents/`
+
+Sub agent là "đồng đội" chạy trong ngữ cảnh riêng: phiên chính giao việc và chỉ nhận kết luận, không nhận đống file đã đọc. Dùng khi cần **góc nhìn không bị neo** (review), **việc đọc rộng** (truy vết toàn repo) hoặc **điều tra dài** (TC FAIL). Cả 4 đều chỉ đọc (không có `Edit` / `Write`), có `tools` khai báo rõ và dùng MCP `chatdocs-sdlc`. `check_skills.py` kiểm: tên = tên file, có mô tả, có `tools`, có `## KHÔNG ĐƯỢC`, có dòng dưới đây.
+
+| Agent | Chủ sở hữu | Version | Xem lại | Giao khi | Trả về |
+|---|---|---|---|---|---|
+| `test-investigator` | daophucdat | 1.0.0 | 2026-12-02 | Một TC Playwright FAIL / flaky | Phân loại BUG / TD / HD có bằng chứng, đề xuất phiếu |
+| `code-reviewer` | daophucdat | 1.0.0 | 2026-12-02 | Code xong story, trước `/commit-gate` | Điểm rubric /14, comment blocker / major / minor kèm file:dòng |
+| `traceability-auditor` | daophucdat | 1.0.0 | 2026-12-02 | Trước release / review L2 | Bảng US ↔ AC ↔ test ↔ TC và lỗ hổng xếp theo mức độ |
+| `requirements-analyst` | daophucdat | 1.0.0 | 2026-12-02 | AC mơ hồ, hỏi phạm vi / API / NFR | Trả lời kèm file:dòng; câu hỏi mở cho PO nếu tài liệu chưa rõ |
+
+Skill khác agent ở chỗ: skill là **quy trình** chạy ngay trong phiên chính (thấy cả ngữ cảnh), agent là **người làm riêng** với ngữ cảnh sạch. `/review-diff` (skill) và `code-reviewer` (agent) cùng rubric; agent dùng khi muốn ý kiến không bị ảnh hưởng bởi lý lẽ của phiên đã viết code.
+
+## MCP server của dự án — `chatdocs-sdlc`
+
+`scripts/mcp_server.py`, khai báo trong `.mcp.json`. Lần đầu mở Claude Code ở repo, bạn được hỏi có tin server này không — chọn đồng ý (hoặc `/mcp`). Chỉ dùng thư viện chuẩn của Python, chỉ **đọc** — chạy test vẫn qua `/run-test-case`, `/test-evidence`. Skill dùng tool của nó thay vì tự grep tài liệu.
+
+| Tool | Vào | Trả về |
+|---|---|---|
+| `story` | `US-201` | Story + AC (`userStory.md`), dòng truy vết, các TC của story |
+| `test_cases` | `TC-201-05` · `AC-201.2` · `US-201` | Dòng TC kèm kỳ vọng PASS / FAIL ghi trước |
+| `test_results` | lượt (`run2`), bỏ trống = lượt cuối | Trạng thái, thời gian từng TC + link ảnh / GIF / video |
+| `defect` | `HD-1`, `TD-2`, `OBS-1` | Mục phiếu lỗi trong `docs/bugs.md` |
+| `find_code` | `BR-001`, `SEC-06`, `NFR-03`… | Mọi dòng trong `docs/` nhắc tới mã, có `file:dòng` |
+
+Thử tay: `claude mcp list` (phải thấy `chatdocs-sdlc`), hoặc trong phiên gõ `/mcp`. Test: `scripts/test_scripts.py::test_mcp_*`.
 
 ## Đo kích hoạt — `plan-tests`
 
